@@ -1,11 +1,11 @@
+
 .main-div {
     height: 100vh;
     display: flex;
     justify-content: flex-start;
 
     flex-direction: column;
-    width: 100%;
-    overflow-y: auto;
+    width: 80%;
     flex: 1;
 }
 
@@ -36,6 +36,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: row;
+    width: 104px;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -73,7 +74,6 @@
     display: none;
 }
 
-/* Responsive Styles */
 @media (max-width: 925px) {
     .headline-header{
         display: none;
@@ -82,13 +82,12 @@
     .main-div {
         display: flex;
         flex-direction: column;
-        justify-content: flex-start;
-        overflow: hidden;
+        justify-content: space-between;
         width: 100%;
         flex: 1;
     }
     .main-header {
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
         font-size: 18px;
     }
@@ -96,12 +95,9 @@
    .headline-header {
         display: none;
     }
-    .header-right-side img{
-        display: none;
-    }
 
     .header-right-side {
-      
+        width: 100%;
         justify-content: space-between;
         gap: 8px;
     }
@@ -110,6 +106,10 @@
         width: 48px;
         height: 48px;
         font-size: 28px;
+    }
+
+    .help-icon {
+       display: none;
     }
 
     .header-Logo {
@@ -123,7 +123,6 @@
     .main-header {
         height: 64px;
         font-size: 16px; 
-        padding: 10px 0;
     }
 
     .header-right-side {
@@ -143,49 +142,5 @@
             height: 39px
         }
 
-    .header {
-        padding: 10px;
-    }
-}
-
-/* Anpassungen für sehr kleine Bildschirme */
-@media (max-width: 375px) {
-    .main-header {
-        height: 56px;
-        padding: 8px 0;
-    }
-
-    .account {
-        width: 38px;
-        height: 38px;
-        font-size: 22px;
-    }
-}
-
-/* Extra kleine Bildschirme */
-@media (max-width: 320px) {
-    .main-header {
-        height: 48px;
-        padding: 5px 0;
-        width: 95%;
-    }
-
-    .account {
-        width: 35px;
-        height: 35px;
-        font-size: 18px;
-        border-width: 2px;
-    }
     
-    .header-Logo {
-        width: 28px;
-        height: 32px;
-    }
-    
-    .header {
-        padding: 5px;
-    }
 }
-
-
-
