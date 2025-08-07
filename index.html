@@ -27,131 +27,130 @@
 
 <body>
     <div class="side-menu">
-        <div class="logo-content-container">
-            <div><img src="./img/capa_white.png" alt="Join.Logo" class="logo"></div>
-            <div class="menu-content">
-                <div class="selected-menu"><a href="#"><img src="./img/icon/summary.png" alt="summary">Summary</a></div>
-                <div class="menu-content-div" id="task-menu"><a href="#"><img src="./img/icon/add_task.png"
-                            alt="add_task">AddTask</a></div>
-                <div class="menu-content-div"><a href="#"><img src="./img/icon/board.png" alt="board">Board</a></div>
-                <div class="menu-content-div"><a href="#">
-                        <imAg src="./img/icon/contacts.png" alt="contacts">Contacts
-                    </a>
-                </div>
-            </div>
+      <div class="logo-content-container">
+        
+        <div class="logo-container-side-menu-responsive">
+          <img src="./img/capa_white.png" alt="Join.Logo" class="logo" />
         </div>
-
-        <div class="policy-container">
-            <div class="policy-container-div">
-                <div><a href="./resources/private-policy/privacy-policy.html">Privacy Policy</a></div>
-                <div><a href="./resources/legal-notice/legal-notice.html">Legal Notice</a></div>
-            </div>
+        <div class="menu-content">
+          <div class="selected-menu">
+            <a href="./index.html">
+              <img src="./img/icon/summary.png" alt="summary" />Summary
+            </a>
+          </div>
+          <div class="menu-content-div">
+            <a href="##"  >
+              <img src="./img/icon/add_task.png" alt="add task">
+              Add Task
+            </a>
+          </div>
+          <div class="menu-content-div resp-cont-div">
+            <a href="##">
+              <img src="./img/icon/board.png" alt="board" />Board
+            </a>
+          </div>
+          <div class="menu-content-div">
+            <a href="##">
+              <img src="./img/icon/contacts.png" alt="contacts" />Contacts
+            </a>
+          </div>
         </div>
+      </div>
+      <div class="policy-container">
+        <div class="policy-container-div">
+          <div>
+            <a href="./resources/private-policy/privacy-policy.html">Privacy Policy</a>
+          </div>
+          <div>
+            <a href="./resources/legal-notice/legal-notice.html">Legal Notice</a>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="main-div">
-        <!-- header -->
-        <div class="header">
-            <div class="main-header">
-                <div>
-                    <img class="header-Logo" src="./img/capa.png" alt="Join.Logo">
-                </div>
-                <div class="headline-header">Kanban Project Management Tool</div>
-                <div class="header-right-side">
-                    <div>
-                        <a href="./resources/help/help.html"><img src="./img/icon/help.png" alt=""></a>
-                    </div>
-                    <div class="account">
-                        <div>
-                            G
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- addtask -->
-        <div id="addtask-container"></div>
-
-        <template id="addtask-template">
+      <div class="header">
+        <div class="main-header">
+          <div class="header-logo-none-resp">
+            <img class="header-Logo" src="./img/capa.png" alt />
+          </div>
+          <div class="headline-header">Kanban Project Management Tool</div>
+          <div class="header-right-side">
             <div>
-                <h2>Add Task</h2>
-                <div class="task-form-container">
-                    <div class="task-form-left">
-                        <label>Title*</label>
-                        <input type="text" id="task-title" required>
-
-                        <label>Description</label>
-                        <textarea id="task-desc"></textarea>
-
-                        <label>Due Date*</label>
-                        <input type="date" id="task-due" required>
-
-
-                    </div>
-
-                    <div class="task-form-right">
-                        <label>Priority</label>
-                        <select id="task-priority">
-                            <option value="urgent">Urgent</option>
-                            <option value="medium" selected>Medium</option>
-                            <option value="low">Low</option>
-                        </select>
-
-                        <label>Assigned to</label>
-                        <select id="task-assigned">
-                            <option value="">Select contacts to assign</option>
-                        </select>
-
-                        <label>Category*</label>
-                        <select id="task-category" required>
-                            <option value="">Select task category</option>
-                        </select>
-
-                        <label>Subtasks</label>
-                        <div class="subtask-input-group">
-                            <input type="text" id="subtask-input" placeholder="Add new subtask">
-                            <button type="button" id="add-subtask-btn">+</button>
-                        </div>
-                        <ul id="subtask-list"></ul>
-                    </div>
-                </div>
-
-                <div class="create-formerror">
-                    <div class="form-error" id="form-error-message">
-                        *This field is required
-                    </div>
-                    <div>
-                        <button id="create-task-btn">Create Task</button>
-                    </div>
-                </div>
+              <a href="./resources/help/help.html" >
+                <img src="./img/icon/help.png" alt="" class="help-icon"/>
+              </a>
             </div>
-        </template>
-
-
-        <!-- dropdown menu -->
-        <div class="dropdown-menu">
-            <div class="dropdown-content">
-                <div class="dropdown-content-div">
-
-                    <div class="dropdown-content-div-text">
-                        <div><a href="./resources/legal-notice/legal-notice.html">Legal notice</a></div>
-                    </div>
-                </div>
-                <div class="dropdown-content-div">
-
-                    <div class="dropdown-content-div-text">
-                        <div><a href="./resources/private-policy/privacy-policy.html">Privacy Policy</a></div>
-                    </div>
-                </div>
-                <div class="dropdown-content-div">
-
-                    <div class="dropdown-content-div-text">
-                        <div><a href="#">Logout</a></div>
-                    </div>
-                </div>
+            <div class="account">
+              <div>##</div>
             </div>
+          </div>
         </div>
+      </div>
+      <div class="dropdown-menu">
+        <div class="dropdown-content">
+          <div class="dropdown-content-div">
+            <div class="dropdown-content-div-text">
+              <div>
+                <a href="./resources/help/help.html" >Help</a>
+              </div>
+            </div>
+          </div>
+          <div class="dropdown-content-div">
+            <div class="dropdown-content-div-text">
+              <div>
+                <a href="./resources/legal-notice/legal-notice.html">Legal notice</a>
+              </div>
+            </div>
+          </div>
+          <div class="dropdown-content-div">
+            <div class="dropdown-content-div-text">
+              <div>
+                <a href="./resources/private-policy/privacy-policy.html">Privacy Policy</a>
+              </div>
+            </div>
+          </div>
+          <div class="dropdown-content-div" onclick="logout()">
+            <div class="dropdown-content-div-text">
+              <div>
+                <a href="##" >Logout</a> <!--Hier muss noch der link eingefügt werden-->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- hier kommen die element für das Summary rein-->
+
+
+
+      <div class="side-menu-bottom">
+        <div class="logo-content-container-bottom">
+          <div class="menu-content-bottom">
+            <div class="selected-menu bottom-menu">
+              <a href="./index.html">
+                <img src="./img/icon/summary.png" alt="summary" />Summary
+              </a>
+            </div>
+            <div class="menu-content-div resp-cont-div bottom-menu">
+              <a href="##">
+                <img src="./img/icon/board.png" alt="board" />Board
+              </a>
+            </div>
+            <div class="menu-content-div bottom-menu">
+              <a href="##" >
+                <img src="./img/icon/add_task.png" alt="add task">
+                Add Task
+              </a>
+            </div>
+            <div class="menu-content-div bottom-menu">
+              <a href="##">
+                <img src="./img/icon/contacts.png" alt="contacts" />Contacts
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <script src="./script/drop_down_menu.js"></script>
 </body>
