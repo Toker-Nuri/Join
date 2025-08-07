@@ -1,0 +1,29 @@
+.create-formerror {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 8pc;
+}
+
+.task-form-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.task-form-left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.task-form-container {
+    display: flex;
+    justify-content: space-around;
+    gap: 8pc;
+}
+
+#addtask-container{
+    display: flex;
+    padding: 85px;
+    justify-content: center;
+}
