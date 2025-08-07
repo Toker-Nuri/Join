@@ -8,42 +8,43 @@
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Raleway:ital,wght@0,100..900;1,100..900&family=Rubik+Vinyl&display=swap"
       rel="stylesheet" />
-    <link rel="icon" href="./img/capa.png" type="image/png" />
-    <link rel="stylesheet" href="./styles/standard.css" />
-    <link rel="stylesheet" href="./styles/header.css" />
-    <link rel="stylesheet" href="./styles/side-menu.css" />
-    <link rel="stylesheet" href="./styles/profile-dropdown.css" />
+    <link rel="icon" href="../img/capa.png" type="image/png" />
+    <link rel="stylesheet" href="../styles/standard.css" />
+    <link rel="stylesheet" href="../styles/header.css" />
+    <link rel="stylesheet" href="../styles/side-menu.css" />
+    <link rel="stylesheet" href="../styles/profile-dropdown.css" />
+    <link rel="stylesheet" href="../styles/task.css"/>
   
     <title>Join</title>
-    <script src="./scripts/dropdown.js"></script>
+    
   </head>
   <body>
     <div class="side-menu">
       <div class="logo-content-container">
         
         <div class="logo-container-side-menu-responsive">
-          <img src="./img/capa_white.png" alt="Join.Logo" class="logo" />
+          <img src="../img/capa_white.png" alt="Join.Logo" class="logo" />
         </div>
         <div class="menu-content">
           <div class="selected-menu">
-            <a href="./index.html">
-              <img src="./img/icon/summary.png" alt="summary" />Summary
+            <a href="../index.html">
+              <img src="../img/icon/summary.png" alt="summary" />Summary
             </a>
           </div>
           <div class="menu-content-div">
-            <a id="task-menu" href="./html/add_task.html">
-              <img src="./img/icon/add_task.png" alt="add task">
+            <a id="task-menu" href="./add_task.html">
+              <img src="../img/icon/add_task.png" alt="add task">
               Add Task
             </a>
           </div>
           <div class="menu-content-div resp-cont-div">
-            <a href="./html/board.html">
-              <img src="./img/icon/board.png" alt="board" />Board
+            <a href="./board.html">
+              <img src="../img/icon/board.png" alt="board" />Board
             </a>
           </div>
           <div class="menu-content-div">
             <a href="##">
-              <img src="./img/icon/contacts.png" alt="contacts" />Contacts
+              <img src="../img/icon/contacts.png" alt="contacts" />Contacts
             </a>
           </div>
         </div>
@@ -63,13 +64,13 @@
       <div class="header">
         <div class="main-header">
           <div class="header-logo-none-resp">
-            <img class="header-Logo" src="./img/capa.png" alt />
+            <img class="header-Logo" src="../img/capa.png" alt />
           </div>
           <div class="headline-header">Kanban Project Management Tool</div>
           <div class="header-right-side">
             <div>
               <a href="./resources/help/help.html" >
-                <img src="./img/icon/help.png" alt="" class="help-icon"/>
+                <img src="../img/icon/help.png" alt="" class="help-icon"/>
               </a>
             </div>
             <div class="account">
@@ -111,33 +112,95 @@
         </div>
       </div>
       
-      <!-- hier kommen die element für das Summary rein-->
+      <!-- addtask -->
+    <div id="addtask-container"></div>
 
-  
+    <template id="addtask-template">
+      <div>
+        <h2>Add Task</h2>
+        <div class="task-form-container">
+          <div class="task-form-left">
+            <label class="star-red">Title</label>
+            <input class="padding-bottom" type="text" id="task-title" required>
+
+            <label>Description</label>
+            <textarea class="padding-bottom" id="task-desc"></textarea>
+
+            <label class="star-red">Due Date</label>
+            <input class="padding-bottom" type="date" id="task-due" required>
+          </div>
+
+          <div class="task-form-right">
+            <div>
+              <label for="">Priority</label>
+              <div class="priority-btn">
+                <button class="btn-urgent">
+                  <img src="../img/icon-urgent.png" alt=""> Urgent
+                </button>
+                <button class="btn-medium">
+                  <img src="../img/icon-medium.png" alt=""> Medium
+                </button>
+                <button class="btn-low">
+                  <img src="../img/icon-low.png" alt=""> Low
+                </button>
+              </div>
+            </div>
+
+            <label>Assigned to</label>
+            <select id="task-assigned">
+              <option value="">Select contacts to assign</option>
+            </select>
+
+            <label class="star-red">Category</label>
+            <select id="task-category" required>
+              <option value="">Select task category</option>
+            </select>
+
+            <label>Subtasks</label>
+            <div class="subtask-input-group">
+              <input type="text" id="subtask-input" placeholder="Add new subtask">
+              <button type="button" id="add-subtask-btn">+</button>
+            </div>
+            <ul id="subtask-list"></ul>
+          </div>
+        </div>
+
+        <div class="create-formerror">
+          <div class="form-error" id="form-error-message">
+            This field is required
+          </div>
+          <div class="clear-creat-div">
+            <button id="clear-task-btn">Clear</button>
+            <button id="create-task-btn">Create Task</button>
+          </div>
+        </div>
+      </div>
+    </template>
+
 
 
       <div class="side-menu-bottom">
         <div class="logo-content-container-bottom">
           <div class="menu-content-bottom">
             <div class="selected-menu bottom-menu">
-              <a href="./index.html">
-                <img src="./img/icon/summary.png" alt="summary" />Summary
+              <a href="../index.html">
+                <img src="../img/icon/summary.png" alt="summary" />Summary
               </a>
             </div>
             <div class="menu-content-div resp-cont-div bottom-menu">
-              <a href="./html/board.html">
-                <img src="./img/icon/board.png" alt="board" />Board
+              <a href="./board.html">
+                <img src="../img/icon/board.png" alt="board" />Board
               </a>
             </div>
             <div class="menu-content-div bottom-menu">
-              <a href="./html/add_task.html" >
-                <img src="./img/icon/add_task.png" alt="add task">
+              <a href="./add_task.html" >
+                <img src="../img/icon/add_task.png" alt="add task">
                 Add Task
               </a>
             </div>
             <div class="menu-content-div bottom-menu">
               <a href="##">
-                <img src="./img/icon/contacts.png" alt="contacts" />Contacts
+                <img src="../img/icon/contacts.png" alt="contacts" />Contacts
               </a>
             </div>
           </div>
@@ -146,4 +209,6 @@
     </div>
 
   </body>
+  <script src="../scripts/dropdown.js"></script>
+  <script src="../scripts/addTask.js" defer></script>
 </html>
