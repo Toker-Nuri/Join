@@ -33,12 +33,12 @@
         <img src="../img/capa_white.png" alt="Join.Logo" class="logo" />
       </div>
       <div class="menu-content">
-        <div class="menu-content-div">
+        <div class="selected-menu">
           <a href="./summary.html" id="summary-menu">
             <img src="../img/icon/summary.png" alt="summary" />Summary
           </a>
         </div>
-        <div class="selected-menu  menu-content-div">
+        <div class="menu-content-div">
           <a id="task-menu" href="./add_task.html">
             <img src="../img/icon/add_task.png" alt="add task">
             Add Task
@@ -119,95 +119,110 @@
       </div>
     </div>
 
-    <!-- addtask -->
-    <div id="addtask-container">
-      <h2>Add Task</h2>
-      <div class="task-form-container">
-        <div class="task-form-left">
-          <label class="star-red">Title</label>
-          <input class="padding-bottom" type="text" id="task-title" required>
+    <!-- summary -->
+    <div class="summary">
+      <!-- HEADER -->
+      <header class="summary-header">
+        <h2 class="summary-title">Join 360</h2>
+        <img class="summary-divider" src="../img/summary-space-line.svg" alt="">
+        <p class="summary-subtitle">Key Metrics at a Glance</p>
+      </header>
 
-          <label>Description</label>
-          <textarea class="padding-bottom" id="task-desc"></textarea>
+      <!-- MAIN CONTENT -->
+      <div class="summary-content">
+        <div class="summary-metrics">
+          <section class="summary-row">
+            <button class="summary-card-design summary-card todo v-stack">
+              <div class="bild"></div>
+              <div class="js-count-container">
+                <span class="value counter-design">1</span>
+                <span class="counter-text-design">To-do</span>
+              </div>
+            </button>
+            <button class="summary-card-design summary-card done v-stack">
+              <div class="bild2"></div>
+              <div class="js-count-container">
+                <span class="value counter-design">1</span>
+                <span class="counter-text-design">Done</span>
+              </div>
+            </button>
+          </section>
 
-          <label class="star-red">Due Date</label>
-          <input class="padding-bottom" type="date" id="task-due" required>
+          <div class="summary-row">
+            <button class="summary-card-design summary-card urgent deadline">
+              <div class="deadline-container">
+                <img class="img-urgent-summary" src="../img/urgent-summary.png" alt="">
+                <div class="js-urgent-container">
+                  <span class="value counter-design">1</span>
+                  <span class="label">Urgent</span>
+                </div>
+                <img src="../img/urgent_line.svg" alt="">
+                <div class="deadline-under-container">
+                  <span class="date js-deadline-date">October 16, 2022</span>
+                  <span class="label">Upcoming Deadline</span>
+                </div>
+              </div>
+            </button>
+          </div>
+
+          <div class="summary-row">
+            <button class="summary-card-design summary-card">
+              <div class="js-count-container">
+                <span class="value counter-design">5</span>
+                <span class="counter-text-design">Tasks in Board</span>
+              </div>
+            </button>
+            <button class="summary-card-design summary-card">
+              <div class="js-count-container">
+                <span class="value counter-design">2</span>
+                <span class="counter-text-design">Tasks In Progress</span>
+              </div>
+            </button>
+            <button class="summary-card-design summary-card">
+              <div class="js-count-container">
+                <span class="value counter-design">2</span>
+                <span class="counter-text-design">Awaiting Feedback</span>
+              </div>
+            </button>
+          </div>
         </div>
-        <img class="partition" src="../img/space-line.svg" alt="partition line">
-        <div class="task-form-right">
-          <div>
-            <label for="">Priority</label>
-            <div class="priority-btn">
-              <button class="btn-urgent">
-                <img src="../img/icon-urgent.png" alt=""> Urgent
-              </button>
-              <button class="btn-medium">
-                <img src="../img/icon-medium.png" alt=""> Medium
-              </button>
-              <button class="btn-low">
-                <img src="../img/icon-low.png" alt=""> Low
-              </button>
+
+        <!-- welcome summary name-->
+        <div class="summary-greeting">
+          <p class="welcome-summary">Good morning,</p>
+          <h2 class="summary-name js-user-name">Sofia Müller</h2>
+        </div>
+      </div>
+    </div>
+    
+      <div class="side-menu-bottom">
+        <div class="logo-content-container-bottom">
+          <div class="menu-content-bottom">
+            <div class="selected-menu bottom-menu">
+              <a href="./summary.html" id="summary-menu">
+                <img src="../img/icon/summary.png" alt="summary" />Summary
+              </a>
+            </div>
+            <div class="menu-content-div resp-cont-div bottom-menu">
+              <a href="./board.html">
+                <img src="../img/icon/board.png" alt="board" />Board
+              </a>
+            </div>
+            <div class="menu-content-div bottom-menu">
+              <a href="./add_task.html" id="task-menu">
+                <img src="../img/icon/add_task.png" alt="add task">
+                Add Task
+              </a>
+            </div>
+            <div class="menu-content-div bottom-menu">
+              <a href="##">
+                <img src="../img/icon/contacts.png" alt="contacts" />Contacts
+              </a>
             </div>
           </div>
-
-          <label>Assigned to</label>
-          <select id="task-assigned">
-            <option value="">Select contacts to assign</option>
-          </select>
-
-          <label class="star-red">Category</label>
-          <select id="task-category" required>
-            <option value="">Select task category</option>
-          </select>
-
-          <label>Subtasks</label>
-          <div class="subtask-input-group">
-            <input type="text" id="subtask-input" placeholder="Add new subtask">
-            <button type="button" id="add-subtask-btn">+</button>
-          </div>
-          <ul id="subtask-list"></ul>
-        </div>
-      </div>
-
-      <div class="create-formerror">
-        <div class="form-error" id="form-error-message">
-          This field is required
-        </div>
-        <div class="clear-creat-div">
-          <button id="clear-task-btn">Clear</button>
-          <button id="create-task-btn">Create Task</button>
         </div>
       </div>
     </div>
-
-    <div class="side-menu-bottom">
-      <div class="logo-content-container-bottom">
-        <div class="menu-content-bottom">
-          <div class="selected-menu bottom-menu">
-            <a href="./summary.html">
-              <img src="../img/icon/summary.png" alt="summary" />Summary
-            </a>
-          </div>
-          <div class="menu-content-div resp-cont-div bottom-menu">
-            <a href="./board.html">
-              <img src="../img/icon/board.png" alt="board" />Board
-            </a>
-          </div>
-          <div class="menu-content-div bottom-menu">
-            <a href="./add_task.html">
-              <img src="../img/icon/add_task.png" alt="add task">
-              Add Task
-            </a>
-          </div>
-          <div class="menu-content-div bottom-menu">
-            <a href="##">
-              <img src="../img/icon/contacts.png" alt="contacts" />Contacts
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
 </body>
 

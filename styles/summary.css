@@ -1,0 +1,183 @@
+/* layout */
+button {
+    cursor: pointer;
+}
+
+.summary {
+    padding: 1pc 2pc 5pc 6pc;
+}
+
+.summary-content {
+    display: flex;
+    align-items: center;
+    gap: 6pc;
+
+}
+
+.summary-metrics {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+
+.summary-card-design {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: #fff;
+    border-radius: 14px;
+    /* padding: 16px; */
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.v-stack {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.counter-design {
+    font-size: 64px;
+    font-weight: bold;
+}
+
+.counter-text-design {
+    font-size: 20px;
+}
+
+/* header */
+.summary-header {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+.summary-title {
+    font-size: 75px;
+}
+
+.summary-subtitle {
+    font-size: 22px;
+}
+
+/* main */
+.summary-card {
+    padding-bottom: 25px;
+    padding-top: 25px;
+    border: 15px;
+    border-radius: 20px;
+}
+
+
+.js-count-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.summary-row {
+    display: flex;
+    gap: 25px;
+}
+
+
+/* deadline section */
+.deadline-container {
+    display: flex;
+    align-items: center;
+    gap: 23px;
+}
+
+.deadline-under-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.js-urgent-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.label {
+    font-size: 16px;
+}
+
+.js-deadline-date {
+    font-size: 21px;
+    font-weight: bold;
+}
+
+
+.img-urgent-summary {
+    width: 60px;
+    height: 60px;
+}
+
+
+/* name sectiom */
+.welcome-summary {
+    margin: 0px;
+    font-size: 47px;
+}
+
+.summary-name {
+    margin: 0;
+    font-size: 64px;
+    color: #29ABE2;
+}
+
+
+/*HOVER*/
+
+.summary-card:hover {
+    background-color: #2a3647;
+    color: white;
+}
+
+.summary-card:hover .bild {
+    background-image: url(../img/icon/to-do-icon-white.png);
+    background-size: auto;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: white;
+    border-radius: 10pc;
+    width: 60px;
+    height: 60px;
+}
+
+.bild {
+    background-image: url(../img/icon/to-do-icon.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: auto;
+    object-fit: cover;
+    border-radius: 10pc;
+    width: 60px;
+    height: 60px;
+}
+
+.bild2 {
+    background-image: url(../img/icon/done-icon.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: auto;
+    object-fit: cover;
+    border-radius: 10pc;
+    width: 60px;
+    height: 60px;
+}
+
+.summary-card:hover .bild2 {
+    background-image: url(../img/icon/done-icon-white.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: auto;
+    object-fit: cover;
+    border-radius: 10pc;
+    width: 60px;
+    height: 60px;
+}
