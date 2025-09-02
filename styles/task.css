@@ -6,9 +6,8 @@
 
 #addtask-container {
     display: flex;
+    padding: 85px;
     justify-content: center;
-    flex-direction: column;
-    padding: 1pc 16pc 5pc 6pc;
 }
 
 #addtask-container select {
@@ -33,10 +32,6 @@
 
 .subtask-input-group {
     display: flex;
-}
-
-.partition {
-    height: 20pc;
 }
 
 .subtask-input-group input {
@@ -141,7 +136,7 @@ label.star-red::after {
     filter: brightness(0) invert(1);
 }
 
-/* last section */
+/* last sectiom */
 .create-formerror {
     display: flex;
     justify-content: space-between;
