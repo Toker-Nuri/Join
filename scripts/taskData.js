@@ -55,7 +55,7 @@ function provideSampleTasks() {
 }
 
 async function loadTasksFromFirebase() {
-  const url = "####";//add firebase url here
+  const url = "####";// hier link einfügen!!
   const lsFirst = getTasksFromLocalStorage();
   if (lsFirst && lsFirst.length) {
     enrichTasksWithUserData(lsFirst);

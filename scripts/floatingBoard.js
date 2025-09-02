@@ -15,19 +15,20 @@ function setPriorityFloatingEdit(priority) {
   }
 }
 
-async function deleteTaskFromFirebase() {
-  if (!currentTaskId) {
-    return;
-  }
+function deleteTaskFromFirebase() {
+  if (!currentTaskId) return;
   try {
-    const url = `https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/taskData/${currentTaskId}.json`;
-    const response = await fetch(url, { method: 'DELETE' });
-    if (!response.ok) {
-      throw new Error(`Error deleting task: ${response.statusText}`);
+    const raw = localStorage.getItem('taskData');
+    const obj = raw ? JSON.parse(raw) : {};
+    const key = currentTaskId;
+    if (obj[key]) {
+      delete obj[key];
+      localStorage.setItem('taskData', JSON.stringify(obj));
     }
-    document.getElementById("toggleModalFloating").style.display = "none";
-    location.reload();
-  } catch (error) {
-    console.error(error);
-  }
+  } catch (_) {}
+  const card = document.getElementById(currentTaskId);
+  if (card && card.parentElement) card.parentElement.removeChild(card);
+  const modal = document.getElementById("toggleModalFloating");
+  if (modal) modal.style.display = "none";
+  if (typeof checkColumns === 'function') checkColumns();
 }

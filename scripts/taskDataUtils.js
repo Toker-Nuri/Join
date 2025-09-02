@@ -1,7 +1,3 @@
-/**
- * Attaches the dropdown listener to the task element.
- * @param {HTMLElement} taskEl - The task element.
- */
 function attachMoveDropdownListener(taskEl) {
     const ddIcon = taskEl.querySelector('.drag-drop-icon');
     if (!ddIcon) return;
@@ -11,11 +7,6 @@ function attachMoveDropdownListener(taskEl) {
     });
 }
   
-/**
- * Toggles the dropdown menu or creates it if it does not exist.
- * @param {HTMLElement} taskEl - The task element.
- * @param {HTMLElement} ddIcon - The dropdown icon element.
- */
 function toggleMoveDropdown(taskEl, ddIcon) {
     let dd = taskEl.querySelector(".move-to-dropdown");
     if (dd) {
@@ -28,11 +19,6 @@ function toggleMoveDropdown(taskEl, ddIcon) {
     attachMoveDropdownOptions(taskEl, dd);
 }
   
-/**
- * Creates the dropdown menu with move-to options.
- * @param {HTMLElement} ddIcon - The dropdown icon element.
- * @returns {HTMLElement} The dropdown menu element.
- */
 function createMoveDropdownMenu(ddIcon) {
     const dd = document.createElement("div");
     dd.classList.add("move-to-dropdown");
@@ -52,11 +38,6 @@ function createMoveDropdownMenu(ddIcon) {
     return dd;
 }
   
-/**
- * Attaches click listeners to the dropdown options.
- * @param {HTMLElement} taskEl - The task element.
- * @param {HTMLElement} dd - The dropdown menu element.
- */
 function attachMoveDropdownOptions(taskEl, dd) {
     dd.querySelectorAll(".dropdown-option").forEach(option => {
       option.addEventListener("click", async function (ev) {
@@ -71,10 +52,6 @@ function attachMoveDropdownOptions(taskEl, dd) {
     });
 }
   
-/**
- * Generates all task elements and inserts them into their respective columns.
- * @param {Array<Object>} tasksData - Array of task data.
- */
 function generateTasks(tasksData) {
     tasksData.forEach(task => {
       if (!task || !task.title || !task.column) return;
@@ -87,10 +64,6 @@ function generateTasks(tasksData) {
     checkColumns();
 }
   
-/**
- * Reads subtasks from the edit modal while preserving their current completed state.
- * @returns {Array<Object>} Array of subtasks.
- */
 function readSubtasksFromEditModal() {
     const subtaskItems = document.querySelectorAll('#editSubtasksList .subtask-item');
     const subtasks = [];
@@ -107,10 +80,6 @@ function readSubtasksFromEditModal() {
     return subtasks;
 }
   
-/**
- * Opens the edit modal from an overlay.
- * @param {Event} event - The event object.
- */
 function editTaskFromOverlay(event) {
     event.stopPropagation();
     if (!currentTask) return;
@@ -120,12 +89,6 @@ function editTaskFromOverlay(event) {
     if (modal) modal.style.display = 'flex';
 }
   
-  
-/**
- * Creates a new subtask element based on the entered text.
- * @param {string} text - The text of the new subtask.
- * @returns {HTMLElement} The new subtask element.
- */
 function createNewSubtask(text) {
     const newSubtask = document.createElement('div');
     newSubtask.className = 'subtask-item';
@@ -139,10 +102,6 @@ function createNewSubtask(text) {
     return newSubtask;
 }
   
-/**
- * Fills the edit modal with task details.
- * @param {Object} task - The task object.
- */
 function fillEditModal(task) {
     setTaskFields(task);
     setAssigneeBadges(task);
@@ -150,10 +109,6 @@ function fillEditModal(task) {
     loadContacts(task.users || []);
 }
   
-/**
- * Sets the task fields in the edit modal.
- * @param {Object} task - The task object.
- */
 function setTaskFields(task) {
     document.getElementById('editTaskTitle').value = task.title || "";
     document.getElementById('editTaskDescription').value = task.description || "";
@@ -169,10 +124,6 @@ function setTaskFields(task) {
     }
 }
   
-/**
- * Sets the assignee badges in the edit modal.
- * @param {Object} task - The task object.
- */
 function setAssigneeBadges(task) {
   const badges = document.getElementById('assigneeBadges');
   if (badges && task.users && task.users.length > 0) {
@@ -182,20 +133,12 @@ function setAssigneeBadges(task) {
   }
 }
 
-/**
- * Generates the HTML string for all assignee badges.
- * @param {Array} users - An array of user objects.
- * @returns {string} The HTML string for the badges.
- */
+
 function generateAssigneeBadges(users) {
   return users.map(user => createBadgeHTML(user)).join("");
 }
 
-/**
- * Creates the HTML for a single assignee badge.
- * @param {Object} user - The user object.
- * @returns {string} The HTML string for the badge.
- */
+
 function createBadgeHTML(user) {
   let colorValue = user.color || "default";
   if (colorValue.startsWith('#')) {
@@ -211,11 +154,6 @@ function createBadgeHTML(user) {
     </div>`;
 }
 
-/**
- * Maps a hexadecimal color to a predefined color name.
- * @param {string} hexColor - The hexadecimal color value.
- * @returns {string} The corresponding color name.
- */
 function mapHexToColorName(hexColor) {
   switch (hexColor.toUpperCase()) {
     case '#F57C00': return 'orange';
@@ -228,11 +166,6 @@ function mapHexToColorName(hexColor) {
   }
 }
 
-  
-/**
- * Populates the edit subtasks list.
- * @param {Object} task - The task object containing subtasks.
- */
 function setSubtasksList(task) {
     const list = document.getElementById('editSubtasksList');
     list.innerHTML = "";
@@ -245,21 +178,14 @@ function setSubtasksList(task) {
     }
 }
   
-/**
- * Creates the container element for a subtask.
- * @returns {HTMLElement} The subtask container element.
- */
+
 function createSubtaskContainer() {
     const container = document.createElement("div");
     container.className = "subtask-item";
     return container;
 }
   
-/**
- * Creates the checkbox for a subtask.
- * @param {Object} subtask - Subtask data.
- * @returns {HTMLElement} The checkbox element.
- */
+
 function createSubtaskCheckbox(subtask) {
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
@@ -268,13 +194,6 @@ function createSubtaskCheckbox(subtask) {
     return checkbox;
 }
   
-/**
- * Attaches the edit listener to the edit icon in the actions container.
- * @param {HTMLElement} container - The subtask container element.
- * @param {HTMLElement} span - The span element containing the text.
- * @param {string} originalText - The original text.
- * @param {HTMLElement} actionsDiv - The actions container element.
- */
 function attachSubtaskEditListener(container, span, originalText, actionsDiv) {
     const editIcon = actionsDiv.querySelector('.subtask-edit-edit');
     editIcon.addEventListener('click', () => {
@@ -282,11 +201,6 @@ function attachSubtaskEditListener(container, span, originalText, actionsDiv) {
     });
 }
   
-/**
- * Combines all parts and creates the complete subtask element.
- * @param {Object} subtask - Subtask data.
- * @returns {HTMLElement} The subtask element.
- */
 function createSubtaskItem(subtask) {
     const container = createSubtaskContainer();
     const checkbox = createSubtaskCheckbox(subtask);

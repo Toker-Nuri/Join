@@ -5,6 +5,11 @@ function renderTemplate(templateId, containerId) {
 
     container.innerHTML = '';
     container.appendChild(template.content.cloneNode(true));
+
+    const closeBtn = container.querySelector('#close-addtask-btn');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => { container.innerHTML = ''; });
+    }
 }
 
 function onAddTaskMenuClick(menu) {
@@ -14,12 +19,12 @@ function onAddTaskMenuClick(menu) {
 
 function loadingAddTask() {
     document.addEventListener('DOMContentLoaded', () => {
-        const menuItem = document.getElementById('task-menu');
-        if (!menuItem) {
-            console.error('#task-menu nicht gefunden');
-            return;
-        }
-        menuItem.addEventListener('click', onAddTaskMenuClick);
+        const container = document.getElementById('addtask-container');
+        if (!container) return; // Nur auf add_task.html aktiv
+        const menuItems = document.querySelectorAll('#task-menu');
+        menuItems.forEach(menuItem => {
+            menuItem.addEventListener('click', onAddTaskMenuClick);
+        });
     });
 }
 

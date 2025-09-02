@@ -211,7 +211,7 @@ function updateTaskFromInputs() {
 
 async function updateTaskInFirebase(task) {
   if (!task || !task.firebaseKey) return;
-  const url = `https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/taskData/${task.firebaseKey}.json`;
+  const url = `####`; // hier link einfügen!!
   try {
     const response = await fetch(url, {
       method: 'PUT',

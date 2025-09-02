@@ -30,7 +30,6 @@ h1 {
     align-items: center;
     flex-direction: row;
     width: 1208px;
-    /* padding-left: 64px; */
     
 }
 
@@ -103,10 +102,7 @@ h1 {
     max-width: 1208px;
     padding-right: 64px;
     padding-left: 64px;
-    /* flex-wrap: wrap; */
     gap:24px;
-    /* overflow:scroll;
-    overflow-x:hidden; */
 
 }
 
@@ -153,11 +149,6 @@ h1 {
     align-items: center;
 }
 
-
-
-/* ----------------------------------------------------------------------------- */
-/* BOARD COLUMN SECTION */
-
 .board-column-section {
     display: flex;
     justify-content: space-between;
@@ -195,7 +186,6 @@ h1 {
 }
 
 .task-board-container {
-    /* height: 100%; */
     width: 252px;
     display: flex;
     flex-direction: column;
@@ -238,8 +228,6 @@ h6 {
 
 .card-label-user-story h4 {
     margin-top: 4px;
-    /* width:113px; */
-    /* height: 27px; */
     border-radius: 8px;
     background-color: #0038ff;
     color: white;
@@ -268,8 +256,6 @@ h6 {
     padding-right:12px;
     padding-bottom: 4px;
     padding-top: 4px;
-    /* width:144px;
-    height: 27px; */
     border-radius: 8px;
     background-color: #1fd6c0;
     color: white;
@@ -286,10 +272,7 @@ h6 {
 .empty-state-img {
     height:64px;
     display: block ;
-    /* width: 100%; */
     max-width: 352px; 
-    /* margin: 20px auto; */
-    /* opacity: 0.5; */
 }
 
 
@@ -297,7 +280,6 @@ h6 {
     width: 220px;
     font-size: 16px;
     font-weight: 700;
-    /* white-space: nowrap; */
     overflow-wrap: break-word ;
 }
 
@@ -308,7 +290,6 @@ h6 {
     font-size: 16px;
     font-weight: 400;
     color: #a8a8a8;
-    /* white-space: nowrap; */
     overflow-wrap: break-word ;
 }
 
@@ -342,8 +323,7 @@ h6 {
 }
 
 
-.task-progress {
-    /* width: 220px; */
+    .task-progress {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -371,8 +351,6 @@ h6 {
     display: flex;
     gap: 10px;
 }
-
-
 
 /* Farben */
 .profile-badge-red {
@@ -475,15 +453,6 @@ h6 {
 
     }
 }
-
-
-/* .board-bar{
-    overflow-x: hidden;
-    overflow-y: auto;
-    scroll-behavior: smooth;
-    max-width:1280px;
-} */
-
 
 .wrapper {
     width: 100vw;             

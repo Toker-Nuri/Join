@@ -255,8 +255,16 @@ function insertTaskToBoard(task) {
 }
 
 async function addTaskToFirebase() {
-  const firebaseURL = "https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/taskData.json";
+  const firebaseURL = "####";// hier link einfügen!!
   const taskData = getTaskData();
+  const noBackend = !firebaseURL || firebaseURL.includes('#');
+  if (noBackend) {
+    saveTaskToLocal(taskData);
+    insertTaskToBoard(taskData);
+    clearForm();
+    closeModal();
+    return;
+  }
   try {
     const response = await fetch(firebaseURL, {
       method: "POST",

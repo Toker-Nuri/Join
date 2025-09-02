@@ -1,7 +1,3 @@
-/**
- * Fills the edit modal with task details.
- * @param {Object} task - The task object.
- */
 function fillEditModal(task) {
   setTaskFields(task);
   setAssigneeBadges(task);
@@ -9,10 +5,6 @@ function fillEditModal(task) {
   loadContacts(task.users || []);
 }
 
-/**
- * Sets the task fields in the edit modal.
- * @param {Object} task - The task object.
- */
 function setTaskFields(task) {
   document.getElementById('editTaskTitle').value = task.title || "";
   document.getElementById('editTaskDescription').value = task.description || "";
@@ -28,11 +20,6 @@ function setTaskFields(task) {
   }
 }
 
-/**
- * Konvertiert einen Hexadezimal-Farbwert in einen benannten Farbwert.
- * @param {string} color - Der Farbwert (Hex oder Name).
- * @returns {string} - Der benannte Farbwert.
- */
 function convertColorValue(color) {
   let c = color || "default";
   if (c.startsWith('#')) {
@@ -49,11 +36,6 @@ function convertColorValue(color) {
   return c;
 }
 
-/**
- * Erzeugt den HTML-Code für ein einzelnes Assignee-Badge.
- * @param {Object} user - Das Benutzerobjekt.
- * @returns {string} - Der HTML-Code für das Badge.
- */
 function createBadgeHTML(user) {
   const colorValue = convertColorValue(user.color);
   const badgeClass = getBadgeClassFromAnyColor(colorValue);
@@ -66,10 +48,6 @@ function createBadgeHTML(user) {
     </div>`;
 }
 
-/**
- * Setzt die Assignee-Badges im Edit-Modal.
- * @param {Object} task - Das Task-Objekt.
- */
 function setAssigneeBadges(task) {
   const badges = document.getElementById('assigneeBadges');
   if (badges && task.users && task.users.length > 0) {
@@ -79,11 +57,6 @@ function setAssigneeBadges(task) {
   }
 }
 
-
-/**
- * Populates the edit subtasks list.
- * @param {Object} task - The task object containing subtasks.
- */
 function setSubtasksList(task) {
   const list = document.getElementById('editSubtasksList');
   list.innerHTML = "";
@@ -95,11 +68,6 @@ function setSubtasksList(task) {
   }
 }
 
-/**
- * Creates the entire subtask element including text and action buttons.
- * @param {Object} subtask - The subtask data.
- * @returns {HTMLElement} - The subtask element.
- */
 function createSubtaskItem(subtask) {
   const stDiv = document.createElement("div");
   stDiv.className = "subtask-item";
@@ -119,21 +87,12 @@ function createSubtaskItem(subtask) {
   return stDiv;
 }
 
-/**
- * Creates a <span> element for the subtask text.
- * @param {string} text - The subtask text.
- * @returns {HTMLElement} - The <span> element.
- */
 function createSubtaskTextSpan(text) {
   const span = document.createElement('span');
   span.innerText = `• ${text}`;
   return span;
 }
 
-/**
- * Creates the container for action icons (edit and delete).
- * @returns {HTMLElement} - The actions container element.
- */
 function createSubtaskActions() {
   const actionsDiv = document.createElement('div');
   actionsDiv.className = "subtask-actions";
@@ -150,12 +109,6 @@ function createSubtaskActions() {
   return actionsDiv;
 }
 
-/**
- * Replaces the text element with an input field to enable editing.
- * @param {HTMLElement} container - The parent element of the subtask.
- * @param {HTMLElement} span - The current text element.
- * @param {string} originalText - The original text.
- */
 function replaceSpanWithInput(container, span, originalText) {
   const currentText = span.innerText.replace('• ', '');
   const input = createEditInput(currentText);
@@ -169,11 +122,6 @@ function replaceSpanWithInput(container, span, originalText) {
   });
 }
 
-/**
- * Creates an input field for editing the subtask text.
- * @param {string} text - The text to be edited.
- * @returns {HTMLElement} - The input field element.
- */
 function createEditInput(text) {
   const input = document.createElement('input');
   input.type = 'text';
@@ -182,11 +130,6 @@ function createEditInput(text) {
   return input;
 }
 
-/**
- * Extracts the priority level from a given path.
- * @param {string} priorityPath - The priority image path.
- * @returns {string} - The priority level ('urgent', 'low', or 'medium').
- */
 function extractPriority(priorityPath) {
   if (!priorityPath) return 'medium';
   const lowerPath = priorityPath.toLowerCase();
@@ -195,10 +138,6 @@ function extractPriority(priorityPath) {
   return 'medium';
 }
 
-/**
- * Sets the active priority button based on the given priority.
- * @param {string} priority - The priority level.
- */
 function setEditPriority(priority) {
   const urgentBtn = document.querySelector('.edit-priority-urgent');
   const mediumBtn = document.querySelector('.edit-priority-medium');
@@ -219,9 +158,6 @@ function setEditPriority(priority) {
   }
 }
 
-/**
- * Saves the edited task to Firebase.
- */
 async function saveEditedTaskToFirebase() {
   if (!currentTask) return;
   updateTaskFromInputs();
@@ -230,9 +166,6 @@ async function saveEditedTaskToFirebase() {
   location.reload();
 }
 
-/**
- * Updates the current task object with values from the edit modal inputs.
- */
 function updateTaskFromInputs() {
   currentTask.title = document.getElementById('editTaskTitle').value.trim() || currentTask.title;
   currentTask.description = document.getElementById('editTaskDescription').value.trim() || currentTask.description;
@@ -249,13 +182,9 @@ function updateTaskFromInputs() {
   }
 }
 
-/**
- * Updates the task in Firebase.
- * @param {Object} task - The task object.
- */
 async function updateTaskInFirebase(task) {
   if (!task || !task.firebaseKey) return;
-  const url = `https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/taskData/${task.firebaseKey}.json`;
+  const url = `####`; // hier link einfügen!!
   try {
     const response = await fetch(url, {
       method: 'PUT',
@@ -267,21 +196,12 @@ async function updateTaskInFirebase(task) {
   }
 }
 
-/**
- * Closes the edit modal.
- * @param {Event} [event] - The event object.
- */
 function closeEditModal(event) {
   if (event) event.stopPropagation();
   const modal = document.getElementById('editTaskModal');
   if (modal) modal.style.display = 'none';
 }
 
-/**
- * Returns the badge class based on a given color.
- * @param {string} colorValue - The color value or name.
- * @returns {string} - The corresponding badge class.
- */
 function getBadgeClassFromAnyColor(colorValue) {
   if (!colorValue) {
     colorValue = "default";
@@ -301,10 +221,6 @@ function getBadgeClassFromAnyColor(colorValue) {
   }
 }
 
-/**
- * Opens the edit task modal from an overlay.
- * @param {Event} event - The event object.
- */
 function editTaskFromOverlay(event) {
   event.stopPropagation();
   if (!currentTask) return;
@@ -314,9 +230,6 @@ function editTaskFromOverlay(event) {
   if (modal) modal.style.display = 'flex';
 }
 
-/**
- * Initialisiert den Event-Listener für das Erstellen neuer Subtasks.
- */
 function initSubtaskCreation() {
   const subtaskInput = document.querySelector('.subtask-input');
   const subtaskCheck = document.querySelector('.subtask-edit-check');
@@ -331,9 +244,6 @@ function initSubtaskCreation() {
   });
 }
 
-/**
- * Initialisiert den Event-Listener für das Löschen von Subtasks.
- */
 function initSubtaskDeletion() {
   const subtasksList = document.getElementById('editSubtasksList');
   subtasksList?.addEventListener('click', e => {

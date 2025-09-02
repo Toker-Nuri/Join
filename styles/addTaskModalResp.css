@@ -35,7 +35,6 @@
     position: relative;
     width: 250px;
     border: 1px solid #ccc;
-    /* padding: 10px; */
     cursor: pointer;
     display: flex;
     justify-content: space-between;
@@ -450,7 +449,6 @@
 .category-dropdown {
     position: relative;
     width: 95%;
-    /* max-width: 300px; */
     border: 1px solid #D1D1D1;
     border-radius: 10px;
     background-color: white;
@@ -720,12 +718,6 @@ h1{
     max-width: 1100px;
 }
 
-/* .create-btn.disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
-    pointer-events: none;
-} */
-
 .footer-btn {
     display: flex;
     flex-direction: row;
@@ -918,9 +910,7 @@ h1{
 .main-div {
     overscroll-behavior: none;
 }
-
-/* --- Media Queries --- */
-
+    
 @media (max-width: 1000px) {
     .dn-925px {
         display: none;
