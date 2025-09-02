@@ -1,0 +1,251 @@
+let selectedTask = null;
+const dragPlaceholder = document.createElement("div");
+dragPlaceholder.classList.add("placeholder-drag");
+
+function ensureEmptyStateImages() {
+  document.querySelectorAll(".task-board-container").forEach(column => {
+    const hasTasks = column.querySelectorAll(".draggable-cards").length > 0;
+    if (!hasTasks && !column.querySelector(".empty-state-img")) {
+      const img = document.createElement("img");
+      img.src = "../img/no-tasks-to-do.png";
+      img.alt = "no tasks to do";
+      img.classList.add("empty-state-img");
+      column.appendChild(img);
+    }
+  });
+  checkColumns();
+}
+
+function checkColumns() {
+  document.querySelectorAll(".task-board-container").forEach(column => {
+    const imgElement = column.querySelector(".empty-state-img");
+    const hasTasks = column.querySelectorAll(".draggable-cards").length > 0;
+    if (imgElement) imgElement.style.display = hasTasks ? "none" : "block";
+  });
+}
+
+function getDragAfterElement(container, y) {
+  const draggable = [...container.querySelectorAll(".draggable-cards:not(.dragging)")];
+  return draggable.reduce(
+    (closest, child) => {
+      const box = child.getBoundingClientRect();
+      const offset = y - box.top - box.height / 2;
+      return offset < 0 && offset > closest.offset ? { offset, element: child } : closest;
+    },
+    { offset: -Infinity }
+  ).element;
+}
+
+function handleTaskDragStart(e) {
+  selectedTask = e.target;
+  setTimeout(() => {
+    selectedTask.classList.add("dragging");
+    selectedTask.style.transform = "rotate(5deg) scale(1.05)";
+  }, 0);
+}
+
+function handleTaskDragEnd() {
+  if (selectedTask) {
+    selectedTask.classList.remove("dragging");
+    selectedTask.style.transform = "rotate(0deg) scale(1)";
+    selectedTask = null;
+  }
+  if (dragPlaceholder.parentNode) dragPlaceholder.parentNode.removeChild(dragPlaceholder);
+  checkColumns();
+}
+
+function attachDesktopDragEvents(task) {
+  task.addEventListener("dragstart", handleTaskDragStart);
+  task.addEventListener("dragend", handleTaskDragEnd);
+}
+
+function updateDragPlaceholderForColumns(touch, columns) {
+  columns.forEach(column => {
+    if (isTouchInsideElement(touch, column)) {
+      const afterEl = getDragAfterElement(column, touch.clientY);
+      updateColumnWithPlaceholder(column, afterEl);
+    }
+  });
+}
+
+function isTouchInsideElement(touch, element) {
+  const rect = element.getBoundingClientRect();
+  return (
+    touch.clientX >= rect.left &&
+    touch.clientX <= rect.right &&
+    touch.clientY >= rect.top &&
+    touch.clientY <= rect.bottom
+  );
+}
+
+function updateColumnWithPlaceholder(column, afterEl) {
+  if (!afterEl) {
+    if (!column.contains(dragPlaceholder)) {
+      column.appendChild(dragPlaceholder);
+    }
+  } else {
+    if (afterEl.parentElement === column) {
+      column.insertBefore(dragPlaceholder, afterEl);
+    } else {
+      column.appendChild(dragPlaceholder);
+    }
+  }
+}
+
+function startTouchDragging(task, touch) {
+  selectedTask = task;
+  task.classList.add("dragging");
+  task.style.transform = "rotate(5deg) scale(1.05)";
+  task.style.position = "fixed";
+  task.style.zIndex = "1000";
+  const rect = task.getBoundingClientRect();
+  task.dataset.offsetX = (touch.clientX - rect.left).toString();
+  task.dataset.offsetY = (touch.clientY - rect.top).toString();
+}
+
+function updateTaskPosition(task, touch) {
+  const offsetX = parseFloat(task.dataset.offsetX) || 0;
+  const offsetY = parseFloat(task.dataset.offsetY) || 0;
+  task.style.left = `${touch.clientX - offsetX}px`;
+  task.style.top = `${touch.clientY - offsetY}px`;
+}
+
+function resetTask(task) {
+  task.classList.remove("dragging");
+  task.style.transform = "rotate(0deg) scale(1)";
+  task.style.position = task.style.zIndex = "";
+}
+
+function getDropTargetFromTouch(touch) {
+  let dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
+  while (dropTarget && !dropTarget.classList.contains("task-board-container")) {
+    dropTarget = dropTarget.parentElement;
+  }
+  return dropTarget;
+}
+
+function handleTouchStart(e) {
+  const task = e.currentTarget;
+  const state = task._touchDragState;
+  const touch = e.touches[0];
+  state.initialTouchX = touch.clientX;
+  state.initialTouchY = touch.clientY;
+  state.longPressTimeout = setTimeout(() => {
+    state.isTouchDragging = true;
+    startTouchDragging(task, touch);
+  }, 500);
+}
+
+function handleTouchMove(e) {
+  const task = e.currentTarget;
+  const state = task._touchDragState;
+  const touch = e.touches[0];
+  if (!state.isTouchDragging) {
+    const dx = Math.abs(touch.clientX - state.initialTouchX);
+    const dy = Math.abs(touch.clientY - state.initialTouchY);
+    if (dx > state.moveThreshold || dy > state.moveThreshold) {
+      clearTimeout(state.longPressTimeout);
+      return;
+    }
+  }
+  if (!state.isTouchDragging) return;
+  e.preventDefault();
+  updateTaskPosition(task, touch);
+  updateDragPlaceholderForColumns(touch, state.columns);
+}
+
+function handleTouchEnd(e) {
+  const task = e.currentTarget, state = task._touchDragState; clearTimeout(state.longPressTimeout);
+  if (state.isTouchDragging && selectedTask === task) {
+    const touch = e.changedTouches[0], dropTarget = getDropTargetFromTouch(touch);
+    if (dropTarget) {
+      dropTarget.contains(dragPlaceholder)
+        ? dropTarget.insertBefore(task, dragPlaceholder)
+        : dropTarget.appendChild(task), updateTaskColumnInFirebase(task.id, dropTarget.id);
+    } else {
+      task.style.position = "";
+    }
+    resetTask(task);
+    selectedTask = null; state.isTouchDragging = false; dragPlaceholder.parentNode && dragPlaceholder.parentNode.removeChild(dragPlaceholder);
+    checkColumns();
+  }
+}
+
+function handleTouchCancel(e) {
+  const task = e.currentTarget, state = task._touchDragState;
+  clearTimeout(state.longPressTimeout);
+  state.isTouchDragging = false;
+}
+
+function attachTouchDragEvents(task, columns) {
+  task._touchDragState = {
+    longPressTimeout: null,
+    isTouchDragging: false,
+    initialTouchX: 0,
+    initialTouchY: 0,
+    moveThreshold: 10,
+    columns: columns
+  };
+  task.addEventListener("touchstart", handleTouchStart);
+  task.addEventListener("touchmove", handleTouchMove);
+  task.addEventListener("touchend", handleTouchEnd);
+  task.addEventListener("touchcancel", handleTouchCancel);
+}
+
+function attachColumnDragOverEvent(column) {
+  column.addEventListener("dragover", e => {
+    e.preventDefault();
+    const afterEl = getDragAfterElement(column, e.clientY);
+    if (!afterEl) {
+      if (!column.contains(dragPlaceholder)) column.appendChild(dragPlaceholder);
+    } else {
+      afterEl.parentElement === column
+        ? column.insertBefore(dragPlaceholder, afterEl)
+        : column.appendChild(dragPlaceholder);
+    }
+  });
+}
+
+function attachColumnDropEvent(column) {
+  column.addEventListener("drop", e => {
+    e.preventDefault();
+    if (selectedTask) {
+      if (column.contains(dragPlaceholder)) {
+        column.insertBefore(selectedTask, dragPlaceholder);
+      } else {
+        column.appendChild(selectedTask);
+      }
+      selectedTask.classList.remove("dragging");
+      selectedTask.style.transform = "rotate(0deg) scale(1)";
+      updateTaskColumnInFirebase(selectedTask.id, column.id);
+    }
+    dragPlaceholder.parentNode && dragPlaceholder.parentNode.removeChild(dragPlaceholder);
+    checkColumns();
+  });
+}
+
+function initializeTasks(tasks, columns) {
+  tasks.forEach(task => {
+    attachDesktopDragEvents(task);
+    attachTouchDragEvents(task, Array.from(columns));
+  });
+}
+
+function initializeColumns(columns) {
+  columns.forEach(column => {
+    attachColumnDragOverEvent(column);
+    attachColumnDropEvent(column);
+  });
+}
+
+function initializeDragAndDrop() {
+  const tasks = document.querySelectorAll(".draggable-cards");
+  const columns = document.querySelectorAll(".task-board-container");
+  initializeTasks(tasks, columns);
+  initializeColumns(columns);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  ensureEmptyStateImages();
+  initializeDragAndDrop();
+});
