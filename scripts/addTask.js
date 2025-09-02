@@ -5,11 +5,6 @@ function renderTemplate(templateId, containerId) {
 
     container.innerHTML = '';
     container.appendChild(template.content.cloneNode(true));
-
-    const closeBtn = container.querySelector('#close-addtask-btn');
-    if (closeBtn) {
-        closeBtn.addEventListener('click', () => { container.innerHTML = ''; });
-    }
 }
 
 function onAddTaskMenuClick(menu) {
