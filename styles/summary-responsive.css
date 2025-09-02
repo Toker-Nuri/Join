@@ -1,0 +1,1213 @@
+@media (min-width: 320px) and (max-width: 400px) {
+
+    /* Root: volle Breite + sauberes Scrolling */
+    .page-summary {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        overflow-x: hidden;
+        color: #2a3647;
+    }
+
+    /* Body vollflächig, scrollen übernimmt gleich .summary selbst */
+    .page-summary body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        min-height: 100dvh;
+        overflow: hidden;
+        /* wichtig: kein Doppelscroll am Body */
+        background-color: #f5f7f9;
+    }
+
+    /* ==== Layout-Grundidee ====
+     .main-div -> flex column
+     .header bleibt oben
+     .summary wird der SCROLLER
+     .side-menu-bottom fix unten
+  */
+    .page-summary .main-div {
+        display: flex;
+        flex-direction: column;
+        min-height: 100dvh;
+        box-sizing: border-box;
+    }
+
+    /* Fixe Bottom-Bar */
+    .page-summary .side-menu {
+        display: none;
+    }
+
+
+
+    .page-summary .logo-content-container-bottom,
+    .page-summary .menu-content-bottom,
+    .page-summary .bottom-menu {
+        margin: 0 !important;
+    }
+
+    .page-summary .menu-content-bottom {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        gap: 0;
+    }
+
+    /* === Der tatsächliche Scroller: .summary === */
+    .page-summary .summary {
+        flex: 1 1 auto;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+        box-sizing: border-box;
+        padding: 20px;
+    }
+
+    /* Mobiler Feinschliff (aus deiner Datei übernommen) */
+    .page-summary a {
+        text-decoration: none;
+    }
+
+    .page-summary .summary-content {
+        display: flex;
+        align-items: center;
+        gap: 5pc;
+    }
+
+    .page-summary .summary-metrics {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .page-summary .summary-card-design {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        background: #fff;
+        border-radius: 14px;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Header kompakter */
+    .page-summary .summary-header {
+        display: flex;
+        gap: 15px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .page-summary .summary-divider {
+        display: none;
+    }
+
+    .page-summary .summary-title {
+        font-size: 47px;
+        margin: 0;
+    }
+
+    .page-summary .summary-subtitle {
+        display: flex;
+        flex-direction: column;
+        font-size: 20px;
+        margin-top: 0;
+    }
+
+    .page-summary .summary-subtitle::after {
+        content: url(../img/summary-line-mobile.svg);
+    }
+
+    /* Cards etc. */
+    .page-summary .summary-card {
+        padding-bottom: 25px;
+        padding-top: 25px;
+        border: 15px;
+        border-radius: 20px;
+    }
+
+    .page-summary .js-count-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .page-summary .summary-row {
+        display: flex;
+        gap: 25px;
+    }
+
+    .page-summary .counter-design {
+        font-size: 45px;
+        font-weight: bold;
+    }
+
+    .page-summary .counter-text-design {
+        font-size: 14px;
+    }
+
+    .page-summary .deadline-container {
+        display: flex;
+        align-items: center;
+        gap: 23px;
+    }
+
+    .page-summary .deadline-under-container {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .page-summary .js-urgent-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .page-summary .label {
+        font-size: 12px;
+    }
+
+    .page-summary .js-deadline-date {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .page-summary .img-urgent-summary {
+        width: 40px;
+        height: 40px;
+    }
+
+    /* Greeting korrekt verstecken (statt display:hidden) */
+    .page-summary .welcome-summary,
+    .page-summary .summary-name,
+    .page-summary .summary-greeting {
+        display: none;
+    }
+
+    /* Icons mobil (deine aktuellen Assets) */
+    .page-summary .summary-card:hover {
+        background-color: #2a3647;
+        color: white;
+    }
+
+    .page-summary .icon-todo {
+        background-image: url(../img/summary-pen-mobile.png);
+        background-size: 40px 40px;
+    }
+
+    .page-summary .summary-card:hover .icon-todo {
+        background-image: url(../img/icon/todo-mobile.png);
+        background-size: 50px 50px;
+    }
+
+    .page-summary .icon-done {
+        background-image: url(../img/summary-done-mobile.png);
+        background-size: 40px 40px;
+    }
+
+    .page-summary .summary-card:hover .icon-done {
+        background-image: url(../img/icon/done-mobile.png);
+        background-size: 50px 50px;
+    }
+}
+
+@media (min-width: 400px) and (max-width: 500px) {
+
+    /* Root: volle Breite + sauberes Scrolling */
+    .page-summary {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        overflow-x: hidden;
+        color: #2a3647;
+    }
+
+    /* Body vollflächig, scrollen übernimmt gleich .summary selbst */
+    .page-summary body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        min-height: 100dvh;
+        overflow: hidden;
+        /* wichtig: kein Doppelscroll am Body */
+        background-color: #f5f7f9;
+    }
+
+    /* ==== Layout-Grundidee ====
+     .main-div -> flex column
+     .header bleibt oben
+     .summary wird der SCROLLER
+     .side-menu-bottom fix unten
+  */
+    .page-summary .main-div {
+        display: flex;
+        flex-direction: column;
+        min-height: 100dvh;
+        box-sizing: border-box;
+    }
+
+    /* Fixe Bottom-Bar */
+    .page-summary .side-menu {
+        display: none;
+    }
+
+
+
+    .page-summary .logo-content-container-bottom,
+    .page-summary .menu-content-bottom,
+    .page-summary .bottom-menu {
+        margin: 0 !important;
+    }
+
+    .page-summary .menu-content-bottom {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        gap: 0;
+    }
+
+    /* === Der tatsächliche Scroller: .summary === */
+    .page-summary .summary {
+        flex: 1 1 auto;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+        box-sizing: border-box;
+        padding: 25px;
+    }
+
+    /* Mobiler Feinschliff (aus deiner Datei übernommen) */
+    .page-summary .summary-content {
+        display: flex;
+        align-items: center;
+        gap: 5pc;
+    }
+
+    .page-summary .summary-metrics {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+    }
+
+
+    /* Header kompakter */
+    .page-summary .summary-header {
+        display: flex;
+        gap: 15px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .page-summary .summary-divider {
+        display: none;
+    }
+
+    .page-summary .summary-title {
+        font-size: 53px;
+        margin: 0;
+    }
+
+    .page-summary .summary-subtitle {
+        display: flex;
+        flex-direction: column;
+        font-size: 20px;
+        margin-top: 0;
+    }
+
+    .page-summary .summary-subtitle::after {
+        content: url(../img/summary-line-mobile.svg);
+    }
+
+    /* Cards etc. */
+    .page-summary .summary-card {
+        padding-bottom: 25px;
+        padding-top: 25px;
+        border: 15px;
+        border-radius: 20px;
+    }
+
+    .page-summary .js-count-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .page-summary .summary-row {
+        display: flex;
+        gap: 25px;
+    }
+
+    .page-summary .counter-design {
+        font-size: 52px;
+
+    }
+
+    .page-summary .counter-text-design {
+        font-size: 19px;
+    }
+
+    .page-summary .deadline-container {
+        display: flex;
+        align-items: center;
+        gap: 23px;
+    }
+
+    .page-summary .deadline-under-container {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .page-summary .js-urgent-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .page-summary .label {
+        font-size: 17px;
+
+    }
+
+    .page-summary .js-deadline-date {
+        font-size: 19px;
+    }
+
+    .page-summary .img-urgent-summary {
+        width: 40px;
+        height: 40px;
+    }
+
+    /* Greeting korrekt verstecken (statt display:hidden) */
+    .page-summary .welcome-summary,
+    .page-summary .summary-name,
+    .page-summary .summary-greeting {
+        display: none;
+    }
+
+    /* Icons mobil (deine aktuellen Assets) */
+    .page-summary .summary-card:hover {
+        background-color: #2a3647;
+        color: white;
+    }
+
+    .page-summary .icon-todo {
+        background-image: url(../img/summary-pen-mobile.png);
+        background-size: 40px 40px;
+    }
+
+    .page-summary .summary-card:hover .icon-todo {
+        background-image: url(../img/icon/todo-mobile.png);
+        background-size: 50px 50px;
+    }
+
+    .page-summary .icon-done {
+        background-image: url(../img/summary-done-mobile.png);
+        background-size: 40px 40px;
+    }
+
+    .page-summary .summary-card:hover .icon-done {
+        background-image: url(../img/icon/done-mobile.png);
+        background-size: 50px 50px;
+    }
+}
+
+@media (min-width: 500px) and (max-width: 600px) {
+
+    /* Root: volle Breite + sauberes Scrolling */
+    .page-summary {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        overflow-x: hidden;
+        color: #2a3647;
+    }
+
+    /* Body vollflächig, scrollen übernimmt gleich .summary selbst */
+    .page-summary body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        min-height: 100dvh;
+        overflow: hidden;
+        /* wichtig: kein Doppelscroll am Body */
+        background-color: #f5f7f9;
+    }
+
+    /* ==== Layout-Grundidee ====
+     .main-div -> flex column
+     .header bleibt oben
+     .summary wird der SCROLLER
+     .side-menu-bottom fix unten
+  */
+    .page-summary .main-div {
+        display: flex;
+        flex-direction: column;
+        min-height: 100dvh;
+        box-sizing: border-box;
+    }
+
+    /* Fixe Bottom-Bar */
+    .page-summary .side-menu {
+        display: none;
+    }
+
+
+
+    .page-summary .logo-content-container-bottom,
+    .page-summary .menu-content-bottom,
+    .page-summary .bottom-menu {
+        margin: 0 !important;
+    }
+
+    .page-summary .menu-content-bottom {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        gap: 0;
+    }
+
+    /* === Der tatsächliche Scroller: .summary === */
+    .page-summary .summary {
+        flex: 1 1 auto;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+        box-sizing: border-box;
+        padding: 25px;
+    }
+
+    /* Mobiler Feinschliff (aus deiner Datei übernommen) */
+    .page-summary .summary-content {
+        display: flex;
+        align-items: center;
+        gap: 5pc;
+    }
+
+    .page-summary .summary-metrics {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    /* Header kompakter */
+    .page-summary .summary-header {
+        display: flex;
+        gap: 15px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .page-summary .summary-divider {
+        display: none;
+    }
+
+    .page-summary .summary-title {
+        font-size: 56px;
+        margin: 0;
+    }
+
+    .page-summary .summary-subtitle {
+        display: flex;
+        flex-direction: column;
+        font-size: 23px;
+        margin-top: 0;
+    }
+
+    .page-summary .summary-subtitle::after {
+        content: url(../img/summary-line-mobile.svg);
+    }
+
+    /* Cards etc. */
+    .page-summary .summary-card {
+        padding-bottom: 25px;
+        padding-top: 25px;
+        border: 15px;
+        border-radius: 20px;
+    }
+
+    .page-summary .js-count-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .page-summary .summary-row {
+        display: flex;
+        gap: 25px;
+    }
+
+    .page-summary .counter-design {
+        font-size: 55px;
+    }
+
+    .page-summary .counter-text-design {
+        font-size: 20px;
+    }
+
+    .page-summary .deadline-container {
+        display: flex;
+        align-items: center;
+        gap: 23px;
+    }
+
+    .page-summary .deadline-under-container {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .page-summary .js-urgent-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .page-summary .label {
+        font-size: 20px;
+    }
+
+    .page-summary .js-deadline-date {
+        font-size: 24px;
+
+    }
+
+    .page-summary .img-urgent-summary {
+        width: 45px;
+        height: 45px;
+    }
+
+    /* Greeting korrekt verstecken (statt display:hidden) */
+    .page-summary .welcome-summary,
+    .page-summary .summary-name,
+    .page-summary .summary-greeting {
+        display: none;
+    }
+
+    /* Icons mobil (deine aktuellen Assets) */
+    .page-summary .summary-card:hover {
+        background-color: #2a3647;
+        color: white;
+    }
+
+    .page-summary .icon-todo {
+        background-image: url(../img/summary-pen-mobile.png);
+        background-size: 45px 45px;
+    }
+
+    .page-summary .summary-card:hover .icon-todo {
+        background-image: url(../img/icon/todo-mobile.png);
+        background-size: 55px 55px;
+    }
+
+    .page-summary .icon-done {
+        background-image: url(../img/summary-done-mobile.png);
+        background-size: 45px 45px;
+    }
+
+    .page-summary .summary-card:hover .icon-done {
+        background-image: url(../img/icon/done-mobile.png);
+        background-size: 55px 55px;
+    }
+}
+
+@media (min-width: 600px) and (max-width: 925px) {
+
+    /* Root: volle Breite + sauberes Scrolling */
+    .page-summary {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        overflow-x: hidden;
+        color: #2a3647;
+    }
+
+    /* Body vollflächig, scrollen übernimmt gleich .summary selbst */
+    .page-summary body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        min-height: 100dvh;
+        overflow: hidden;
+        /* wichtig: kein Doppelscroll am Body */
+        background-color: #f5f7f9;
+    }
+
+    /* ==== Layout-Grundidee ====
+     .main-div -> flex column
+     .header bleibt oben
+     .summary wird der SCROLLER
+     .side-menu-bottom fix unten
+  */
+    .page-summary .main-div {
+        display: flex;
+        flex-direction: column;
+        min-height: 100dvh;
+        box-sizing: border-box;
+    }
+
+    /* Fixe Bottom-Bar */
+    .page-summary .side-menu {
+        display: none;
+    }
+
+
+
+    .page-summary .logo-content-container-bottom,
+    .page-summary .menu-content-bottom,
+    .page-summary .bottom-menu {
+        margin: 0 !important;
+    }
+
+    .page-summary .menu-content-bottom {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        gap: 0;
+    }
+
+    /* === Der tatsächliche Scroller: .summary === */
+    .page-summary .summary {
+        flex: 1 1 auto;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+        box-sizing: border-box;
+        padding: 25px;
+    }
+
+    /* Mobiler Feinschliff (aus deiner Datei übernommen) */
+    .page-summary .summary-content {
+        display: flex;
+        align-items: center;
+        gap: 40px;
+    }
+
+    .page-summary .summary-metrics {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    /* Header kompakter */
+    .page-summary .summary-header {
+        display: flex;
+        gap: 15px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .page-summary .summary-divider {
+        display: none;
+    }
+
+    .page-summary .summary-title {
+        font-size: 57px;
+        margin: 0;
+    }
+
+
+    .page-summary .summary-subtitle {
+        display: flex;
+        flex-direction: column;
+        font-size: 22px;
+        margin-top: 0;
+    }
+
+
+
+    .page-summary .summary-subtitle::after {
+        content: url(../img/summary-line-mobile.svg);
+    }
+
+    /* Cards etc. */
+    .page-summary .summary-card {
+        padding-bottom: 25px;
+        padding-top: 25px;
+        border: 15px;
+        border-radius: 20px;
+    }
+
+    .page-summary .js-count-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .page-summary .summary-row {
+        display: flex;
+        gap: 25px;
+    }
+
+    .page-summary .counter-design {
+        font-size: 48px;
+    }
+
+    .page-summary .counter-text-design {
+        font-size: 19px;
+    }
+
+    .page-summary .deadline-container {
+        display: flex;
+        align-items: center;
+        gap: 23px;
+    }
+
+    .page-summary .deadline-under-container {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .page-summary .js-urgent-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .page-summary .label {
+        font-size: 16px;
+    }
+
+    .page-summary .js-deadline-date {
+        font-size: 18px;
+    }
+
+    .page-summary .img-urgent-summary {
+        width: 45px;
+        height: 45px;
+    }
+
+    /* Greeting korrekt verstecken (statt display:hidden) */
+
+    .welcome-summary {
+        margin: 0px;
+        font-size: 30px;
+    }
+
+    .summary-name {
+        font-size: 50px;
+    }
+
+    /* Icons mobil (deine aktuellen Assets) */
+    .page-summary .summary-card:hover {
+        background-color: #2a3647;
+        color: white;
+    }
+
+    .page-summary .icon-todo {
+        background-image: url(../img/summary-pen-mobile.png);
+        background-size: 45px 45px;
+    }
+
+    .page-summary .summary-card:hover .icon-todo {
+        background-image: url(../img/icon/todo-mobile.png);
+        background-size: 55px 55px;
+    }
+
+    .page-summary .icon-done {
+        background-image: url(../img/summary-done-mobile.png);
+        background-size: 45px 45px;
+    }
+
+    .page-summary .summary-card:hover .icon-done {
+        background-image: url(../img/icon/done-mobile.png);
+        background-size: 55px 55px;
+    }
+}
+
+@media (min-width: 925px) and (max-width: 1150px) {
+
+    /* Root: volle Breite + sauberes Scrolling */
+    .page-summary {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        overflow-x: hidden;
+        color: #2a3647;
+    }
+
+    /* Body vollflächig, scrollen übernimmt gleich .summary selbst */
+    .page-summary body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        min-height: 100dvh;
+        overflow: hidden;
+        /* wichtig: kein Doppelscroll am Body */
+        background-color: #f5f7f9;
+    }
+
+    /* ==== Layout-Grundidee ====
+     .main-div -> flex column
+     .header bleibt oben
+     .summary wird der SCROLLER
+     .side-menu-bottom fix unten
+  */
+    .page-summary .main-div {
+        display: flex;
+        flex-direction: column;
+        min-height: 100dvh;
+        box-sizing: border-box;
+    }
+
+    .page-summary .logo-content-container-bottom,
+    .page-summary .menu-content-bottom,
+    .page-summary .bottom-menu {
+        margin: 0 !important;
+    }
+
+    .page-summary .menu-content-bottom {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        gap: 0;
+    }
+
+    /* === Der tatsächliche Scroller: .summary === */
+    .page-summary .summary {
+        flex: 1 1 auto;
+        overflow: auto;
+        box-sizing: border-box;
+        -webkit-overflow-scrolling: touch;
+        padding: 1pc 1pc 2pc 2pc;
+    }
+
+    /* Mobiler Feinschliff (aus deiner Datei übernommen) */
+    .page-summary .summary-content {
+        display: flex;
+        align-items: center;
+        gap: 40px;
+    }
+
+    .page-summary .summary-metrics {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    /* Header kompakter */
+    .page-summary .summary-header {
+        display: flex;
+        align-items: flex-end;
+        padding-bottom: 3pc;
+        padding-top: 2pc;
+        gap: 15px;
+    }
+
+    .page-summary .summary-title {
+        font-size: 57px;
+        margin: 0;
+    }
+
+    .page-summary .summary-subtitle {
+        display: flex;
+        flex-direction: column;
+        font-size: 22px;
+        margin-top: 0;
+    }
+
+    /* Cards etc. */
+    .page-summary .summary-card {
+        padding-bottom: 25px;
+        padding-top: 25px;
+        border: 15px;
+        border-radius: 20px;
+    }
+
+    .page-summary .js-count-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .page-summary .summary-row {
+        display: flex;
+        gap: 25px;
+    }
+
+    .page-summary .counter-design {
+        font-size: 48px;
+    }
+
+    .page-summary .counter-text-design {
+        font-size: 19px;
+    }
+
+    .page-summary .deadline-container {
+        display: flex;
+        align-items: center;
+        gap: 23px;
+    }
+
+    .page-summary .deadline-under-container {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .page-summary .js-urgent-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .page-summary .label {
+        font-size: 16px;
+    }
+
+    .page-summary .js-deadline-date {
+        font-size: 18px;
+    }
+
+    .page-summary .img-urgent-summary {
+        width: 45px;
+        height: 45px;
+    }
+
+    /* Greeting korrekt verstecken (statt display:hidden) */
+
+    .welcome-summary {
+        margin: 0px;
+        font-size: 30px;
+    }
+
+    .summary-name {
+        font-size: 50px;
+    }
+
+    /* Icons mobil (deine aktuellen Assets) */
+    .page-summary .summary-card:hover {
+        background-color: #2a3647;
+        color: white;
+    }
+
+    .page-summary .icon-todo {
+        background-image: url(../img/summary-pen-mobile.png);
+        background-size: 45px 45px;
+    }
+
+    .page-summary .summary-card:hover .icon-todo {
+        background-image: url(../img/icon/todo-mobile.png);
+        background-size: 55px 55px;
+    }
+
+    .page-summary .icon-done {
+        background-image: url(../img/summary-done-mobile.png);
+        background-size: 45px 45px;
+    }
+
+    .page-summary .summary-card:hover .icon-done {
+        background-image: url(../img/icon/done-mobile.png);
+        background-size: 55px 55px;
+    }
+}
+
+@media (min-width: 1150px) and (max-width: 1440px) {
+
+    /* Root: volle Breite + sauberes Scrolling */
+    .page-summary {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        overflow-x: hidden;
+        color: #2a3647;
+    }
+
+    /* Body vollflächig, scrollen übernimmt gleich .summary selbst */
+    .page-summary body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        min-height: 100dvh;
+        overflow: hidden;
+        /* wichtig: kein Doppelscroll am Body */
+        background-color: #f5f7f9;
+    }
+
+    /* ==== Layout-Grundidee ====
+     .main-div -> flex column
+     .header bleibt oben
+     .summary wird der SCROLLER
+     .side-menu-bottom fix unten
+  */
+    .page-summary .main-div {
+        display: flex;
+        flex-direction: column;
+        min-height: 100dvh;
+        box-sizing: border-box;
+    }
+
+    .page-summary .logo-content-container-bottom,
+    .page-summary .menu-content-bottom,
+    .page-summary .bottom-menu {
+        margin: 0 !important;
+    }
+
+    .page-summary .menu-content-bottom {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        gap: 0;
+    }
+
+    /* === Der tatsächliche Scroller: .summary === */
+    .page-summary .summary {
+        flex: 1 1 auto;
+        overflow: auto;
+        box-sizing: border-box;
+        -webkit-overflow-scrolling: touch;
+        padding: 1pc 1pc 2pc 2pc;
+    }
+
+    /* Mobiler Feinschliff (aus deiner Datei übernommen) */
+    .page-summary .summary-content {
+        display: flex;
+        align-items: center;
+        gap: 40px;
+    }
+
+    .page-summary .summary-metrics {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    /* Header kompakter */
+    .page-summary .summary-header {
+        display: flex;
+        align-items: flex-end;
+        padding-bottom: 3pc;
+        padding-top: 2pc;
+        gap: 15px;
+    }
+
+    .page-summary .summary-title {
+        font-size: 57px;
+        margin: 0;
+    }
+
+    .page-summary .summary-subtitle {
+        display: flex;
+        flex-direction: column;
+        font-size: 22px;
+        margin-top: 0;
+    }
+
+    /* Cards etc. */
+    .page-summary .summary-card {
+        padding-bottom: 25px;
+        padding-top: 25px;
+        border: 15px;
+        border-radius: 20px;
+    }
+
+    .page-summary .js-count-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .page-summary .summary-row {
+        display: flex;
+        gap: 25px;
+    }
+
+    .page-summary .counter-design {
+        font-size: 72px;
+    }
+
+    .page-summary .counter-text-design {
+        /* font-size: 19px; */
+    }
+
+    .page-summary .deadline-container {
+        display: flex;
+        align-items: center;
+        gap: 23px;
+    }
+
+    .page-summary .deadline-under-container {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .page-summary .js-urgent-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .page-summary .label {
+        /* font-size: 16px; */
+    }
+
+    .page-summary .js-deadline-date {
+        /* font-size: 18px; */
+    }
+
+    .page-summary .img-urgent-summary {
+        /* width: 45px;
+        height: 45px; */
+    }
+
+    /* Greeting korrekt verstecken (statt display:hidden) */
+
+    .welcome-summary {
+        margin: 0px;
+        /* font-size: 30px; */
+    }
+
+    .summary-name {
+        /* font-size: 50px; */
+    }
+
+    /* Icons mobil (deine aktuellen Assets) */
+    .page-summary .summary-card:hover {
+        background-color: #2a3647;
+        color: white;
+    }
+
+    .page-summary .icon-todo {
+        background-image: url(../img/summary-pen-mobile.png);
+        background-size: 50px 50px;
+    }
+
+    .page-summary .summary-card:hover .icon-todo {
+        background-image: url(../img/icon/todo-mobile.png);
+        background-size: 60px 60px;
+    }
+
+    .page-summary .icon-done {
+        background-image: url(../img/summary-done-mobile.png);
+        background-size: 50px 50px;
+    }
+
+    .page-summary .summary-card:hover .icon-done {
+        background-image: url(../img/icon/done-mobile.png);
+        background-size: 60px 60px;
+    }
+}
