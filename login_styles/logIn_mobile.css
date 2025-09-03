@@ -1,0 +1,492 @@
+@media (min-width: 200px) {
+  html,
+  body {
+    overflow-x: hidden;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+  }
+
+  header {
+    left: 0;
+    right: 0;
+    height: 0;
+  }
+
+  .logo {
+    position: absolute;
+    top: 37px;
+    left: 38px;
+    margin-top: 0;
+  }
+
+  .logo-svg {
+    width: 80px;
+    height: 40px;
+  }
+
+  .sign-up-section {
+    display: none;
+  }
+
+  .sign-up-section-inner-div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    width: 234px;
+  }
+
+  .sign-up-section-inner-div span {
+    font-size: 16px;
+  }
+
+  .sign-up-section-hidden {
+    display: flex;
+    width: 100%;
+    height: 39px;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 70px;
+  }
+
+  .Log-In-Field {
+    width: 290px;
+    height: 375px;
+    background-color: white;
+    border-radius: 30px;
+    padding-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .Log-In-Headline {
+    width: 139px;
+    height: 56px;
+    font-size: 47px;
+    font-weight: 700;
+    text-align: center;
+    margin-top: 20px;
+    color: #2a3647;
+  }
+
+  .underline-headline {
+    height: 3px;
+    width: 88px;
+    background-color: #29abe2;
+    margin-top: 10px;
+  }
+
+  .email-password-fields {
+    width: 222px;
+    height: 35px;
+    background-color: white;
+    border-radius: 10px;
+    border: 1px solid #d1d5db;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .email-password-fields img {
+    height: 18px;
+    width: 18px;
+    margin-right: 21px;
+    cursor: pointer;
+  }
+
+  .input-email-password {
+    height: 33px;
+    padding: 12px 21px 12px 21px;
+    outline: none;
+    border: none;
+    width: 100%;
+    border-radius: 10px;
+    font-size: 16px;
+  }
+
+  .input-email-password::placeholder {
+    font-size: 16px;
+  }
+
+  .Log-In-Form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 422px;
+    height: 196px;
+    margin-top: 40px;
+  }
+
+  .email-password-alert-section {
+    width: 222px;
+  }
+
+  .Log-In-Button {
+    width: 148px;
+    height: 30px;
+    color: white;
+    background-color: #2a3647;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    border: unset;
+  }
+
+  .Guest-Log-In-Button {
+    width: 148px;
+    height: 30px;
+    border-radius: 8px;
+    border: 1px solid #2a3647;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 15px 24px 15px 24px;
+    color: #2a3647;
+    cursor: pointer;
+    background-color: white;
+  }
+
+  .Log-In-and-Guest-Log-In {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-left: 0;
+  }
+
+  .Log-In-Section {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  footer {
+    color: #a8a8a8;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+  }
+
+  .sign-up-button {
+    color: white;
+    width: 91px;
+    height: 39px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #2a3647;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  .privacy-span {
+    width: 115px;
+    margin-bottom: 0;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .legal-span {
+    width: 115px;
+    margin-bottom: 0;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Splash Screen Styles für Mobile */
+  .splash-header {
+    display: none;
+  }
+  
+  .splash-logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .splash-logo {
+    animation: logoMoveToCorner 1.5s ease-in-out forwards;
+    animation-delay: 0.5s;
+  }
+}
+
+@media (min-width: 480px) {
+  .Log-In-Field {
+    width: 350px;
+    height: 400px;
+  }
+
+  .Log-In-Headline {
+    font-size: 50px;
+    width: 200px;
+  }
+
+  .email-password-fields {
+    width: 250px;
+  }
+
+  .Log-In-Button,
+  .Guest-Log-In-Button {
+    width: 160px;
+  }
+}
+
+@media (min-width: 768px) {
+  .Log-In-Field {
+    width: 500px;
+    height: 400px;
+  }
+
+  .Log-In-Headline {
+    font-size: 55px;
+    width: 300px;
+  }
+
+  .email-password-fields {
+    width: 350px;
+  }
+
+  .Log-In-Button,
+  .Guest-Log-In-Button {
+    width: 200px;
+  }
+
+  .underline-headline {
+    width: 130px;
+    margin-top: 20px;
+  }
+
+  .sign-up-section-hidden {
+    bottom: 70px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .logo {
+    position: relative;
+    top: 0;
+    left: 0;
+  }
+
+  .logo-svg {
+    width: 120px;
+    height: 60px;
+  }
+
+  .Log-In-Field {
+    height: 470px;
+    width: 600px;
+  }
+
+  .Log-In-Headline {
+    font-size: 61px;
+    width: 350px;
+  }
+
+  .underline-headline {
+    width: 130px;
+    margin-top: 30px;
+  }
+
+  .Log-In-Form {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    width: 422px;
+    height: 196px;
+    margin-top: 40px;
+  }
+
+  .email-password-fields {
+    width: 422px;
+    height: 48px;
+    border: 1px solid #d1d5db;
+  }
+
+  .email-password-fields img {
+    height: 24px;
+    width: 24px;
+    margin-right: 21px;
+    cursor: pointer;
+  }
+
+  .input-email-password {
+    height: 45px;
+    width: 350px;
+    font-size: 21px;
+  }
+
+  .input-email-password::placeholder {
+    font-size: 21px;
+  }
+
+  .Log-In-and-Guest-Log-In {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    width: 322px;
+  }
+
+  .Log-In-Button {
+    width: 110px;
+    height: 48px;
+    color: white;
+    background-color: #2a3647;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 21px;
+    font-weight: 700;
+    cursor: pointer;
+    border: unset;
+  }
+
+  .Guest-Log-In-Button {
+    height: 48px;
+    border-radius: 8px;
+    border: 1px solid #2a3647;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 21px;
+    font-weight: 700;
+    padding: 15px 24px 15px 24px;
+    color: #2a3647;
+    cursor: pointer;
+    background-color: white;
+  }
+
+  .sign-up-section-hidden {
+    display: none;
+  }
+
+  .privacy-span {
+    font-size: 16px;
+  }
+
+  .legal-span {
+    font-size: 16px;
+  }
+
+  .sign-up-section {
+    display: flex;
+    gap: 35px;
+    height: 49px;
+    width: 279px;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+    margin-top: 20px;
+  }
+
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100px;
+    width: 100%;
+  }
+
+  /* Splash Screen Styles für Desktop */
+  .splash-header {
+    position: absolute;
+    top: 40px;
+    right: 77px;
+    display: flex;
+    align-items: center;
+    gap: 35px;
+  }
+
+  .splash-signup span {
+    font-size: 21px;
+    color: #2a3647;
+    font-weight: 400;
+  }
+
+  .splash-signup-btn {
+    background-color: #2a3647;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 15px 24px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .splash-signup-btn:hover {
+    background-color: #29abe2;
+  }
+  
+  .splash-logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .splash-logo {
+    animation: logoMoveToCorner 1.5s ease-in-out forwards;
+    animation-delay: 0.5s;
+  }
+
+  @keyframes logoMoveToCorner {
+    0% {
+      transform: translate(0, 0) scale(1);
+    }
+    100% {
+      transform: translate(-42vw, -38vh) scale(0.6);
+    }
+  }
+}
+
+@media (min-width: 1440px) {
+  .Log-In-Field {
+    width: 700px;
+    height: 500px;
+  }
+
+  .Log-In-Headline {
+    font-size: 60px;
+    width: 400px;
+  }
+
+  .email-password-fields {
+    width: 450px;
+  }
+
+  .Log-In-Button {
+    width: 110px;
+    height: 48px;
+  }
+
+  .Guest-Log-In-Button {
+    height: 48px;
+  }
+}
