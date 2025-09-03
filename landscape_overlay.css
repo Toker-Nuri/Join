@@ -1,0 +1,77 @@
+/* ========== ALLGEMEINE STYLES ========== */
+body, html {
+    margin: 0; 
+    padding: 0;
+    font-family: sans-serif;
+  }
+  .content {
+    max-width: 700px;
+    margin: 50px auto;
+    text-align: center;
+  }
+  
+  /* ========== OVERLAY FÃœR LANDSCAPE ========== */
+  .rotate-overlay {
+    position: fixed;
+    top: 0; 
+    left: 0;
+    right: 0;
+    bottom: 0;
+    
+    /* VollstÃ¤ndig blickdicht, aber mit schickem Hintergrundverlauf */
+    background: linear-gradient(
+      135deg, 
+      rgba(0, 20, 60, 1) 0%, 
+      rgba(0, 0, 0, 1) 100%
+    );
+  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    z-index: 9999;
+    padding: 20px;
+    /* leichte Fade-in Animation */
+    animation: fadeIn 0.4s ease forwards;
+  }
+  
+  /* Container fÃ¼r Text & Icon */
+  .rotate-message {
+    background-color: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 30px 20px;
+    max-width: 300px;
+    backdrop-filter: blur(4px);
+  }
+  
+  /* Bei kleinen Displays darf das Box-Design ruhig breiter sein */
+  @media (max-width: 400px) {
+    .rotate-message {
+      width: 90%;
+      max-width: none;
+    }
+  }
+  
+  /* Text-Styling */
+  .rotate-message h2 {
+    color: #fff;
+    margin: 0 0 10px;
+  }
+  .rotate-message p {
+    color: #ddd;
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+  
+  /* Overlay beim Start ausgeblendet */
+  .hide {
+    display: none;
+  }
+  
+  /* Fade-In Keyframes */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  

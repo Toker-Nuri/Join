@@ -1,0 +1,39 @@
+* {
+    margin: 0;
+    scroll-behavior: smooth;
+    box-sizing: border-box;
+    font-family: 'Inter';
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE 10+ */
+}
+
+body {
+    overflow: hidden;
+    height: 100vh;
+}
+
+label {
+    margin-bottom: 7px;
+}
+
+.input-error {
+    border: 1px solid red !important;
+}
+
+*::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge */
+}
+
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+.d-none {
+    display: none !important;
+}
+
+.padding-right-16 {
+    padding-right: 16px !important;
+}
