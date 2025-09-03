@@ -4,7 +4,7 @@ button {
 }
 
 .summary {
-    padding: 1pc 2pc 5pc 6pc;
+    padding: 1pc 0pc 3pc 4pc;
 }
 
 .summary-content {
@@ -20,23 +20,20 @@ button {
     gap: 25px;
 }
 
-
 .summary-card-design {
     flex: 1;
-    display: flex;
-    justify-content: center;
     align-items: center;
     text-align: center;
     background: #fff;
     border-radius: 14px;
-    /* padding: 16px; */
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
 }
 
 .v-stack {
     display: flex;
-    align-items: center;
     gap: 20px;
+    padding-left: 4pc;
+    padding-right: 4pc;
 }
 
 .counter-design {
@@ -117,6 +114,10 @@ button {
     height: 60px;
 }
 
+.urgent-line-padding {
+    padding-left: 4pc;
+    padding-right: 4pc;
+}
 
 /* name sectiom */
 .welcome-summary {
@@ -138,7 +139,7 @@ button {
     color: white;
 }
 
-.summary-card:hover .bild {
+.summary-card:hover .icon-todo {
     background-image: url(../img/icon/to-do-icon-white.png);
     background-size: auto;
     background-position: center;
@@ -149,7 +150,7 @@ button {
     height: 60px;
 }
 
-.bild {
+.icon-todo {
     background-image: url(../img/icon/to-do-icon.png);
     background-position: center;
     background-repeat: no-repeat;
@@ -160,7 +161,7 @@ button {
     height: 60px;
 }
 
-.bild2 {
+.icon-done {
     background-image: url(../img/icon/done-icon.png);
     background-position: center;
     background-repeat: no-repeat;
@@ -171,7 +172,7 @@ button {
     height: 60px;
 }
 
-.summary-card:hover .bild2 {
+.summary-card:hover .icon-done {
     background-image: url(../img/icon/done-icon-white.png);
     background-position: center;
     background-repeat: no-repeat;
@@ -180,14 +181,4 @@ button {
     border-radius: 10pc;
     width: 60px;
     height: 60px;
-}
-
-
-@media (max-width: 925px) {
-    .summary{
-        padding: 0pc 2pc 0pc 6pc;
-    }
-    .summary-title{
-        margin: 24px;
-    }
 }
