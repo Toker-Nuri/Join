@@ -2,13 +2,22 @@ body{
     margin: 0;
     display: flex;
     justify-content: center;
-    align-items: center;
     flex-direction: row;
     scroll-behavior: smooth;
     font-family: inter;
     height: 100vh;
     background-color: #f5f7f9;
     scroll-behavior: smooth;
+    zoom: 0.8;
+}
+
+@supports not (zoom: 1) {
+    body {
+        transform: scale(0.8);
+        transform-origin: top left;
+        width: 125%;
+        height: 125vh;
+    }
 }
 
 html, body {

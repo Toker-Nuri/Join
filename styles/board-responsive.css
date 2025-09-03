@@ -166,7 +166,6 @@ h1 {
         flex-direction: row;
         justify-content: flex-start;
         align-items: flex-start;
-        width: 98%;
         padding: 8px;
         gap: 8px;
         overflow-x:auto;
@@ -216,10 +215,6 @@ h1 {
         padding-left:0;
     }
 
-
-    .wrapper{
-        width:75vw !important;
-    }
 }
 
 @media screen and (max-width:1505px) {
@@ -249,12 +244,6 @@ h1 {
         background-color: #888; 
         border-radius: 3px;     
       }
-
-      .wrapper{
-        width:85vw;
-      }
-      
-
 
     .board-bar{
         overflow-x: hidden;
@@ -351,10 +340,7 @@ h1 {
         padding-top:61px !important;
         padding-right:0 !important;
     }
-
-
 }
-
 
 @media (max-width:925px){
     .mobile-logo {
@@ -382,17 +368,9 @@ h1 {
         padding-bottom:12px;
         padding-top:12px;
     }
-    
-    .wrapper{
-        width:100vw !important;
-    }
-
 }
 
-
-@media (max-width: 768px) {
-
-    
+@media (max-width: 768px) {    
     .mobile-logo {
         display: block;
     }
@@ -474,7 +452,6 @@ h1 {
 
     .board-bar {
         align-items: flex-start;
-        width: 95%;
         padding: 8px;
         gap: 8px;
         overflow-x: auto;
@@ -661,9 +638,9 @@ h1 {
     }
 
     .board-bar {
+        width: 104%;
         justify-content: flex-start;
         align-items: center;
-        width: 95% !important;
         padding: 8px;
         gap: 8px;
         overflow-x: hidden;
@@ -856,9 +833,3 @@ h1 {
     background-color:#55657aa4;
   }
   
-
-  @media (max-width:1300px){
-    .wrapper {
-        width:81vw;
-    }
-  }

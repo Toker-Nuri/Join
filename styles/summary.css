@@ -181,3 +181,13 @@ button {
     width: 60px;
     height: 60px;
 }
+
+
+@media (max-width: 925px) {
+    .summary{
+        padding: 0pc 2pc 0pc 6pc;
+    }
+    .summary-title{
+        margin: 24px;
+    }
+}

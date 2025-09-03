@@ -1,14 +1,11 @@
 .logo {
     width: 100px;
 }
-.main-div {
-    height: calc(var(--vh, 1vh) * 100);
-  }
 
 .side-menu {
+    height: 100%;
     box-sizing: border-box;
     background-color: #2a3647;
-    height: 100vh;
     color: white;
     display: flex;
     position: relative;

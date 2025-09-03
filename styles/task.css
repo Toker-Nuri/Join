@@ -178,3 +178,9 @@ label.star-red::after {
     color: white;
     padding: 8px;
 }
+
+@media (max-width: 925px) {
+    #addtask-container {
+        padding: 0pc 15pc 0pc 6pc;
+    }
+}
