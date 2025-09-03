@@ -173,7 +173,7 @@ small {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100vh;
+  height: auto;
 }
 
 .logo-content-container {
@@ -224,7 +224,6 @@ small {
 
 .main-container {
   overflow-x: hidden;
-  height: 100vh;
   overflow-y: auto;
 }
 
@@ -281,6 +280,7 @@ small {
   
   body {
     padding-bottom: 80px;
+    height: auto !important;
   }
 
   .footer-navigation {
@@ -329,10 +329,6 @@ small {
     padding: 10px 16px;
   }
 
-  .main-container {
-    margin-top: 86px;
-  }
-
   .help-container {
     padding: 0 0 0 16px;
   }
@@ -366,7 +362,7 @@ small {
   }
 
   .help-container {
-    margin-top: 200px !important;
+    margin-top: 56px !important;
   }
 
   .logo-container-side-menu-responsive {
@@ -413,9 +409,6 @@ small {
 }
 
 @media (max-width: 440px) {
-  .help-container {
-    margin-top: 152px !important;
-  }
   .footer-navigation-external span {
     width: 100px;
   }

@@ -60,6 +60,16 @@ a{
     color: #29ABE2;
 }
 
+.held-link {
+    display: none;
+}
+
+@media (max-width: 925px) {
+    .held-link {
+        display: block;
+    }
+}
+
 @media (max-width: 768px) {
     .dropdown-menu {
         top: 79px;
