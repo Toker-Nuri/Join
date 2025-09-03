@@ -1,4 +1,4 @@
-@media (min-width: 320px) and (max-width: 400px) {
+@media (min-width: 320px) and (max-width: 450px) {
 
     /* Root: volle Breite + sauberes Scrolling */
     .page-summary {
@@ -20,7 +20,6 @@
         height: auto;
         min-height: 100dvh;
         overflow: hidden;
-        /* wichtig: kein Doppelscroll am Body */
         background-color: #f5f7f9;
     }
 
@@ -42,14 +41,6 @@
         display: none;
     }
 
-
-
-    .page-summary .logo-content-container-bottom,
-    .page-summary .menu-content-bottom,
-    .page-summary .bottom-menu {
-        margin: 0 !important;
-    }
-
     .page-summary .menu-content-bottom {
         width: 100%;
         display: flex;
@@ -65,17 +56,20 @@
         -webkit-overflow-scrolling: touch;
         box-sizing: border-box;
         padding: 20px;
+        padding-bottom: 6pc;
     }
 
-    /* Mobiler Feinschliff (aus deiner Datei übernommen) */
+    .v-stack {
+        padding-left: unset;
+        padding-right: unset;
+    }
+
     .page-summary a {
         text-decoration: none;
     }
 
     .page-summary .summary-content {
-        display: flex;
-        align-items: center;
-        gap: 5pc;
+        display: unset;
     }
 
     .page-summary .summary-metrics {
@@ -85,7 +79,6 @@
     }
 
     .page-summary .summary-card-design {
-        flex: 1;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -168,6 +161,11 @@
         flex-direction: column;
     }
 
+    .page-summary .urgent-line-padding {
+        padding-left: unset;
+        padding-right: unset;
+    }
+
     .page-summary .label {
         font-size: 12px;
     }
@@ -216,7 +214,7 @@
     }
 }
 
-@media (min-width: 400px) and (max-width: 500px) {
+@media (min-width: 450px) and (max-width: 550px) {
 
     /* Root: volle Breite + sauberes Scrolling */
     .page-summary {
@@ -260,8 +258,6 @@
         display: none;
     }
 
-
-
     .page-summary .logo-content-container-bottom,
     .page-summary .menu-content-bottom,
     .page-summary .bottom-menu {
@@ -285,11 +281,15 @@
         padding: 25px;
     }
 
+
+    .v-stack {
+        padding-left: 3pc;
+        padding-right: 3pc;
+    }
+
     /* Mobiler Feinschliff (aus deiner Datei übernommen) */
     .page-summary .summary-content {
-        display: flex;
-        align-items: center;
-        gap: 5pc;
+        display: unset;
     }
 
     .page-summary .summary-metrics {
@@ -333,6 +333,16 @@
         padding-top: 25px;
         border: 15px;
         border-radius: 20px;
+    }
+
+    .page-summary .summary-card-design {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        background: #fff;
+        border-radius: 14px;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
     }
 
     .page-summary .js-count-container {
@@ -381,6 +391,11 @@
         font-size: 19px;
     }
 
+    .urgent-line-padding {
+        padding-left: 1pc;
+        padding-right: 1pc;
+    }
+
     .page-summary .img-urgent-summary {
         width: 40px;
         height: 40px;
@@ -420,7 +435,7 @@
     }
 }
 
-@media (min-width: 500px) and (max-width: 600px) {
+@media (min-width: 550px) and (max-width: 650px) {
 
     /* Root: volle Breite + sauberes Scrolling */
     .page-summary {
@@ -532,10 +547,16 @@
 
     /* Cards etc. */
     .page-summary .summary-card {
+        display: flex;
+        justify-content: center;
         padding-bottom: 25px;
         padding-top: 25px;
         border: 15px;
         border-radius: 20px;
+    }
+
+    .page-summary .summary-content {
+        display: unset;
     }
 
     .page-summary .js-count-container {
@@ -622,7 +643,7 @@
     }
 }
 
-@media (min-width: 600px) and (max-width: 925px) {
+@media (min-width: 650px) and (max-width: 925px) {
 
     /* Root: volle Breite + sauberes Scrolling */
     .page-summary {
@@ -1021,7 +1042,7 @@
     }
 }
 
-@media (min-width: 1150px) and (max-width: 1440px) {
+@media (min-width: 1150px) and (max-width: 132px) {
 
     /* Root: volle Breite + sauberes Scrolling */
     .page-summary {
