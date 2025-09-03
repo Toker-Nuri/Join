@@ -167,7 +167,6 @@ small {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100vh;
 }
 
 .logo-content-container {
@@ -284,6 +283,7 @@ small {
 
   body {
     padding-bottom: 80px;
+    height: auto !important;
   }
 
   .nav-item {
