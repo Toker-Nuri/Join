@@ -5,6 +5,31 @@
    ============================================ */
 
 /* ===== Mobile (<= 320px) ===== */
+
+
+.page-summary .side-menu-bottom {
+    position: fixed;       /* immer unten am Bildschirm */
+    bottom: 0;
+    left: 0;
+    width: 100%;           /* volle Breite */
+    background-color: #2a3647; /* oder deine Wunschfarbe */
+    z-index: 1000;         /* über Inhalt */
+}
+
+.page-summary .logo-content-container-bottom {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.page-summary .menu-content-bottom {
+    width: 100%;
+    display: flex;
+    justify-content: space-around; /* gleichmäßig verteilt */
+    align-items: center;
+    gap: 0;
+}
+
 @media (max-width: 320px) {
 
     /* Root: volle Breite + sauberes Scrolling */
