@@ -56,7 +56,7 @@
         -webkit-overflow-scrolling: touch;
         box-sizing: border-box;
         padding: 20px;
-        padding-bottom: 6pc;
+        padding-bottom: 122px;
     }
 
     .v-stack {
@@ -167,11 +167,11 @@
     }
 
     .page-summary .label {
-        font-size: 12px;
+        font-size: 14px;
     }
 
     .page-summary .js-deadline-date {
-        font-size: 14px;
+        font-size: 18px;
         font-weight: bold;
     }
 
@@ -211,6 +211,12 @@
     .page-summary .summary-card:hover .icon-done {
         background-image: url(../img/icon/done-mobile.png);
         background-size: 50px 50px;
+    }
+}
+
+@media (min-width: 440px) and (max-width: 450px) {
+    .page-summary .summary {
+      padding-bottom: 90px;
     }
 }
 
@@ -279,6 +285,7 @@
         -webkit-overflow-scrolling: touch;
         box-sizing: border-box;
         padding: 25px;
+        padding-bottom: 44px;
     }
 
 
@@ -435,7 +442,7 @@
     }
 }
 
-@media (min-width: 550px) and (max-width: 650px) {
+@media (min-width: 550px) and (max-width: 700px) {
 
     /* Root: volle Breite + sauberes Scrolling */
     .page-summary {
@@ -502,6 +509,7 @@
         -webkit-overflow-scrolling: touch;
         box-sizing: border-box;
         padding: 25px;
+        padding-bottom: 18px;
     }
 
     /* Mobiler Feinschliff (aus deiner Datei übernommen) */
@@ -643,7 +651,7 @@
     }
 }
 
-@media (min-width: 650px) and (max-width: 925px) {
+@media (min-width: 700px) and (max-width: 925px) {
 
     /* Root: volle Breite + sauberes Scrolling */
     .page-summary {
@@ -709,7 +717,8 @@
         overflow: auto;
         -webkit-overflow-scrolling: touch;
         box-sizing: border-box;
-        padding: 25px;
+        padding: 23px;
+        padding-bottom: 48px;
     }
 
     /* Mobiler Feinschliff (aus deiner Datei übernommen) */
@@ -779,7 +788,7 @@
     }
 
     .page-summary .counter-text-design {
-        font-size: 19px;
+        font-size: 18px;
     }
 
     .page-summary .deadline-container {
@@ -1042,7 +1051,7 @@
     }
 }
 
-@media (min-width: 1150px) and (max-width: 132px) {
+@media (min-width: 1150px) and (max-width: 1320px) {
 
     /* Root: volle Breite + sauberes Scrolling */
     .page-summary {
