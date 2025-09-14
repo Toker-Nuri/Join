@@ -6,7 +6,6 @@
         padding: 0;
         width: 100%;
         max-width: 100%;
-        height: auto;
         overflow-x: hidden;
         color: #2a3647;
     }
@@ -17,7 +16,6 @@
         padding: 0;
         width: 100%;
         max-width: 100%;
-        height: auto;
         min-height: 100dvh;
         overflow: hidden;
         background-color: #f5f7f9;
@@ -228,7 +226,6 @@
         padding: 0;
         width: 100%;
         max-width: 100%;
-        height: auto;
         overflow-x: hidden;
         color: #2a3647;
     }
@@ -239,7 +236,6 @@
         padding: 0;
         width: 100%;
         max-width: 100%;
-        height: auto;
         min-height: 100dvh;
         overflow: hidden;
         /* wichtig: kein Doppelscroll am Body */
@@ -450,7 +446,6 @@
         padding: 0;
         width: 100%;
         max-width: 100%;
-        height: auto;
         overflow-x: hidden;
         color: #2a3647;
     }
@@ -461,7 +456,6 @@
         padding: 0;
         width: 100%;
         max-width: 100%;
-        height: auto;
         min-height: 100dvh;
         overflow: hidden;
         /* wichtig: kein Doppelscroll am Body */
@@ -659,7 +653,6 @@
         padding: 0;
         width: 100%;
         max-width: 100%;
-        height: auto;
         overflow-x: hidden;
         color: #2a3647;
     }
@@ -670,7 +663,6 @@
         padding: 0;
         width: 100%;
         max-width: 100%;
-        height: auto;
         min-height: 100dvh;
         overflow: hidden;
         /* wichtig: kein Doppelscroll am Body */
@@ -868,7 +860,6 @@
         padding: 0;
         width: 100%;
         max-width: 100%;
-        height: auto;
         overflow-x: hidden;
         color: #2a3647;
     }
@@ -879,7 +870,6 @@
         padding: 0;
         width: 100%;
         max-width: 100%;
-        height: auto;
         min-height: 100dvh;
         overflow: hidden;
         /* wichtig: kein Doppelscroll am Body */

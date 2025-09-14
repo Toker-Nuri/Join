@@ -2,7 +2,6 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    height: 80vh;
     width: 70%;
     flex-direction: column;
     max-width: 1000px;
