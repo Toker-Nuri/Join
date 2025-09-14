@@ -1,4 +1,4 @@
-@media (min-width: 320px) and (max-width: 450px) {
+@media (min-width: 0px) and (max-width: 450px) {
 
     /* Root: volle Breite + sauberes Scrolling */
     .page-summary {
@@ -216,7 +216,7 @@
 
 @media (min-width: 440px) and (max-width: 450px) {
     .page-summary .summary {
-      padding-bottom: 90px;
+        padding-bottom: 90px;
     }
 }
 
@@ -1059,7 +1059,6 @@
         padding: 0;
         width: 100%;
         max-width: 100%;
-        height: auto;
         overflow-x: hidden;
         color: #2a3647;
     }
@@ -1070,7 +1069,6 @@
         padding: 0;
         width: 100%;
         max-width: 100%;
-        height: auto;
         min-height: 100dvh;
         overflow: hidden;
         /* wichtig: kein Doppelscroll am Body */
