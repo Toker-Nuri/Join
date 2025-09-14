@@ -311,7 +311,7 @@ h1 {
     
 
     .main-section{
-        height:86vh;
+        height: 66% ! important;
     }
     
     .form-left{

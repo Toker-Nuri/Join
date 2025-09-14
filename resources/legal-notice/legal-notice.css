@@ -164,7 +164,6 @@ small {
 }
 
 .header-and-main-container {
-  height: 100vh;
   display: flex;
   flex-direction: column;
 }
@@ -225,6 +224,8 @@ small {
 .main-container {
   overflow-x: hidden;
   overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #28abe2 #f1f1f1;
 }
 
 @media (max-width: 925px) and (min-width: 300px) {

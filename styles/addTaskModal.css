@@ -15,7 +15,7 @@ p{
     background-color: rgb(255, 255, 255);
     max-height: 870px;
     max-width: 1116px;
-    height: 70vh !important;
+    height: 76%;
     width: 70vw !important;
     padding: 30px;
     border-radius: 30px;
@@ -61,7 +61,6 @@ span{
 
 .modal-background{
     position: absolute;
-    background-color: rgba(0, 0, 0, 0.444);
     height: 100vh;
     width: 100vw;
     z-index: 1000;
@@ -97,10 +96,7 @@ span{
 @media (max-width: 925px) {
     .main-section {
         width: 90%; 
-        height: auto;
     }
-
-    
 
     .flrow {
         width: 100%; 
@@ -456,7 +452,6 @@ span{
 
     .main-section{
         gap:17px !important;
-        height:57vh !important;
     }
 
     .headline-div{
