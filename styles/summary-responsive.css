@@ -1,6 +1,5 @@
-@media (min-width: 0px) and (max-width: 450px) {
+@media (min-width: 0px) and (max-width: 440px) {
 
-    /* Root: volle Breite + sauberes Scrolling */
     .page-summary {
         margin: 0;
         padding: 0;
@@ -10,7 +9,6 @@
         color: #2a3647;
     }
 
-    /* Body vollflächig, scrollen übernimmt gleich .summary selbst */
     .page-summary body {
         margin: 0;
         padding: 0;
@@ -54,7 +52,7 @@
         -webkit-overflow-scrolling: touch;
         box-sizing: border-box;
         padding: 20px;
-        padding-bottom: 122px;
+        padding: 55px 25px 80px 25px;
     }
 
     .v-stack {
@@ -212,13 +210,7 @@
     }
 }
 
-@media (min-width: 440px) and (max-width: 450px) {
-    .page-summary .summary {
-        padding-bottom: 90px;
-    }
-}
-
-@media (min-width: 450px) and (max-width: 550px) {
+@media (min-width: 440px) and (max-width: 550px) {
 
     /* Root: volle Breite + sauberes Scrolling */
     .page-summary {
@@ -281,7 +273,7 @@
         -webkit-overflow-scrolling: touch;
         box-sizing: border-box;
         padding: 25px;
-        padding-bottom: 44px;
+        padding: 55px 25px 0px 25px;
     }
 
 
@@ -502,8 +494,7 @@
         overflow: auto;
         -webkit-overflow-scrolling: touch;
         box-sizing: border-box;
-        padding: 25px;
-        padding-bottom: 18px;
+        padding: 55px 25px 0px 25px;
     }
 
     /* Mobiler Feinschliff (aus deiner Datei übernommen) */
@@ -709,8 +700,7 @@
         overflow: auto;
         -webkit-overflow-scrolling: touch;
         box-sizing: border-box;
-        padding: 23px;
-        padding-bottom: 48px;
+        padding: 55px 25px 0px 25px;
     }
 
     /* Mobiler Feinschliff (aus deiner Datei übernommen) */
@@ -759,8 +749,8 @@
 
     /* Cards etc. */
     .page-summary .summary-card {
-        padding-bottom: 25px;
-        padding-top: 25px;
+        padding-bottom: 20px;
+        padding-top: 20px;
         border: 15px;
         border-radius: 20px;
     }
