@@ -1,92 +1,3 @@
-function fillEditModal(task) {
-  setTaskFields(task);
-  setAssigneeBadges(task);
-  setSubtasksList(task);
-  loadContacts(task.users || []);
-}
-
-function setTaskFields(task) {
-  document.getElementById('editTaskTitle').value = task.title || "";
-  document.getElementById('editTaskDescription').value = task.description || "";
-  document.getElementById('editDueDate').value = task.dueDate || "";
-  const prio = extractPriority(task.priority);
-  setEditPriority(prio);
-  if (task.category === 'Technical task') {
-    document.getElementById('editTaskCategory').value = 'technical';
-  } else if (task.category === 'User Story') {
-    document.getElementById('editTaskCategory').value = 'userstory';
-  } else {
-    document.getElementById('editTaskCategory').value = '';
-  }
-}
-
-function convertColorValue(color) {
-  let c = color || "default";
-  if (c.startsWith('#')) {
-    switch (c.toUpperCase()) {
-      case '#F57C00': return 'orange';
-      case '#E74C3C': return 'red';
-      case '#5C6BC0': return 'blue';
-      case '#4CAF50': return 'green';
-      case '#8E44AD': return 'purple';
-      case '#EE00FF': return 'pink';
-      default: return 'default';
-    }
-  }
-  return c;
-}
-
-function createBadgeHTML(user) {
-  const colorValue = convertColorValue(user.color);
-  const badgeClass = getBadgeClassFromAnyColor(colorValue);
-  const initials = user.initials || getInitials(user.name);
-  return `
-    <div class="assignee-badge ${badgeClass}"
-         data-contact-color="${colorValue}"
-         data-contact-name="${user.name}">
-      ${initials}
-    </div>`;
-}
-
-function setAssigneeBadges(task) {
-  const badges = document.getElementById('assigneeBadges');
-  if (badges && task.users && task.users.length > 0) {
-    badges.innerHTML = task.users.map(createBadgeHTML).join("");
-  } else {
-    badges.innerHTML = "";
-  }
-}
-
-function setSubtasksList(task) {
-  const list = document.getElementById('editSubtasksList');
-  list.innerHTML = "";
-  if (task.subtasks && Array.isArray(task.subtasks) && task.subtasks.length) {
-    task.subtasks.forEach(subtask => {
-      const subtaskItem = createSubtaskItem(subtask);
-      list.appendChild(subtaskItem);
-    });
-  }
-}
-
-function createSubtaskItem(subtask) {
-  const stDiv = document.createElement("div");
-  stDiv.className = "subtask-item";
-  const checkbox = document.createElement("input");
-  checkbox.type = "checkbox";
-  checkbox.className = "subtask-edit-checkbox";
-  checkbox.checked = subtask.completed;
-  const span = createSubtaskTextSpan(subtask.text);
-  const actionsDiv = createSubtaskActions();
-  stDiv.appendChild(checkbox);
-  stDiv.appendChild(span);
-  stDiv.appendChild(actionsDiv);
-  const editIcon = actionsDiv.querySelector('.subtask-edit-edit');
-  editIcon.addEventListener('click', () => {
-    replaceSpanWithInput(stDiv, span, subtask.text);
-  });
-  return stDiv;
-}
-
 function createSubtaskTextSpan(text) {
   const span = document.createElement('span');
   span.innerText = `• ${text}`;
@@ -94,32 +5,57 @@ function createSubtaskTextSpan(text) {
 }
 
 function createSubtaskActions() {
-  const actionsDiv = document.createElement('div');
-  actionsDiv.className = "subtask-actions";
-  const editIcon = document.createElement('img');
-  editIcon.src = "../img/pen.png";
-  editIcon.alt = "Edit";
-  editIcon.className = "subtask-edit-edit";
-  const deleteIcon = document.createElement('img');
-  deleteIcon.src = "../img/trash.png";
-  deleteIcon.alt = "Delete";
-  deleteIcon.className = "subtask-delete-edit";
-  actionsDiv.appendChild(editIcon);
-  actionsDiv.appendChild(deleteIcon);
-  return actionsDiv;
+const actionsDiv = createActionsContainer();
+const editIcon = createActionIcon("../img/pen.png", "Edit", "subtask-edit-edit");
+const deleteIcon = createActionIcon("../img/trash.png", "Delete", "subtask-delete-edit");
+actionsDiv.appendChild(editIcon);
+actionsDiv.appendChild(deleteIcon);
+return actionsDiv;
 }
 
-function replaceSpanWithInput(container, span, originalText) {
-  const currentText = span.innerText.replace('• ', '');
-  const input = createEditInput(currentText);
+function createActionsContainer() {
+const div = document.createElement('div');
+div.className = "subtask-actions";
+return div;
+}
+
+function createActionIcon(src, alt, className) {
+const img = document.createElement('img');
+img.src = src;
+img.alt = alt;
+img.className = className;
+return img;
+}
+
+function getCleanText(span) {
+  return span.innerText.replace('• ', '');
+}
+
+function createAndReplaceInput(container, span, text) {
+  const input = createEditInput(text);
   container.replaceChild(input, span);
   input.focus();
-  input.addEventListener('blur', () => {
+  return input;
+}
+
+function registerBlurHandler(input, container, originalText) {
+  input.addEventListener('blur', async () => {
     const newText = input.value.trim();
     const finalText = newText !== '' ? newText : originalText;
     const newSpan = createSubtaskTextSpan(finalText);
     container.replaceChild(newSpan, input);
-  });
+    const index = container.dataset.index;
+    if (window.currentTask && window.currentTask.subtasks && index !== undefined) {
+      window.currentTask.subtasks[index].text = finalText;
+      await updateTaskInFirebase(window.currentTask);
+    }
+});
+}
+
+function replaceSpanWithInput(container, span, originalText) {
+  const currentText = getCleanText(span);
+  const input = createAndReplaceInput(container, span, currentText);
+  registerBlurHandler(input, container, originalText);
 }
 
 function createEditInput(text) {
@@ -130,67 +66,27 @@ function createEditInput(text) {
   return input;
 }
 
-function extractPriority(priorityPath) {
-  if (!priorityPath) return 'medium';
-  const lowerPath = priorityPath.toLowerCase();
-  if (lowerPath.includes('urgent')) return 'urgent';
-  if (lowerPath.includes('low')) return 'low';
+function getSelectedPriority() {
+  if (document.querySelector('.edit-priority-urgent.active')) return 'urgent';
+  if (document.querySelector('.edit-priority-medium.active')) return 'medium';
+  if (document.querySelector('.edit-priority-low.active')) return 'low';
   return 'medium';
 }
 
-function setEditPriority(priority) {
-  const urgentBtn = document.querySelector('.edit-priority-urgent');
-  const mediumBtn = document.querySelector('.edit-priority-medium');
-  const lowBtn = document.querySelector('.edit-priority-low');
-  urgentBtn.classList.remove('active');
-  mediumBtn.classList.remove('active');
-  lowBtn.classList.remove('active');
+function getPriorityPath(priority) {
   switch (priority) {
-    case 'urgent':
-      urgentBtn.classList.add('active');
-      break;
-    case 'low':
-      lowBtn.classList.add('active');
-      break;
-    default:
-      mediumBtn.classList.add('active');
-      break;
+    case 'urgent': return '../img/priority-img/urgent.png';
+    case 'medium': return '../img/priority-img/medium.png';
+    case 'low':    return '../img/priority-img/low.png';
+    default:       return '../img/priority-img/medium.png';
   }
 }
 
 async function saveEditedTaskToFirebase() {
   if (!currentTask) return;
   updateTaskFromInputs();
-  try { await updateTaskInFirebase(currentTask); } catch (_) {}
-  saveEditedTaskToLocal(currentTask);
-  refreshCardOnBoard(currentTask);
+  await updateTaskInFirebase(currentTask);
   closeEditModal();
-}
-
-function refreshCardOnBoard(task) {
-  try {
-    const oldEl = document.getElementById(task.firebaseKey || task.id);
-    const parent = oldEl?.parentElement || document.getElementById(task.column || 'toDoColumn');
-    const newEl = createTaskElement(task);
-    if (oldEl && parent) {
-      parent.replaceChild(newEl, oldEl);
-    } else if (parent) {
-      parent.appendChild(newEl);
-    }
-    if (typeof attachTaskListeners === 'function') attachTaskListeners(task, newEl);
-    if (typeof attachMoveDropdownListener === 'function') attachMoveDropdownListener(newEl);
-    if (typeof checkColumns === 'function') checkColumns();
-  } catch (_) {}
-}
-
-function saveEditedTaskToLocal(task) {
-  try {
-    const raw = localStorage.getItem('taskData');
-    const obj = raw ? JSON.parse(raw) : {};
-    const key = task.firebaseKey || task.id;
-    if (key) obj[key] = task;
-    localStorage.setItem('taskData', JSON.stringify(obj));
-  } catch (_) {}
 }
 
 function updateTaskFromInputs() {
@@ -211,7 +107,7 @@ function updateTaskFromInputs() {
 
 async function updateTaskInFirebase(task) {
   if (!task || !task.firebaseKey) return;
-  const url = `####`; // hier link einfügen!!
+  const url = `####`;// hier link einfügen!!
   try {
     const response = await fetch(url, {
       method: 'PUT',
@@ -228,46 +124,35 @@ function closeEditModal(event) {
   if (modal) modal.style.display = 'none';
 }
 
-function getBadgeClassFromAnyColor(colorValue) {
-  if (!colorValue) {
-    colorValue = "default";
-  }
-  if (colorValue.startsWith('profile-badge-')) {
-    return colorValue;
-  }
-  const lowerValue = colorValue.trim().toLowerCase();
-  switch (lowerValue) {
-    case 'red':    return 'profile-badge-floating-red';
-    case 'orange': return 'profile-badge-floating-orange';
-    case 'blue':   return 'profile-badge-floating-blue';
-    case 'purple': return 'profile-badge-floating-purple';
-    case 'green':  return 'profile-badge-floating-green';
-    case 'pink':   return 'profile-badge-floating-pink';
-    default:       return 'profile-badge-floating-default';
-  }
+function bindConfirmEditButton() {
+  document.getElementById('confirmEditBtn')?.addEventListener('click', saveEditedTaskToFirebase);
 }
 
-function editTaskFromOverlay(event) {
-  event.stopPropagation();
-  if (!currentTask) return;
-  fillEditModal(currentTask);
-  document.getElementById('toggleModalFloating').style.display = 'none';
-  const modal = document.getElementById('editTaskModal');
-  if (modal) modal.style.display = 'flex';
-}
-
-function initSubtaskCreation() {
+function initSubtaskAddition() {
   const subtaskInput = document.querySelector('.subtask-input');
   const subtaskCheck = document.querySelector('.subtask-edit-check');
   const subtasksList = document.getElementById('editSubtasksList');
   subtaskCheck?.addEventListener('click', () => {
     const text = subtaskInput.value.trim();
     if (text !== '') {
-      const newSubtask = createSubtaskItem({ text: text, completed: false });
+      const newSubtask = createNewSubtaskElement(text);
       subtasksList.appendChild(newSubtask);
       subtaskInput.value = '';
     }
   });
+}
+
+function createNewSubtaskElement(text) {
+  const newSubtask = document.createElement('div');
+  newSubtask.className = 'subtask-item';
+  newSubtask.innerHTML = `
+    <span>• ${text}</span>
+    <div class="subtask-actions">
+      <img src="../img/pen.png" alt="Edit" class="subtask-edit-edit">
+      <img src="../img/trash.png" alt="Delete" class="subtask-delete-edit">
+    </div>`;
+  newSubtask.dataset.index = window.currentTask.subtasks ? window.currentTask.subtasks.length : 0;
+  return newSubtask;
 }
 
 function initSubtaskDeletion() {
@@ -280,26 +165,7 @@ function initSubtaskDeletion() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('confirmEditBtn')?.addEventListener('click', saveEditedTaskToFirebase);
-  initSubtaskCreation();
+  bindConfirmEditButton();
+  initSubtaskAddition();
   initSubtaskDeletion();
-  const ddList = document.getElementById('assigneeDropdownList');
-  if (ddList) {
-    ddList.addEventListener('click', (e) => {
-      const item = e.target?.closest('.dropdown-item');
-      if (!item) return;
-      const name = item.querySelector('.contact-name')?.textContent?.trim() || '';
-      const color = item.querySelector('.initials-circle')?.style?.backgroundColor || 'default';
-      const id = name.toLowerCase();
-      const badges = document.getElementById('assigneeBadges');
-      if (badges && !badges.querySelector(`[data-contact-name="${name}"]`)) {
-        const div = document.createElement('div');
-        div.className = `assignee-badge ${getBadgeClassFromAnyColor(color)}`;
-        div.dataset.contactName = name;
-        div.dataset.contactColor = color;
-        div.textContent = (name.split(' ').map(n => n[0]).join('')).substring(0,2).toUpperCase();
-        badges.appendChild(div);
-      }
-    });
-  }
 });

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="page-addtask">
 
 <head>
   <meta charset="UTF-8" />
@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="../styles/profile-dropdown.css" />
   <link rel="stylesheet" href="../styles/task.css" />
   <link rel="stylesheet" href="../styles/summary.css" />
-  <link rel="stylesheet" href="../styles/addtask-responsive.css">
+  
 
 
   <script src="../scripts/dropdown.js"></script>
@@ -121,82 +121,9 @@
       </div>
     </div>
 
-    <!-- addtask -->
-    <div id="addtask-container">
-      <div>
-        <h2>Add Task</h2>
-      </div>
-      <div class="task-form-container">
-        <div class="task-form-left">
-          <label class="star-red">Title</label>
-          <input class="padding-bottom" placeholder="Enter a title" type="text" id="task-title" required>
+  <!--Contacts-->
+  
 
-          <label>Description</label>
-          <textarea placeholder="Enter a Description" class="padding-bottom" id="task-desc"></textarea>
-
-          <label class="star-red">Due Date</label>
-          <input class="padding-bottom" type="date" id="task-due" required>
-        </div>
-        <img class="partition" src="../img/space-line.svg" alt="partition line">
-        <div class="task-form-right">
-          <div>
-            <label for="">Priority</label>
-            <div class="priority-btn">
-              <button class="btn-urgent">
-                <img src="../img/icon-urgent.png" alt=""> Urgent
-              </button>
-              <button class="btn-medium">
-                <img src="../img/icon/icon-medium-orange.svg" alt=""> Medium
-              </button>
-              <button class="btn-low">
-                <img src="../img/icon-low.png" alt=""> Low
-              </button>
-            </div>
-          </div>
-
-          <label>Assigned to</label>
-          <select id="task-assigned">
-            <option value="">Select contacts to assign</option>
-          </select>
-
-          <label class="star-red">Category</label>
-          <select id="task-category" required>
-            <option value="">Select task category</option>
-          </select>
-
-          <label>Subtasks</label>
-          <div class="subtask-input-group">
-            <input type="text" id="subtask-input" placeholder="Add new subtask">
-            <button type="button" id="add-subtask-btn">+</button>
-          </div>
-          <ul id="subtask-list"></ul>
-        </div>
-      </div>
-
-      <div class="create-formerror">
-        <div class="form-error" id="form-error-message">
-          This field is required
-        </div>
-        <div class="clear-creat-div">
-          <button id="clear-task-btn">Clear <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
-              xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M12.2496 11.9998L17.4926 17.2428M7.00659 17.2428L12.2496 11.9998L7.00659 17.2428ZM17.4926 6.75684L12.2486 11.9998L17.4926 6.75684ZM12.2486 11.9998L7.00659 6.75684L12.2486 11.9998Z"
-                stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-
-
-          </button>
-          <button id="create-task-btn">Create Task
-            <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M5.79923 9.15L14.2742 0.675C14.4742 0.475 14.7117 0.375 14.9867 0.375C15.2617 0.375 15.4992 0.475 15.6992 0.675C15.8992 0.875 15.9992 1.1125 15.9992 1.3875C15.9992 1.6625 15.8992 1.9 15.6992 2.1L6.49923 11.3C6.29923 11.5 6.0659 11.6 5.79923 11.6C5.53256 11.6 5.29923 11.5 5.09923 11.3L0.79923 7C0.59923 6.8 0.503397 6.5625 0.51173 6.2875C0.520064 6.0125 0.62423 5.775 0.82423 5.575C1.02423 5.375 1.26173 5.275 1.53673 5.275C1.81173 5.275 2.04923 5.375 2.24923 5.575L5.79923 9.15Z"
-                fill="white" />
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
 
     <div class="side-menu-bottom">
       <div class="logo-content-container-bottom">

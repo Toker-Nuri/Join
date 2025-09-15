@@ -1,4 +1,3 @@
-let selectedTask = null;
 const dragPlaceholder = document.createElement("div");
 dragPlaceholder.classList.add("placeholder-drag");
 

@@ -1,10 +1,11 @@
+
 async function loadContacts(assignedUsers = []) {
   try {
-    const response = await fetch('####');// hier link einfügen!!
+    const response = await fetch('##');// hier link einfügen!!
     const contacts = await response.json();
     populateAssigneeDropdown(contacts, assignedUsers);
   } catch (error) {
-    // Fehlerbehandlung
+    console.error(error);
   }
 }
 
@@ -89,7 +90,6 @@ function generateDropdownItemHTML(contact) {
     </div>
     <img src="../img/chekbox.png" alt="checkbox" class="custom-checkbox">`;
 }
-
 
 function attachDropdownClickEvent(item, id, contact, selectedContacts, badgesContainer) {
   item.addEventListener("click", event => {
@@ -199,5 +199,3 @@ function readSubtasksFromEditModal() {
   });
   return subtasks;
 }
-
-

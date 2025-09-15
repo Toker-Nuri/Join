@@ -1,4 +1,3 @@
-
 window.closeModalAndReload = closeModalAndReload;
 
 let tasks = [];
@@ -25,48 +24,8 @@ function enrichTasksWithUserData(tasks) {
   });
 }
 
-function getTasksFromLocalStorage() {
-  try {
-    const raw = localStorage.getItem('taskData');
-    if (!raw) return null;
-    const obj = JSON.parse(raw);
-    return Object.entries(obj).map(([key, value]) => ({ firebaseKey: key, ...value }));
-  } catch (_) {
-    return null;
-  }
-}
-
-function provideSampleTasks() {
-  return [
-    {
-      firebaseKey: 'sample-1',
-      id: 'sample-1',
-      column: 'toDoColumn',
-      title: 'Sample Task',
-      description: 'Beispielbeschreibung',
-      dueDate: new Date().toLocaleDateString('de-DE'),
-      priority: '../img/priority-img/medium.png',
-      progress: 0,
-      category: 'Technical task',
-      users: [ { name: 'Max Mustermann', color: 'green' } ],
-      subtasks: [ { text: 'Teilaufgabe', completed: false } ]
-    }
-  ];
-}
-
 async function loadTasksFromFirebase() {
   const url = "####";// hier link einfügen!!
-  const lsFirst = getTasksFromLocalStorage();
-  if (lsFirst && lsFirst.length) {
-    enrichTasksWithUserData(lsFirst);
-    return lsFirst;
-  }
-  const shouldUseFallback = !url || url.includes('#');
-  if (shouldUseFallback) {
-    const data = provideSampleTasks();
-    enrichTasksWithUserData(data);
-    return data;
-  }
   try {
     const response = await fetch(url);
     if (!response.ok) throw new Error("Error loading tasks");
@@ -78,10 +37,7 @@ async function loadTasksFromFirebase() {
     enrichTasksWithUserData(tasksArray);
     return tasksArray;
   } catch (error) {
-    const ls = getTasksFromLocalStorage();
-    const data = (ls && ls.length) ? ls : provideSampleTasks();
-    enrichTasksWithUserData(data);
-    return data;
+    return [];
   }
 }
 
@@ -137,7 +93,6 @@ function attachDragOverListenersToColumns() {
   });
 }
 
-
 document.addEventListener("DOMContentLoaded", async () => {
   tasks = await loadTasksFromFirebase();
   generateTasks(tasks);
@@ -153,6 +108,7 @@ function closeModalAndReload() {
   if (modal) {
     modal.style.display = 'none';
   }
+  location.reload();
 }
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -162,6 +118,7 @@ document.addEventListener("DOMContentLoaded", function() {
     floatingModal.addEventListener('click', function(event) {
       if (event.target === floatingModal) {
         floatingModal.style.display = 'none';
+        location.reload();
       }
     });
     modalContent.addEventListener('click', function(event) {
@@ -170,4 +127,6 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 });
 
-function reloadPage() {}
+function reloadPage() {
+  location.reload();
+}
