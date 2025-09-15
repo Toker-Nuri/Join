@@ -126,6 +126,7 @@ h4 {
 .header-and-main-container {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 p1 {
