@@ -1,4 +1,5 @@
 window.currentTask = null;
+
 window.currentTaskId = null;
 
 function getRealUserArrayAndCount(users) {
@@ -162,13 +163,23 @@ function openTaskModal(task) {
 
 async function updateTaskColumnInFirebase(taskId, newColumn) {
   try {
-    const raw = localStorage.getItem('taskData');
-    const obj = raw ? JSON.parse(raw) : {};
-    if (obj[taskId]) {
-      obj[taskId].column = newColumn;
-      localStorage.setItem('taskData', JSON.stringify(obj));
-    }
+    const url = `####`;// hier link einfügen!!
+    const r = await fetch(url, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ column: newColumn })
+    });
+    if (!r.ok) throw new Error(`Error updating task column: ${r.statusText}`);
   } catch (e) {}
+}
+
+function checkColumns() {
+  document.querySelectorAll('.task-board-container').forEach(col => {
+    const img = col.querySelector('img');
+    if (!img) return;
+    const hasTasks = col.querySelectorAll('.draggable-cards').length > 0;
+    img.style.display = hasTasks ? 'none' : 'block';
+  });
 }
 
 function enableDragAndDrop() {
@@ -273,220 +284,9 @@ function attachTaskListeners(task, taskEl) {
   });
 }
 
-function attachMoveDropdownListener(taskEl) {
-    const ddIcon = taskEl.querySelector('.drag-drop-icon');
-    if (!ddIcon) return;
-    ddIcon.addEventListener("click", function (e) {
-      e.stopPropagation();
-      toggleMoveDropdown(taskEl, ddIcon);
-    });
-}
-  
-function toggleMoveDropdown(taskEl, ddIcon) {
-    let dd = taskEl.querySelector(".move-to-dropdown");
-    if (dd) {
-      dd.classList.toggle("visible");
-      return;
-    }
-    dd = createMoveDropdownMenu(ddIcon);
-    taskEl.appendChild(dd);
-    dd.classList.add("visible");
-    attachMoveDropdownOptions(taskEl, dd);
-}
-  
-function createMoveDropdownMenu(ddIcon) {
-    const dd = document.createElement("div");
-    dd.classList.add("move-to-dropdown");
-    dd.innerHTML = `
-      <div class="dropdown-header">Move To</div>
-      <div class="dropdown-option" data-status="toDoColumn">To do</div>
-      <div class="dropdown-option" data-status="inProgress">In Progress</div>
-      <div class="dropdown-option" data-status="awaitFeedback">Await Feedback</div>
-      <div class="dropdown-option" data-status="done">Done</div>
-    `;
-    const offsetTop = ddIcon.offsetTop + ddIcon.offsetHeight;
-    const offsetLeft = ddIcon.offsetLeft;
-    dd.style.position = "absolute";
-    dd.style.top = `${offsetTop}px`;
-    dd.style.left = `${offsetLeft}px`;
-    dd.style.zIndex = 10;
-    return dd;
-}
-  
-function attachMoveDropdownOptions(taskEl, dd) {
-    dd.querySelectorAll(".dropdown-option").forEach(option => {
-      option.addEventListener("click", async function (ev) {
-        ev.stopPropagation();
-        const ns = option.dataset.status;
-        await updateTaskColumnInFirebase(taskEl.id, ns);
-        const newCol = document.getElementById(ns);
-        if (newCol) newCol.appendChild(taskEl);
-        dd.classList.remove("visible");
-        checkColumns();
-      });
-    });
-}
-  
-function generateTasks(tasksData) {
-    tasksData.forEach(task => {
-      if (!task || !task.title || !task.column) return;
-      const taskEl = createTaskElement(task);
-      const col = document.getElementById(task.column);
-      if (col) col.appendChild(taskEl);
-      attachTaskListeners(task, taskEl);
-      attachMoveDropdownListener(taskEl);
-    });
-    checkColumns();
-}
-  
-function readSubtasksFromEditModal() {
-    const subtaskItems = document.querySelectorAll('#editSubtasksList .subtask-item');
-    const subtasks = [];
-    subtaskItems.forEach((item, index) => {
-      const span = item.querySelector('span');
-      if (span) {
-        const text = span.innerText.replace('• ', '').trim();
-        const completed = window.currentTask && window.currentTask.subtasks && window.currentTask.subtasks[index]
-          ? window.currentTask.subtasks[index].completed
-          : false;
-        subtasks.push({ text, completed });
-      }
-    });
-    return subtasks;
-}
-  
-function editTaskFromOverlay(event) {
-    event.stopPropagation();
-    if (!currentTask) return;
-    fillEditModal(currentTask);
-    document.getElementById('toggleModalFloating').style.display = 'none';
-    const modal = document.getElementById('editTaskModal');
-    if (modal) modal.style.display = 'flex';
-}
-  
-  
-function createNewSubtask(text) {
-    const newSubtask = document.createElement('div');
-    newSubtask.className = 'subtask-item';
-    newSubtask.innerHTML = `
-      <span>• ${text}</span>
-      <div class="subtask-actions">
-        <img src="../img/pen.png" alt="Edit" class="subtask-edit-edit">
-        <img src="../img/trash.png" alt="Delete" class="subtask-delete-edit">
-      </div>`;
-    newSubtask.dataset.index = window.currentTask.subtasks ? window.currentTask.subtasks.length : 0;
-    return newSubtask;
-}
-  
-function fillEditModal(task) {
-    setTaskFields(task);
-    setAssigneeBadges(task);
-    setSubtasksList(task);
-    loadContacts(task.users || []);
-}
-  
-function setTaskFields(task) {
-    document.getElementById('editTaskTitle').value = task.title || "";
-    document.getElementById('editTaskDescription').value = task.description || "";
-    document.getElementById('editDueDate').value = task.dueDate || "";
-    const prio = extractPriority(task.priority);
-    setEditPriority(prio);
-    if (task.category === 'Technical task') {
-      document.getElementById('editTaskCategory').value = 'technical';
-    } else if (task.category === 'User Story') {
-      document.getElementById('editTaskCategory').value = 'userstory';
-    } else {
-      document.getElementById('editTaskCategory').value = '';
-    }
-}
-  
-function setAssigneeBadges(task) {
-  const badges = document.getElementById('assigneeBadges');
-  if (badges && task.users && task.users.length > 0) {
-    badges.innerHTML = generateAssigneeBadges(task.users);
-  } else if (badges) {
-    badges.innerHTML = "";
-  }
-}
 
-function generateAssigneeBadges(users) {
-  return users.map(user => createBadgeHTML(user)).join("");
-}
 
-function createBadgeHTML(user) {
-  let colorValue = user.color || "default";
-  if (colorValue.startsWith('#')) {
-    colorValue = mapHexToColorName(colorValue);
-  }
-  const badgeClass = getBadgeClassFromAnyColor(colorValue);
-  const initials = user.initials || getInitials(user.name);
-  return `
-    <div class="assignee-badge ${badgeClass}"
-         data-contact-color="${colorValue}"
-         data-contact-name="${user.name}">
-      ${initials}
-    </div>`;
-}
 
-function mapHexToColorName(hexColor) {
-  switch (hexColor.toUpperCase()) {
-    case '#F57C00': return 'orange';
-    case '#E74C3C': return 'red';
-    case '#5C6BC0': return 'blue';
-    case '#4CAF50': return 'green';
-    case '#8E44AD': return 'purple';
-    case '#EE00FF': return 'pink';
-    default: return "default";
-  }
-}
-  
-function setSubtasksList(task) {
-    const list = document.getElementById('editSubtasksList');
-    list.innerHTML = "";
-    if (task.subtasks && Array.isArray(task.subtasks) && task.subtasks.length) {
-      task.subtasks.forEach((subtask, index) => {
-        const subtaskItem = createSubtaskItem(subtask);
-        subtaskItem.dataset.index = index;
-        list.appendChild(subtaskItem);
-      });
-    }
-}
-  
-function createSubtaskContainer() {
-    const container = document.createElement("div");
-    container.className = "subtask-item";
-    return container;
-}
-  
-function createSubtaskCheckbox(subtask) {
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.className = "subtask-edit-checkbox";
-    checkbox.checked = subtask.completed;
-    return checkbox;
-}
-  
-function attachSubtaskEditListener(container, span, originalText, actionsDiv) {
-    const editIcon = actionsDiv.querySelector('.subtask-edit-edit');
-    editIcon.addEventListener('click', () => {
-      replaceSpanWithInput(container, span, originalText);
-    });
-}
-  
-function createSubtaskItem(subtask) {
-    const container = createSubtaskContainer();
-    const checkbox = createSubtaskCheckbox(subtask);
-    const span = createSubtaskTextSpan(subtask.text);
-    const actionsDiv = createSubtaskActions();
-    
-    container.appendChild(checkbox);
-    container.appendChild(span);
-    container.appendChild(actionsDiv);
-    
-    attachSubtaskEditListener(container, span, subtask.text, actionsDiv);
-    
-    return container;
-}
 
 
 

@@ -184,7 +184,7 @@ function updateTaskFromInputs() {
 
 async function updateTaskInFirebase(task) {
   if (!task || !task.firebaseKey) return;
-  const url = `####`; // hier link einfügen!!
+  const url = `##`;// hier link einfügen!!
   try {
     const response = await fetch(url, {
       method: 'PUT',
@@ -201,6 +201,7 @@ function closeEditModal(event) {
   const modal = document.getElementById('editTaskModal');
   if (modal) modal.style.display = 'none';
 }
+
 
 function getBadgeClassFromAnyColor(colorValue) {
   if (!colorValue) {
@@ -253,7 +254,6 @@ function initSubtaskDeletion() {
   });
 }
 
-// Event listeners für das Modal und Subtasks
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('confirmEditBtn')?.addEventListener('click', saveEditedTaskToFirebase);
   initSubtaskCreation();
