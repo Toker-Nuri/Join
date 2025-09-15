@@ -120,6 +120,10 @@ label.star-red::after {
     color: white;
 }
 
+.btn-urgent:hover img {
+    filter: brightness(0) invert(1);
+}
+
 .btn-medium:hover img {
     filter: brightness(0) invert(1);
 }
@@ -161,7 +165,6 @@ label.star-red::after {
 
 #clear-task-btn {
     font-size: 21px;
-    border-radius: 5px;
     padding: 6px;
 }
 
@@ -171,7 +174,6 @@ label.star-red::after {
 
 #create-task-btn {
     font-size: 21px;
-    border-radius: 5px;
     background-color: #2A3647;
     color: white;
     padding: 8px;
