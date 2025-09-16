@@ -1,5 +1,3 @@
-// addTask.js — vollständiger Ersatz (Priority-Button Styles + Assignee-Badges Vorschau)
-
 const AT = (() => {
   let contacts = {};
   const selected = new Set();
@@ -21,6 +19,68 @@ const AT = (() => {
     const parts = String(name).trim().split(/\s+/).slice(0, 2);
     return parts.map(p => p[0]?.toUpperCase() || '').join('');
   }
+
+  // mappe beliebige Tokens (aus contacts.color) auf Klassenamen
+  function colorClassFromToken(token) {
+    const t = String(token || '').toLowerCase();
+    if (t.includes('red')) return 'color-red';
+    if (t.includes('green')) return 'color-green';
+    if (t.includes('blue')) return 'color-blue';
+    if (t.includes('orange')) return 'color-orange';
+    if (t.includes('purple')) return 'color-purple';
+    if (t.includes('teal')) return 'color-teal';
+    return 'color-default';
+  }
+
+  // ---------- Daten ----------
+  function loadContacts() {
+    const raw = localStorage.getItem('contacts');
+    if (!raw) {
+      // Fallback-Demo-Kontakte
+      return {
+        c1: { name: 'Max Mustermann', color: 'green' },
+        c2: { name: 'Erika Musterfrau', color: 'blue' },
+        c3: { name: 'John Doe', color: 'orange' }
+      };
+    }
+    return toObject(JSON.parse(raw));
+  }
+
+  function fillSelect() {
+    if (!selectEl) return;
+    selectEl.innerHTML = '';
+    const ph = new Option('Assign to…', '');
+    ph.selected = true;
+    selectEl.add(ph);
+    Object.entries(contacts).forEach(([id, c]) => {
+      selectEl.add(new Option(c.name || id, id));
+    });
+  }
+
+  function renderPreview() {
+    if (!previewEl) return;
+    previewEl.innerHTML = '';
+
+    const ids = Array.from(selected);
+    if (ids.length === 0) return;
+
+    const strip = document.createElement('div');
+    strip.className = 'assign-badges'; // <-- in CSS gestalten (Layout/Overlap)
+
+    ids.forEach((id) => {
+      const c = contacts[id];
+      if (!c) return;
+
+      const el = document.createElement('div');
+      el.className = 'assign-badge';   // <-- runder Kreis in CSS
+      el.title = `${c.name} – entfernen`;
+      el.textContent = initials(c.name);
+
+      // Farblogik: Klasse statt Inline-Style
+      const colorClass = colorClassFromToken(c.color);
+      el.classList.add(colorClass);
+      el.dataset.color = colorClass.replace(/^color-/, ''); // optional für CSS-Attribute-Selektor
+      el.dataset.id = id;
 
   // Farben grob an board.css angelehnt
   function colorFromToken(token) {
@@ -109,6 +169,7 @@ const AT = (() => {
     });
 
     const hint = document.createElement('span');
+    hint.className = 'assign-hint'; // <-- dezenter Hinweis in CSS
     hint.className = 'assign-hint';
     hint.textContent = 'Klicken zum Entfernen';
 
@@ -127,6 +188,19 @@ const AT = (() => {
 
   function mount(root) {
     if (!root) return;
+    selectEl = root.querySelector('#task-assigned');
+    if (!selectEl) return;
+    previewEl = root.querySelector('#assigned-preview');
+    if (!previewEl) {
+      previewEl = document.createElement('div');
+      previewEl.id = 'assigned-preview'; // direkt unter dem Select
+      selectEl.insertAdjacentElement('afterend', previewEl);
+    }
+    }
+  }
+
+  function mount(root) {
+    if (!root) return;
     ensureAssignStyles();
     selectEl = root.querySelector('#task-assigned');
     if (!selectEl) return;
@@ -136,6 +210,7 @@ const AT = (() => {
       previewEl.id = 'assigned-preview'; // wird direkt unter dem Select eingefügt
       selectEl.insertAdjacentElement('afterend', previewEl);
     }
+    
     contacts = loadContacts();
     fillSelect();
     selectEl.removeEventListener('change', onSelectChange);
@@ -166,7 +241,6 @@ function setupAddTaskForm(containerId = 'addtask-container') {
   if (!root) return;
   if (!root.querySelector('#task-title')) return; // Guard, falls Template noch nicht geladen
 
-  // --- Elemente einsammeln ---
   const elTitle = root.querySelector('#task-title');
   const elDesc = root.querySelector('#task-desc');
   const elDue = root.querySelector('#task-due');
@@ -184,6 +258,39 @@ function setupAddTaskForm(containerId = 'addtask-container') {
 
   let selectedPriority = 'medium';
 
+  // --- Subtasks ---
+  function addSubtask(text) {
+    if (!elSubtaskList) return;
+    const li = document.createElement('li');
+    li.textContent = text;
+    li.dataset.text = text;
+    li.addEventListener('click', () => li.remove());
+    elSubtaskList.appendChild(li);
+  }
+
+  if (elAddSubtaskBtn && elSubtaskInput) {
+    elAddSubtaskBtn.addEventListener('click', () => {
+      const t = elSubtaskInput.value.trim();
+      if (t) { addSubtask(t); elSubtaskInput.value = ''; }
+    });
+    elSubtaskInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const t = elSubtaskInput.value.trim();
+        if (t) { addSubtask(t); elSubtaskInput.value = ''; }
+      }
+    });
+  }
+
+  // --- Priority Handling (nur classList + ARIA) ---
+  function selectPriority(p) {
+    selectedPriority = p;
+
+    // reset
+    [btnUrgent, btnMedium, btnLow].forEach(b => {
+      if (!b) return;
+      b.setAttribute('aria-pressed', 'false');
+      b.classList.remove('is-active', 'urgent-active-urgent');
   // --- Priority-Button Styles per CSS-Injection ---
   function ensurePriorityStyles() {
     if (document.getElementById('priority-style')) return;
@@ -246,6 +353,15 @@ function setupAddTaskForm(containerId = 'addtask-container') {
     });
   }
 
+    const map = { urgent: btnUrgent, medium: btnMedium, low: btnLow };
+    const activeBtn = map[p];
+    if (activeBtn) {
+      activeBtn.setAttribute('aria-pressed', 'true');
+      activeBtn.classList.add('is-active');             // allgemeine Aktiv-Klasse
+      if (p === 'urgent') activeBtn.classList.add('urgent-active-urgent'); // deine Testklasse
+    }
+  }
+
   // --- Priority Handling (sichtbar + ARIA) ---
   function selectPriority(p) {
     selectedPriority = p;
@@ -257,10 +373,31 @@ function setupAddTaskForm(containerId = 'addtask-container') {
   btnMedium && btnMedium.addEventListener('click', () => selectPriority('medium'));
   btnLow && btnLow.addEventListener('click', () => selectPriority('low'));
 
+
+  // --- Assign-To mounten (Badges) ---
+  if (elAssigned) AT.mount(root);
+
+  // --- Task bauen & speichern ---
+  function priorityPath(p) { return `./img/priority-img/${p}.png`; }
+  function formatDateDE(v) {
+    if (!v) return '';
+    const d = new Date(v);
+    return isNaN(d) ? v : d.toLocaleDateString('de-DE');
+  }
+  function mapCategory(val) {
+    if (!val) return '';
+    const v = String(val).toLowerCase();
+    if (v.includes('technical')) return 'Technical task';
+    if (v.includes('user')) return 'User Story';
+    return val;
+  }
+
+
   // --- Assign-To mounten (inkl. Badge-Vorschau) ---
   if (elAssigned) AT.mount(root);
 
   // --- Task bauen & speichern ---
+
   function buildTask() {
     const id = 'task-' + Date.now();
     const users = AT.users();
@@ -305,17 +442,16 @@ function setupAddTaskForm(containerId = 'addtask-container') {
     selectPriority('medium');
   });
 
+
+  // Kategorien auffüllen, falls leer
+
   // --- Kategorien auffüllen, falls leer ---
+
   if (elCategory && elCategory.options.length <= 1) {
     elCategory.add(new Option('Technical Task', 'Technical task'));
     elCategory.add(new Option('User Story', 'User Story'));
   }
 
-  // Standard-Prio beim Laden
-  selectPriority('medium');
-}
-
-// --- Template-Loader (falls du das verwendest) ---
 function renderTemplate(templateId, containerId) {
   const template = document.getElementById(templateId);
   const container = document.getElementById(containerId);
