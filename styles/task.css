@@ -211,3 +211,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .btn-low.active-low img {
     filter: brightness(0) invert(1);
 }
+
+.urgent-active-urgent {
+    background-image: url(../img/priority-img/ferer.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}

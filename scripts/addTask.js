@@ -1,5 +1,6 @@
-// addTask.js — vollständiger Ersatz (Priority-Button Styles + Assignee-Badges Vorschau)
+// addTask.js — classList-only (keine Style-Injection)
 
+// ===================== Assign-To Modul =====================
 const AT = (() => {
   let contacts = {};
   const selected = new Set();
@@ -22,39 +23,16 @@ const AT = (() => {
     return parts.map(p => p[0]?.toUpperCase() || '').join('');
   }
 
-  // Farben grob an board.css angelehnt
-  function colorFromToken(token) {
+  // mappe beliebige Tokens (aus contacts.color) auf Klassenamen
+  function colorClassFromToken(token) {
     const t = String(token || '').toLowerCase();
-    if (t.includes('red')) return '#FF5733';
-    if (t.includes('green')) return '#33FF57';
-    if (t.includes('blue')) return '#3357FF';
-    if (t.includes('orange')) return '#FF8C00';
-    if (t.includes('purple')) return '#8E44AD';
-    if (t.includes('teal')) return '#1ABC9C';
-    return '#2A3647';
-  }
-
-  function ensureAssignStyles() {
-    if (document.getElementById('assign-style')) return;
-    const style = document.createElement('style');
-    style.id = 'assign-style';
-    style.textContent = `
-      #assigned-preview{
-        display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-top:8px;
-      }
-      .assign-badges { display:flex; align-items:center; }
-      .assign-badge{
-        width:32px; height:32px; border-radius:50%;
-        display:flex; align-items:center; justify-content:center;
-        font-weight:700; font-size:12px; color:#fff; cursor:pointer;
-        box-shadow: 0 0 0 2px #fff;
-      }
-      .assign-badge + .assign-badge { margin-left:-8px; } /* leicht überlappend */
-      .assign-hint{
-        font-size:12px; color:#6b7280; margin-left:8px;
-      }
-    `;
-    document.head.appendChild(style);
+    if (t.includes('red')) return 'color-red';
+    if (t.includes('green')) return 'color-green';
+    if (t.includes('blue')) return 'color-blue';
+    if (t.includes('orange')) return 'color-orange';
+    if (t.includes('purple')) return 'color-purple';
+    if (t.includes('teal')) return 'color-teal';
+    return 'color-default';
   }
 
   // ---------- Daten ----------
@@ -90,26 +68,34 @@ const AT = (() => {
     if (ids.length === 0) return;
 
     const strip = document.createElement('div');
-    strip.className = 'assign-badges';
+    strip.className = 'assign-badges'; // <-- in CSS gestalten (Layout/Overlap)
+
     ids.forEach((id) => {
       const c = contacts[id];
       if (!c) return;
+
       const el = document.createElement('div');
-      el.className = 'assign-badge';
+      el.className = 'assign-badge';   // <-- runder Kreis in CSS
       el.title = `${c.name} – entfernen`;
       el.textContent = initials(c.name);
-      el.style.background = colorFromToken(c.color);
+
+      // Farblogik: Klasse statt Inline-Style
+      const colorClass = colorClassFromToken(c.color);
+      el.classList.add(colorClass);
+      el.dataset.color = colorClass.replace(/^color-/, ''); // optional für CSS-Attribute-Selektor
       el.dataset.id = id;
+
       el.addEventListener('click', (e) => {
         e.preventDefault();
         selected.delete(id);
         renderPreview();
       });
+
       strip.appendChild(el);
     });
 
     const hint = document.createElement('span');
-    hint.className = 'assign-hint';
+    hint.className = 'assign-hint'; // <-- dezenter Hinweis in CSS
     hint.textContent = 'Klicken zum Entfernen';
 
     previewEl.appendChild(strip);
@@ -127,13 +113,12 @@ const AT = (() => {
 
   function mount(root) {
     if (!root) return;
-    ensureAssignStyles();
     selectEl = root.querySelector('#task-assigned');
     if (!selectEl) return;
     previewEl = root.querySelector('#assigned-preview');
     if (!previewEl) {
       previewEl = document.createElement('div');
-      previewEl.id = 'assigned-preview'; // wird direkt unter dem Select eingefügt
+      previewEl.id = 'assigned-preview'; // direkt unter dem Select
       selectEl.insertAdjacentElement('afterend', previewEl);
     }
     contacts = loadContacts();
@@ -161,12 +146,13 @@ const AT = (() => {
   return { mount, users, clear };
 })();
 
+// ===================== Formular-Setup =====================
 function setupAddTaskForm(containerId = 'addtask-container') {
   const root = document.getElementById(containerId);
   if (!root) return;
   if (!root.querySelector('#task-title')) return; // Guard, falls Template noch nicht geladen
 
-  // --- Elemente einsammeln ---
+  // --- Elemente ---
   const elTitle = root.querySelector('#task-title');
   const elDesc = root.querySelector('#task-desc');
   const elDue = root.querySelector('#task-due');
@@ -183,44 +169,6 @@ function setupAddTaskForm(containerId = 'addtask-container') {
   const btnLow = root.querySelector('.btn-low');
 
   let selectedPriority = 'medium';
-
-  // --- Priority-Button Styles per CSS-Injection ---
-  function ensurePriorityStyles() {
-    if (document.getElementById('priority-style')) return;
-    const style = document.createElement('style');
-    style.id = 'priority-style';
-    style.textContent = `
-      .priority-btn button{
-        display:inline-flex;align-items:center;gap:8px;
-        padding:10px 16px;border-radius:8px;border:1px solid #D1D5DB;
-        background:#FFF;color:#2A3647;font-weight:600;cursor:pointer;
-        transition:background-color .15s ease,color .15s ease,transform .1s ease;
-      }
-      .priority-btn button img{ height:18px; width:18px; }
-      .priority-btn button[aria-pressed="true"]{ transform:scale(1.02); color:#FFF; border-color:transparent; }
-      .priority-btn .btn-urgent[aria-pressed="true"]{ background:#FF3D00; }
-      .priority-btn .btn-medium[aria-pressed="true"]{ background:#FFA800; }
-      .priority-btn .btn-low[aria-pressed="true"]{ background:#7AE229; }
-      .priority-btn button[aria-pressed="true"] img{ filter:brightness(0) invert(1); }
-    `;
-    document.head.appendChild(style);
-  }
-  ensurePriorityStyles();
-
-  // --- Hilfen ---
-  function priorityPath(p) { return `./img/priority-img/${p}.png`; }
-  function formatDateDE(v) {
-    if (!v) return '';
-    const d = new Date(v);
-    return isNaN(d) ? v : d.toLocaleDateString('de-DE');
-  }
-  function mapCategory(val) {
-    if (!val) return '';
-    const v = String(val).toLowerCase();
-    if (v.includes('technical')) return 'Technical task';
-    if (v.includes('user')) return 'User Story';
-    return val;
-  }
 
   // --- Subtasks ---
   function addSubtask(text) {
@@ -246,21 +194,48 @@ function setupAddTaskForm(containerId = 'addtask-container') {
     });
   }
 
-  // --- Priority Handling (sichtbar + ARIA) ---
+  // --- Priority Handling (nur classList + ARIA) ---
   function selectPriority(p) {
     selectedPriority = p;
-    [btnUrgent, btnMedium, btnLow].forEach(b => b && b.setAttribute('aria-pressed', 'false'));
+
+    // reset
+    [btnUrgent, btnMedium, btnLow].forEach(b => {
+      if (!b) return;
+      b.setAttribute('aria-pressed', 'false');
+      b.classList.remove('is-active', 'urgent-active-urgent');
+    });
+
     const map = { urgent: btnUrgent, medium: btnMedium, low: btnLow };
-    map[p] && map[p].setAttribute('aria-pressed', 'true');
+    const activeBtn = map[p];
+    if (activeBtn) {
+      activeBtn.setAttribute('aria-pressed', 'true');
+      activeBtn.classList.add('is-active');             // allgemeine Aktiv-Klasse
+      if (p === 'urgent') activeBtn.classList.add('urgent-active-urgent'); // deine Testklasse
+    }
   }
+
   btnUrgent && btnUrgent.addEventListener('click', () => selectPriority('urgent'));
   btnMedium && btnMedium.addEventListener('click', () => selectPriority('medium'));
   btnLow && btnLow.addEventListener('click', () => selectPriority('low'));
 
-  // --- Assign-To mounten (inkl. Badge-Vorschau) ---
+  // --- Assign-To mounten (Badges) ---
   if (elAssigned) AT.mount(root);
 
   // --- Task bauen & speichern ---
+  function priorityPath(p) { return `./img/priority-img/${p}.png`; }
+  function formatDateDE(v) {
+    if (!v) return '';
+    const d = new Date(v);
+    return isNaN(d) ? v : d.toLocaleDateString('de-DE');
+  }
+  function mapCategory(val) {
+    if (!val) return '';
+    const v = String(val).toLowerCase();
+    if (v.includes('technical')) return 'Technical task';
+    if (v.includes('user')) return 'User Story';
+    return val;
+  }
+
   function buildTask() {
     const id = 'task-' + Date.now();
     const users = AT.users();
@@ -305,17 +280,17 @@ function setupAddTaskForm(containerId = 'addtask-container') {
     selectPriority('medium');
   });
 
-  // --- Kategorien auffüllen, falls leer ---
+  // Kategorien auffüllen, falls leer
   if (elCategory && elCategory.options.length <= 1) {
     elCategory.add(new Option('Technical Task', 'Technical task'));
     elCategory.add(new Option('User Story', 'User Story'));
   }
 
-  // Standard-Prio beim Laden
+  // Standard-Prio
   selectPriority('medium');
 }
 
-// --- Template-Loader (falls du das verwendest) ---
+// ===================== Template/Bootstrapping =====================
 function renderTemplate(templateId, containerId) {
   const template = document.getElementById(templateId);
   const container = document.getElementById(containerId);
