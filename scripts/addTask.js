@@ -1,4 +1,4 @@
-const AT = (() => {
+const AT = (() => { 
   let contacts = {};
   const selected = new Set();
   let selectEl = null;
@@ -196,7 +196,7 @@ const AT = (() => {
       previewEl.id = 'assigned-preview'; // direkt unter dem Select
       selectEl.insertAdjacentElement('afterend', previewEl);
     }
-    }
+    
   }
 
   function mount(root) {
@@ -291,6 +291,9 @@ function setupAddTaskForm(containerId = 'addtask-container') {
       if (!b) return;
       b.setAttribute('aria-pressed', 'false');
       b.classList.remove('is-active', 'urgent-active-urgent');
+    });
+  }
+
   // --- Priority-Button Styles per CSS-Injection ---
   function ensurePriorityStyles() {
     if (document.getElementById('priority-style')) return;
@@ -482,3 +485,4 @@ function loadingAddTask() {
   });
 }
 loadingAddTask();
+});

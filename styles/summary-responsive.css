@@ -918,7 +918,6 @@
     .page-summary .summary-header {
         display: flex;
         align-items: flex-end;
-        padding-bottom: 3pc;
         padding-top: 2pc;
         gap: 15px;
     }
@@ -1107,7 +1106,6 @@
     .page-summary .summary-header {
         display: flex;
         align-items: flex-end;
-        padding-bottom: 3pc;
         padding-top: 2pc;
         gap: 15px;
     }
