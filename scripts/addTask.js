@@ -1,4 +1,4 @@
-const AT = (() => {
+const AT = (() => { 
   let contacts = {};
   const selected = new Set();
   let selectEl = null;
