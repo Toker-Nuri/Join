@@ -9,7 +9,7 @@
     justify-content: center;
     flex-direction: column;
     scrollbar-width: none;
-    padding: 1pc 16pc 5pc 6pc;
+    padding: 88px 265px 32px 64px;
 }
 
 #addtask-container select {
@@ -62,7 +62,7 @@
 }
 
 #addtask-container h2 {
-    font-size: 61px;
+    font-size: 72px;
 }
 
 #addtask-container label {

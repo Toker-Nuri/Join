@@ -1,5 +1,5 @@
 .logo {
-    width: 100px;
+    width: 110px;
 }
 
 .side-menu {
@@ -11,10 +11,10 @@
     position: relative;
     justify-content: space-between;
     align-items: center;
-    gap: 235px;
+    gap: 190px;
     flex-direction: column;
-    padding-top: 64px;
-    width: 232px;
+    padding-top: 72px;
+    width: 268px;
     position: sticky;
     z-index: 1000;
 }
@@ -25,7 +25,7 @@
 }
 
 .side-menu a {
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 400;
     display: flex;
     justify-content: flex-start;
@@ -33,7 +33,7 @@
     color: white;
     width: 232px;
     text-align: right;
-    padding-left: 64px;
+    padding-left: 52px;
 }
 
 .menu-content {
@@ -81,7 +81,7 @@
 }
 
 .logo-content-container {
-    gap: 7pc;
+    gap: 10pc;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -103,7 +103,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 232px;
+    width: 268px;
     height: 46px;
 }
 
