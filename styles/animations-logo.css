@@ -1,0 +1,61 @@
+.splash {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: #fff;
+    z-index: 1000;
+    pointer-events: none;
+    transition: background .2s ease;
+}
+
+.splash-logo {
+    width: 140px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    transform-origin: top left;
+    animation: moveAndStick .8s cubic-bezier(.4, 0, .2, 1) forwards;
+    animation-delay: 1s;
+    will-change: transform, top, left;
+}
+
+@keyframes moveAndStick {
+    0% {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    100% {
+        top: 26px;
+        left: 28px;
+        transform: scale(0.70);
+    }
+}
+
+body.show-login .splash {
+    background: transparent;
+}
+
+.logo-stick {
+    position: fixed;
+    top: 26px;
+    left: 28px;
+    transform: scale(0.70);
+    animation: none;
+    z-index: 1001;
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+    .splash {
+        background: transparent;
+    }
+
+    .splash-logo {
+        animation: none;
+        display: none;
+    }
+}

@@ -112,15 +112,31 @@
         const element = document.querySelector(SUMMARY_CONFIG.selectors.deadlineDate);
         if (element) element.textContent = formatDateLong(findNextUpcomingDueDate(tasks));
     }
-
     function renderUserNameFromStorage() {
-        const element = document.querySelector(SUMMARY_CONFIG.selectors.userName);
-        if (!element) return;
+        const greetingEl = document.querySelector('.js-greeting');
+        const nameEl = document.querySelector(SUMMARY_CONFIG.selectors.userName);
+        const accountEl = document.querySelector('.account div'); // der ## Platzhalter
+        if (!greetingEl || !nameEl || !accountEl) return;
+
         const firstName = localStorage.getItem('firstName') || '';
         const lastName = localStorage.getItem('lastName') || '';
         const fullName = `${firstName} ${lastName}`.trim();
-        if (fullName) element.textContent = fullName;
+
+        if (fullName) {
+            greetingEl.textContent = 'Good morning,';
+            nameEl.textContent = fullName;
+
+            // Initialen bilden (Max Mustermann -> MM)
+            const initials = `${firstName.charAt(0) || ''}${lastName.charAt(0) || ''}`.toUpperCase();
+            accountEl.textContent = initials || 'G'; // Fallback Icon wenn kein Name
+        } else {
+            greetingEl.textContent = 'Good morning!';
+            nameEl.textContent = '';
+            accountEl.textContent = 'G'; // Guest-Login → nur Icon oder leer
+        }
     }
+
+
 
     function renderSummary(tasks) {
         const statusCounts = computeStatusCounts(tasks);
