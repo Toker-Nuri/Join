@@ -17,7 +17,6 @@
         }
     };
 
- 
     const simpleHash = (s) =>
         'h:' + Array.from(new TextEncoder().encode(String(s))).reduce((a, b) => (a + b).toString(16), '');
 

@@ -9,7 +9,7 @@ logo.addEventListener('animationend', () => {
     document.body.appendChild(logo);
     logo.classList.add('logo-stick');
     splash && splash.remove();
-}, { once: true });
+}, { once: true }); 
 
 document.getElementById('btn-guest-log-in')?.addEventListener('click', () => {
     window.location.href = '../summary.html';
