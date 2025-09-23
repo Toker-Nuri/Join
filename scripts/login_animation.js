@@ -1,7 +1,3 @@
-/**
- * Initializes login page with animation sequence
- * Shows splash screen with correct logo then transitions to login form
- */
 function initLoginAnimation() {
     const contentElement = document.getElementById('content');
     contentElement.classList.add('content-hidden');
@@ -10,7 +6,6 @@ function initLoginAnimation() {
       createSplashScreen();
     }
     
-    // Render login content immediately but keep it hidden
     renderLoginContent();
 
     setTimeout(() => {
@@ -25,22 +20,17 @@ function initLoginAnimation() {
           contentElement.classList.add('content-visible');
         }, 500);
       } else {
-        // Fallback if no splash screen
         contentElement.classList.remove('content-hidden');
         contentElement.classList.add('content-visible');
       }
     }, 2000);
   }
   
-  /**
-   * Creates splash screen with the original SVG logo
-   */
   function createSplashScreen() {
     const splashScreen = document.createElement('div');
     splashScreen.id = 'splash-screen';
     splashScreen.className = 'splash-screen';
     
-    // Header mit Sign up Button
     const splashHeader = document.createElement('div');
     splashHeader.className = 'splash-header';
     splashHeader.innerHTML = `
@@ -51,11 +41,9 @@ function initLoginAnimation() {
       </div>
     `;
     
-    // Logo Container
     const logoContainer = document.createElement('div');
     logoContainer.className = 'splash-logo-container';
     
-    // Das echte JOIN Logo aus der SVG-Datei
     const logo = document.createElement('img');
     logo.src = './assets/img/joinLogo.svg';
     logo.alt = 'Join Logo';
@@ -68,16 +56,11 @@ function initLoginAnimation() {
     document.body.appendChild(splashScreen);
   }
 
-  /**
-   * Renders the login content into the designated container.
-   * Called during animation sequence
-   */
   function renderLoginContent() {
     const contentDiv = document.getElementById('content');
     if (contentDiv && typeof getLoginContent === 'function') {
       contentDiv.innerHTML = getLoginContent();
       
-      // Initialize event listeners after content is rendered
       if (typeof initLoginEventListeners === 'function') {
         initLoginEventListeners();
       }
