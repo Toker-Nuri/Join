@@ -570,3 +570,81 @@
     color: white;
     border: 4px solid white;
 }
+
+@media (max-width: 1070px) {
+    .avatar-circle {
+        width: 100px;
+        height: 100px;
+    }
+
+    .contact-details-panel{
+        width: calc(100% - 400px);
+        padding: 86px 40px;
+    }
+    .contact-details-content-header {
+        gap: 20px;
+    }
+}
+
+@media (max-width: 860px) {
+    .contact-details-panel {
+        padding: 30px 0 0 30px;
+        width: calc(100% - 320px);
+    }
+
+    .contacts-header {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 52px;
+        align-items: flex-start;
+    }
+
+    .contacts-header hr {
+        height: 4px;
+        margin: 0;
+        background-color: #29ABE2;
+        border: none;
+        border-radius: 5px;
+        width: 160px;
+    }
+
+    .contacts-header h1 {
+        font-size: 45px;
+    }
+
+    .contact-subtitle {
+        font-size: 20px;
+    }
+
+    .contact-name-large {
+        font-size: 34px;
+    }
+
+    .edit-icon {
+        height: 24px;
+    }
+
+    .delete-icon {
+        height: 24px;
+    }
+
+    .contact-information-text {
+        font-size: 16px;
+    }
+
+    .contact-information-details h4 {
+        font-size: 18px;
+    }
+
+    .contact-detail-email span {
+        font-size: 18px;
+    }
+
+    .contact-detail-phone span {
+        font-size: 18px;
+    }
+
+    .contacts-list-panel {
+        width: 320px;
+    }
+}
