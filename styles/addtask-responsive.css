@@ -521,6 +521,13 @@
         margin-top: 0px;
     }
 
+    .page-summary .summary-header {
+        display: flex;
+        align-items: center;
+        padding-top: 2pc;
+        gap: 15px;
+    }
+
     #addtask-container {
         display: flex;
         justify-content: center;
