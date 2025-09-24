@@ -185,7 +185,7 @@ function setupAddTaskForm(containerId = 'addtask-container') {
       .priority-btn button{
         display:inline-flex;align-items:center;gap:8px;
         padding:10px 16px;border-radius:8px;border:1px solid #D1D5DB;
-        background:#FFF;color:#2A3647;font-weight:600;cursor:pointer;
+        background:#FFF;color:#2A3647;cursor:pointer;
         transition:background-color .15s ease,color .15s ease,transform .1s ease;
       }
       .priority-btn button img{ height:18px; width:18px; }

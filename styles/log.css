@@ -256,3 +256,49 @@ footer a {
     color: #DC2626;
     /* Standard: rot */
 }
+
+/* ===== Signup-Toast (neu) ===== */
+.toast-signup {
+    position: fixed;
+    top: 50%;
+    /* mittig vertikal */
+    left: 50%;
+    /* mittig horizontal */
+    transform: translate(-50%, -40%);
+    /* Start leicht unterhalb */
+    z-index: 10000;
+
+    background: #2A3647;
+    /* dunkles Blau-Grau (wie dein Header) */
+    color: #FFFFFF;
+    padding: 16px 28px;
+    /* mehr Luft */
+    border-radius: 16px;
+    /* sanfte Rundung */
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.3;
+    min-width: 260px;
+    /* breiter */
+    max-width: 80%;
+    /* auf kleineren Screens nicht zu groß */
+    text-align: center;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+
+    opacity: 0;
+    transition:
+    transform 250ms cubic-bezier(.2,.8,.2,1),
+    opacity   250ms cubic-bezier(.2,.8,.2,1);
+}
+
+/* sichtbar: hochrutschen + einblenden */
+.toast-signup {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+}
+
+/* ausblenden */
+.toast-signup.hide {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+}

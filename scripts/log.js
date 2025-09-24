@@ -139,12 +139,3 @@ window.updateAccountUI = updateAccountUI;
         });
     });
 })();
-
-
-
-
-
-
-
-
-
