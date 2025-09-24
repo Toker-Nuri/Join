@@ -58,6 +58,7 @@ document.getElementById('btn-guest-log-in')?.addEventListener('click', () => {
         localStorage.removeItem('firstName');
         localStorage.removeItem('lastName');
     } catch { }
+  
     window.location.href = '../summary.html';
 });
 
@@ -78,6 +79,7 @@ window.mode = new URLSearchParams(location.search).get('mode') === 'signup' ? 's
 
 window.renderAuthUI = function renderAuthUI() {
     const isSignup = window.mode === 'signup';
+  
     loginPanel && loginPanel.classList.toggle('show', !isSignup);
     signupPanel && signupPanel.classList.toggle('show', isSignup);
 
@@ -85,7 +87,6 @@ window.renderAuthUI = function renderAuthUI() {
         if (isSignup) headerRight.classList.add('hidden');
         else headerRight.classList.remove('hidden');
     }
-
     updateAccountUI();
 };
 
@@ -93,6 +94,7 @@ openSignupBtn?.addEventListener('click', (e) => {
     e.preventDefault();
     window.mode = 'signup';
     window.renderAuthUI();
+  
 });
 
 backToLoginBtn?.addEventListener('click', (e) => {

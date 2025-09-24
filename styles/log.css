@@ -30,13 +30,13 @@ main {
     justify-content: center;
     padding-top: 7em;
     padding-bottom: 6em;
+
 }
 
 body.show-login main {
     opacity: 1;
     filter: blur(0);
     padding-bottom: 3em;
-    /* delete this maybe */
 }
 
 .login-section {
@@ -61,6 +61,7 @@ body.show-login main {
     align-items: center;
     gap: 7px;
 }
+
 
 .login-header h1 {
     margin: 0;
@@ -107,7 +108,6 @@ body.show-login main {
 .signup-title h2 {
     margin: 2px;
 }
-
 
 .checkbox-row a {
     text-decoration: none;
@@ -204,7 +204,6 @@ footer a {
     text-decoration: none;
     color: black;
 }
-
 
 /* Signup Header */
 .signup-header {
