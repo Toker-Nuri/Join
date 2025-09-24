@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="../styles/profile-dropdown.css" />
   <link rel="stylesheet" href="../styles/contacts.css" />
   <link rel="stylesheet" href="../styles/contacts-responsive.css" />
-
+  <script src="../scripts/account-name.js"></script>
   <script src="../scripts/dropdown.js"></script>
   <script src="../scripts/firebase.js"></script>
   <script src="../scripts/utils.js"></script>
@@ -81,8 +81,8 @@
               <img src="../img/icon/help.png" alt="" class="help-icon" />
             </a>
           </div>
-            <div class="account">
-              <div>##</div>
+          <div class="account">
+            <div>##</div>
           </div>
         </div>
       </div>
@@ -123,8 +123,8 @@
     <section class="contacts-container">
       <aside class="contacts-list-panel">
         <div class="add-contact-section">
-          <button class="add-contact-btn" onclick="openAddContactModal()">Add new contact  <img src="../img/person_add.png"
-            alt="add contact"></button>
+          <button class="add-contact-btn" onclick="openAddContactModal()">Add new contact <img
+              src="../img/person_add.png" alt="add contact"></button>
         </div>
         <div class="contacts-list" id="contactsList">
           <!--Kontake werden hier dynamisch eingefügt-->
@@ -188,24 +188,26 @@
           </div>
           <div class="input-and-button">
             <div class="input-group">
-              <div class="input-group-item"><input id="editContactName" type="text" name="name" placeholder="Name" required=""
-                  pattern="^[A-Za-zÄäÖöÜüßçéèêëáàâäíìîïóòôöúùûüÇÉÈÊËÁÀÂÄÍÌÎÏÓÒÔÖÚÙÛÜ\- ]+$"
+              <div class="input-group-item"><input id="editContactName" type="text" name="name" placeholder="Name"
+                  required="" pattern="^[A-Za-zÄäÖöÜüßçéèêëáàâäíìîïóòôöúùûüÇÉÈÊËÁÀÂÄÍÌÎÏÓÒÔÖÚÙÛÜ\- ]+$"
                   title="Nur Buchstaben, Bindestrich oder Leerzeichen erlaubt"
                   oninput="this.value = this.value.replace(/[^A-Za-zÄäÖöÜüßçéèêëáàâäíìîïóòôöúùûüÇÉÈÊËÁÀÂÄÍÌÎÏÓÒÔÖÚÙÛÜ \-]/g, '')"><img
                   src="../img/icon/person.png" class="input-icon"></div>
-              <div class="input-group-item"><input id="editContactEmail" type="email" name="email" placeholder="Email" required=""
-                  pattern="^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$" title="Bitte eine gültige E-Mail-Adresse eingeben"><img
-                  src="../img/icon/mail.png" class="input-icon"></div>
-              <div class="input-group-item"><input id="editContactPhone" type="tel" name="phone" placeholder="Telefonnummer" required=""
-                  title="Bitte nur Zahlen eingeben (mind. 6 Zeichen)"
-                  oninput="this.value = this.value.replace(/[^0-9]/g, '')"><img src="../img/icon/phone.png" class="input-icon">
+              <div class="input-group-item"><input id="editContactEmail" type="email" name="email" placeholder="Email"
+                  required="" pattern="^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+                  title="Bitte eine gültige E-Mail-Adresse eingeben"><img src="../img/icon/mail.png" class="input-icon">
+              </div>
+              <div class="input-group-item"><input id="editContactPhone" type="tel" name="phone"
+                  placeholder="Telefonnummer" required="" title="Bitte nur Zahlen eingeben (mind. 6 Zeichen)"
+                  oninput="this.value = this.value.replace(/[^0-9]/g, '')"><img src="../img/icon/phone.png"
+                  class="input-icon">
               </div>
             </div>
             <div class="button-group">
               <button class="delete-btn" onclick="editDeleteContact()">Delete</button>
               <div class="save-btn-container">
-              <button class="save-btn" onclick="saveContact()">Save <img src="../img/icon/check.png"
-                  alt="checked"></button>
+                <button class="save-btn" onclick="saveContact()">Save <img src="../img/icon/check.png"
+                    alt="checked"></button>
               </div>
             </div>
           </div>
@@ -234,16 +236,17 @@
           </div>
           <div class="input-and-button">
             <div class="input-group">
-              <div class="input-group-item"><input id="addInputName" type="text" name="name" placeholder="Name" required=""
-                  pattern="^[A-Za-zÄäÖöÜüßçéèêëáàâäíìîïóòôöúùûüÇÉÈÊËÁÀÂÄÍÌÎÏÓÒÔÖÚÙÛÜ\- ]+$"
+              <div class="input-group-item"><input id="addInputName" type="text" name="name" placeholder="Name"
+                  required="" pattern="^[A-Za-zÄäÖöÜüßçéèêëáàâäíìîïóòôöúùûüÇÉÈÊËÁÀÂÄÍÌÎÏÓÒÔÖÚÙÛÜ\- ]+$"
                   title="Nur Buchstaben, Bindestrich oder Leerzeichen erlaubt"
                   oninput="this.value = this.value.replace(/[^A-Za-zÄäÖöÜüßçéèêëáàâäíìîïóòôöúùûüÇÉÈÊËÁÀÂÄÍÌÎÏÓÒÔÖÚÙÛÜ \-]/g, '')"><img
                   src="../img/icon/person.png" class="input-icon"></div>
-              <div class="input-group-item"><input id="addInputEmail" type="email" name="email" placeholder="Email" required=""
-                  pattern="^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$" title="Bitte eine gültige E-Mail-Adresse eingeben"><img
-                  src="../img/icon/mail.png" class="input-icon"></div>
-              <div class="input-group-item"><input id="addInputPhone" type="tel" name="phone" placeholder="Telefonnummer" required=""
-                  title="Bitte nur Zahlen eingeben (mind. 6 Zeichen)"
+              <div class="input-group-item"><input id="addInputEmail" type="email" name="email" placeholder="Email"
+                  required="" pattern="^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+                  title="Bitte eine gültige E-Mail-Adresse eingeben"><img src="../img/icon/mail.png" class="input-icon">
+              </div>
+              <div class="input-group-item"><input id="addInputPhone" type="tel" name="phone"
+                  placeholder="Telefonnummer" required="" title="Bitte nur Zahlen eingeben (mind. 6 Zeichen)"
                   oninput="this.value = this.value.replace(/[^0-9]/g, '')"><img src="../img/icon/phone.png"
                   class="input-icon">
               </div>
@@ -251,8 +254,8 @@
             <div class="button-group">
               <button class="cancel-btn" onclick="cancelAddContact()">Cancel X</button>
               <div class="create-btn-container">
-              <button class="create-btn" onclick="createAddContact()">Create contact <img src="../img/icon/check.png"
-                  alt="checked"></button>
+                <button class="create-btn" onclick="createAddContact()">Create contact <img src="../img/icon/check.png"
+                    alt="checked"></button>
               </div>
             </div>
           </div>
@@ -260,9 +263,10 @@
       </div>
     </div>
   </div>
-  
+
 </body>
 <script>
   document.addEventListener('DOMContentLoaded', loadContacts);
 </script>
+
 </html>
