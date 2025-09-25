@@ -74,12 +74,10 @@
         <div class="header-logo-none-resp">
           <img class="header-Logo" src="../img/capa.png" alt />
         </div>
-        <div class="headline-header">Kanban Project Management Tool</div>
+        <div class="header-text">Kanban Project Management Tool</div>
         <div class="header-right-side">
           <div>
-            <a href="../resources/help/help.html">
-              <img src="../img/icon/help.png" alt="" class="help-icon" />
-            </a>
+            <a class="help-icon" href="../resources/help/help.html"><img src="../img/icon/help.png" alt="help"></a>
           </div>
           <div class="account">
             <div>##</div>
@@ -129,6 +127,10 @@
         <div class="contacts-list" id="contactsList">
           <!--Kontake werden hier dynamisch eingefügt-->
         </div>
+        <div class="add-contact-section-mobile">
+          <button class="add-contact-btn-mobile" onclick="openAddContactModal()"><img src="../img/person_add.png"
+              alt="add contact"></button>
+        </div>
       </aside>
       <main class="contact-details-panel">
         <div class="contacts-header">
@@ -173,6 +175,9 @@
       <div class="modal-left">
         <div class="modal-logo">
           <img src="../img/capa_white.png" alt="Join">
+        </div>
+        <div class="close-icon-container-mobile">
+          <img src="../img/close-white.png" alt="Close" class="close-icon-white" onclick="closeContactModal()">
         </div>
         <h2>Edit contact</h2>
         <hr class="modal-hr">
@@ -221,6 +226,9 @@
         <div class="modal-logo">
           <img src="../img/capa_white.png" alt="Join">
         </div>
+        <div class="close-icon-container-mobile">
+          <img src="../img/close-white.png" alt="Close" class="close-icon-white" onclick="closeContactModal()">
+        </div>
         <h2>Add contact</h2>
         <span class="modal-subtitle">Tasks are better with a team!</span>
         <hr class="modal-hr">
@@ -251,7 +259,7 @@
                   class="input-icon">
               </div>
             </div>
-            <div class="button-group">
+            <div class="button-group-add">
               <button class="cancel-btn" onclick="cancelAddContact()">Cancel X</button>
               <div class="create-btn-container">
                 <button class="create-btn" onclick="createAddContact()">Create contact <img src="../img/icon/check.png"

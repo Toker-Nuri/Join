@@ -218,7 +218,7 @@ function createSubtaskItem(subtask) {
 
 async function loadContacts(assignedUsers = []) {
   try {
-    const response = await fetch('####'); // Hier Firebase link einfügen!!!
+    const response = await fetch('https://join-360-fb6db-default-rtdb.europe-west1.firebasedatabase.app/contacts.json');
     if (!response.ok) throw new Error('no remote');
     const contacts = await response.json();
     populateAssigneeDropdown(contacts, assignedUsers);

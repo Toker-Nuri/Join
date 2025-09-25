@@ -54,7 +54,7 @@ function updateSubtaskStatus(taskId, subtaskIndex, newStatus) {
   const total = window.currentTask.subtasks.length;
   const completed = window.currentTask.subtasks.filter(st => st.completed).length;
   const newProgress = total ? (completed / total) * 100 : 0;
-  const url = `####`;// hier link einfügen!!
+  const url = `https://join-360-fb6db-default-rtdb.europe-west1.firebasedatabase.app/tasks/${taskId}.json`;
   fetch(url, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
@@ -163,7 +163,7 @@ function openTaskModal(task) {
 
 async function updateTaskColumnInFirebase(taskId, newColumn) {
   try {
-    const url = `####`;// hier link einfügen!!
+    const url = `https://join-360-fb6db-default-rtdb.europe-west1.firebasedatabase.app/tasks/${taskId}.json`;
     const r = await fetch(url, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
