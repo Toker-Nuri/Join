@@ -1,164 +1,255 @@
 (function () {
-    'use strict';
+  'use strict';
 
-    const SUMMARY_CONFIG = {
-        storageKey: 'taskData',
-        dateLocale: 'en-US',
-        pollIntervalMs: 1000,
-        selectors: {
-            countContainer: '.js-count-container',
-            countLabel: '.counter-text-design',
-            countValue: '.value',
-            urgentValue: '.js-urgent-container .value',
-            deadlineDate: '.js-deadline-date',
-            userName: '.js-user-name'
-        },
-        labelTextToCounterKey: {
-            'to do': 'todo',
-            'done': 'done',
-            'tasks in board': 'total',
-            'tasks in progress': 'inProgress',
-            'awaiting feedback': 'awaitFeedback'
-        }
-    };
+  const SUMMARY_CONFIG = {
+    storageKey: 'taskData',
+    dateLocale: 'en-US',
+    pollIntervalMs: 1000,
+    selectors: {
 
-    function parseJSONSafe(text) {
-        try { return JSON.parse(text); } catch { return null; }
+      countContainer: '.js-count-container',
+      countLabel: '.counter-text-design',
+      countValue: '.value',
+      urgentValue: '.js-urgent-container .value',
+      deadlineDate: '.js-deadline-date',
+
+      greetingText: '.js-greeting',
+      greetingName: '.js-user-name',
+      accountInner: '.header-right-side .account div'
+    },
+    labelTextToCounterKey: {
+      'to do': 'todo',
+      'done': 'done',
+      'tasks in board': 'total',
+      'tasks in progress': 'inProgress',
+      'awaiting feedback': 'awaitFeedback'
     }
+  };
 
-    function fetchTasksFromStorage() {
-        const rawJSON = localStorage.getItem(SUMMARY_CONFIG.storageKey);
-        if (!rawJSON) return [];
-        const storedObject = parseJSONSafe(rawJSON) || {};
-        return Object.entries(storedObject).map(([taskId, taskData]) => ({ id: taskId, ...taskData }));
+  function parseJSONSafe(text) { try { return JSON.parse(text); } catch { return null; } }
+
+  function getInitials(fullName) {
+    if (!fullName) return '';
+    const parts = String(fullName).trim().split(/\s+/);
+    const a = (parts[0] || '')[0] || '';
+    const b = (parts.length > 1 ? parts[parts.length - 1][0] : '') || '';
+    return (a + b).toUpperCase();
+  }
+
+  function fetchTasksFromStorage() {
+    const rawJSON = localStorage.getItem(SUMMARY_CONFIG.storageKey);
+    if (!rawJSON) return [];
+    const stored = parseJSONSafe(rawJSON) || {};
+    return Object.entries(stored).map(([id, data]) => ({ id, ...data }));
+  }
+
+  function derivePriority(v) {
+    if (!v) return 'medium';
+    const s = String(v).toLowerCase();
+    if (s.includes('urgent')) return 'urgent';
+    if (s.includes('low')) return 'low';
+    return 'medium';
+  }
+
+  function computeStatusCounts(tasks) {
+    const c = { total: 0, todo: 0, inProgress: 0, awaitFeedback: 0, done: 0, urgent: 0 };
+    for (const t of tasks) {
+      c.total++;
+      const col = String(t.column || '');
+      if (col === 'toDoColumn') c.todo++;
+      else if (col === 'inProgress') c.inProgress++;
+      else if (col === 'awaitFeedback') c.awaitFeedback++;
+      else if (col === 'done') c.done++;
+      if (derivePriority(t.priority) === 'urgent') c.urgent++;
     }
+    return c;
+  }
 
-    function derivePriority(value) {
-        if (!value) return 'medium';
-        const lower = String(value).toLowerCase();
-        if (lower.includes('urgent')) return 'urgent';
-        if (lower.includes('low')) return 'low';
-        return 'medium';
-    }
+  function parseDueDate(v) {
+    if (!v) return null;
+    const s = String(v).trim();
+    let m = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (m) return new Date(+m[1], +m[2] - 1, +m[3]);
+    m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+    if (m) return new Date(+m[3], +m[2] - 1, +m[1]);
+    m = s.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
+    if (m) return new Date(+m[3], +m[2] - 1, +m[1]);
+    const d = new Date(s);
+    return isNaN(d) ? null : d;
+  }
 
-    function computeStatusCounts(tasks) {
-        const statusCounts = { total: 0, todo: 0, inProgress: 0, awaitFeedback: 0, done: 0, urgent: 0 };
-        for (const task of tasks) {
-            statusCounts.total++;
-            const columnId = String(task.column || '');
-            if (columnId === 'toDoColumn') statusCounts.todo++;
-            else if (columnId === 'inProgress') statusCounts.inProgress++;
-            else if (columnId === 'awaitFeedback') statusCounts.awaitFeedback++;
-            else if (columnId === 'done') statusCounts.done++;
-            if (derivePriority(task.priority) === 'urgent') statusCounts.urgent++;
-        }
-        return statusCounts;
-    }
+  function findNextUpcomingDueDate(tasks) {
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    return tasks.map(t => parseDueDate(t.dueDate))
+      .filter(d => d && d >= today)
+      .sort((a, b) => a - b)[0] || null;
+  }
 
-    function parseDueDate(value) {
-        if (!value) return null;
-        const text = String(value).trim();
-        let matches = text.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-        if (matches) return new Date(+matches[1], +matches[2] - 1, +matches[3]);
-        matches = text.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
-        if (matches) return new Date(+matches[3], +matches[2] - 1, +matches[1]);
-        matches = text.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
-        if (matches) return new Date(+matches[3], +matches[2] - 1, +matches[1]);
-        const parsed = new Date(text);
-        return isNaN(parsed) ? null : parsed;
-    }
+  function formatDateLong(d) {
+    return d ? d.toLocaleDateString(SUMMARY_CONFIG.dateLocale, { year: 'numeric', month: 'long', day: 'numeric' }) : '—';
+  }
 
-    function findNextUpcomingDueDate(tasks) {
-        const midnightToday = new Date();
-        midnightToday.setHours(0, 0, 0, 0);
-        const dueDates = tasks
-            .map(task => parseDueDate(task.dueDate))
-            .filter(date => date && date >= midnightToday)
-            .sort((a, b) => a - b);
-        return dueDates[0] || null;
-    }
+  function normalizeSummaryLabel(text) {
+    return String(text).toLowerCase().replace(/[-_]+/g, ' ')
+      .replace(/[^\w ]+/g, ' ').replace(/\s+/g, ' ').trim();
+  }
 
-    function formatDateLong(date) {
-        return date
-            ? date.toLocaleDateString(SUMMARY_CONFIG.dateLocale, { year: 'numeric', month: 'long', day: 'numeric' })
-            : '—';
-    }
-
-    function normalizeSummaryLabel(text) {
-        return String(text)
-            .toLowerCase()
-            .replace(/[-_]+/g, ' ')
-            .replace(/[^\w ]+/g, ' ')
-            .replace(/\s+/g, ' ')
-            .trim();
-    }
-
-    function renderStatusCounters(statusCounts) {
-        document.querySelectorAll(SUMMARY_CONFIG.selectors.countContainer).forEach(container => {
-            const labelElement = container.querySelector(SUMMARY_CONFIG.selectors.countLabel);
-            const valueElement = container.querySelector(SUMMARY_CONFIG.selectors.countValue);
-            if (!labelElement || !valueElement) return;
-            const counterKey = SUMMARY_CONFIG.labelTextToCounterKey[normalizeSummaryLabel(labelElement.textContent)];
-            if (counterKey) valueElement.textContent = statusCounts[counterKey];
-        });
-    }
-
-    function renderUrgentCount(statusCounts) {
-        const element = document.querySelector(SUMMARY_CONFIG.selectors.urgentValue);
-        if (element) element.textContent = statusCounts.urgent;
-    }
-
-    function renderUpcomingDeadline(tasks) {
-        const element = document.querySelector(SUMMARY_CONFIG.selectors.deadlineDate);
-        if (element) element.textContent = formatDateLong(findNextUpcomingDueDate(tasks));
-    }
-    function renderUserNameFromStorage() {
-        const greetingEl = document.querySelector('.js-greeting');
-        const nameEl = document.querySelector(SUMMARY_CONFIG.selectors.userName);
-        const accountEl = document.querySelector('.account div'); // der ## Platzhalter
-        if (!greetingEl || !nameEl || !accountEl) return;
-
-        const firstName = localStorage.getItem('firstName') || '';
-        const lastName = localStorage.getItem('lastName') || '';
-        const fullName = `${firstName} ${lastName}`.trim();
-
-        if (fullName) {
-            greetingEl.textContent = 'Good morning,';
-            nameEl.textContent = fullName;
-
-            // Initialen bilden (Max Mustermann -> MM)
-            const initials = `${firstName.charAt(0) || ''}${lastName.charAt(0) || ''}`.toUpperCase();
-            accountEl.textContent = initials || 'G'; // Fallback Icon wenn kein Name
-        } else {
-            greetingEl.textContent = 'Good morning!';
-            nameEl.textContent = '';
-            accountEl.textContent = 'G'; // Guest-Login → nur Icon oder leer
-        }
-    }
-
-
-
-    function renderSummary(tasks) {
-        const statusCounts = computeStatusCounts(tasks);
-        renderStatusCounters(statusCounts);
-        renderUrgentCount(statusCounts);
-        renderUpcomingDeadline(tasks);
-        renderUserNameFromStorage();
-    }
-
-    function updateSummaryFromStorage() {
-        renderSummary(fetchTasksFromStorage());
-    }
-
-    window.addEventListener('storage', event => {
-        if (event.key === SUMMARY_CONFIG.storageKey) updateSummaryFromStorage();
+  function renderStatusCounters(statusCounts) {
+    document.querySelectorAll(SUMMARY_CONFIG.selectors.countContainer).forEach(container => {
+      const labelEl = container.querySelector(SUMMARY_CONFIG.selectors.countLabel);
+      const valueEl = container.querySelector(SUMMARY_CONFIG.selectors.countValue);
+      if (!labelEl || !valueEl) return;
+      const key = SUMMARY_CONFIG.labelTextToCounterKey[normalizeSummaryLabel(labelEl.textContent)];
+      if (key) valueEl.textContent = statusCounts[key];
     });
+  }
 
-    setInterval(updateSummaryFromStorage, SUMMARY_CONFIG.pollIntervalMs);
+  function renderUrgentCount(statusCounts) {
+    const el = document.querySelector(SUMMARY_CONFIG.selectors.urgentValue);
+    if (el) el.textContent = statusCounts.urgent;
+  }
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', updateSummaryFromStorage);
-    } else {
-        updateSummaryFromStorage();
+  function renderUpcomingDeadline(tasks) {
+    const el = document.querySelector(SUMMARY_CONFIG.selectors.deadlineDate);
+    if (el) el.textContent = formatDateLong(findNextUpcomingDueDate(tasks));
+  }
+
+  function renderGreetingAndBadge() {
+    const greetingEl = document.querySelector(SUMMARY_CONFIG.selectors.greetingText);
+    const nameEl = document.querySelector(SUMMARY_CONFIG.selectors.greetingName);
+    const accountEl = document.querySelector(SUMMARY_CONFIG.selectors.accountInner);
+
+    const name = (localStorage.getItem('name') || '').trim();
+    const isGuestStored = (localStorage.getItem('isGuest') || 'false') === 'true';
+    const isGuest = name ? false : isGuestStored;
+
+    if (greetingEl) greetingEl.textContent = 'Good morning!';
+
+    if (nameEl) {
+      if (!isGuest && name) {
+        nameEl.textContent = name;
+        nameEl.style.display = '';
+      } else {
+        nameEl.textContent = '';
+        nameEl.style.display = 'none';
+      }
     }
+
+    if (accountEl) {
+      accountEl.textContent = !isGuest && name ? getInitials(name) : 'G';
+    }
+  }
+
+  function renderSummary(tasks) {
+    const statusCounts = computeStatusCounts(tasks);
+    renderStatusCounters(statusCounts);
+    renderUrgentCount(statusCounts);
+    renderUpcomingDeadline(tasks);
+    renderGreetingAndBadge();
+  }
+
+  function updateSummaryFromStorage() {
+    renderSummary(fetchTasksFromStorage());
+  }
+
+  window.addEventListener('storage', e => {
+    if (
+      e.key === SUMMARY_CONFIG.storageKey ||
+      e.key === 'name' ||
+      e.key === 'isGuest'
+    ) {
+      updateSummaryFromStorage();
+    }
+  });
+
+  setInterval(updateSummaryFromStorage, SUMMARY_CONFIG.pollIntervalMs);
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', updateSummaryFromStorage);
+  } else {
+    updateSummaryFromStorage();
+  }
+})();
+
+
+(function () {
+  const MAX_WIDTH = 925;
+
+  const VISIBLE_MS = 600;
+  const FADE_MS = 400;
+
+  function getNameAndGuest() {
+    const name = (localStorage.getItem('name') || '').trim();
+    const isGuestStored = (localStorage.getItem('isGuest') || 'false') === 'true';
+    const isGuest = name ? false : isGuestStored;
+    return { name, isGuest };
+  }
+
+  function cameFromLogin() {
+    try {
+      const ref = document.referrer || '';
+      if (!ref) return false;
+      const url = new URL(ref, window.location.origin);
+      const p = url.pathname.toLowerCase();
+
+      return p.endsWith('/html/log.html') || p.endsWith('/log.html') || p.endsWith('/html/log') || p.endsWith('/log');
+    } catch {
+      return false;
+    }
+  }
+
+  function isPageReload() {
+    try {
+      const nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+      const type = nav ? nav.type : (performance.navigation && performance.navigation.type === 1 ? 'reload' : 'navigate');
+      return type === 'reload';
+    } catch {
+      return false;
+    }
+  }
+
+  function createSplash({ name, isGuest }) {
+    const el = document.createElement('div');
+    el.className = 'greet-splash';
+    el.setAttribute('aria-live', 'polite');
+
+    const box = document.createElement('div');
+    box.className = 'greet-box';
+
+    const p = document.createElement('p');
+    p.className = 'greet-line';
+    p.textContent = 'Good morning!';
+
+    const h2 = document.createElement('h2');
+    h2.className = 'greet-name';
+    h2.textContent = (!isGuest && name) ? name : '';
+
+    box.appendChild(p);
+    box.appendChild(h2);
+    el.appendChild(box);
+    return el;
+  }
+
+  function maybeShowSplash() {
+    if (window.innerWidth > MAX_WIDTH) return;
+
+    if (!cameFromLogin()) return;
+
+    if (isPageReload()) return;
+
+    const { name, isGuest } = getNameAndGuest();
+    const splash = createSplash({ name, isGuest });
+    document.body.appendChild(splash);
+
+    setTimeout(() => {
+      splash.classList.add('fade-out');
+      setTimeout(() => splash.remove(), FADE_MS);
+    }, VISIBLE_MS);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', maybeShowSplash);
+  } else {
+    maybeShowSplash();
+  }
 })();

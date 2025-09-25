@@ -117,32 +117,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     gap: 8px;
     border: 1px solid #D1D1D1;
 }
-
-.btn-urgent:hover {
-    background-color: red;
-    color: white;
-}
-
-.btn-urgent:hover img {
-    filter: brightness(0) invert(1);
-}
-
-.btn-medium:hover img {
-    filter: brightness(0) invert(1);
-}
-
-.btn-medium:hover {
-    background-color: orange;
-    color: white;
-}
-
-.btn-low:hover {
-    background-color: greenyellow;
-    color: white;
-}
-
-.btn-low:hover img {
-    filter: brightness(0) invert(1);
+button:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  
 }
 
 /* last section */
