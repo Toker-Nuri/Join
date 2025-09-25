@@ -58,8 +58,22 @@ document.getElementById('btn-guest-log-in')?.addEventListener('click', () => {
         localStorage.removeItem('firstName');
         localStorage.removeItem('lastName');
     } catch { }
-  
+
     window.location.href = '../summary.html';
+});
+
+const openSignupBtns = [
+    document.getElementById('switchAuthBtn'),
+    document.getElementById('switchAuthBtnBottom'),
+    document.getElementById('openSignupBtn')
+].filter(Boolean);
+
+openSignupBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.mode = 'signup';
+        window.renderAuthUI();
+    });
 });
 
 const loginPanel = document.getElementById('loginPanel');
@@ -75,11 +89,13 @@ const headerRight =
     || document.querySelector('header .header-right')
     || document.querySelector('header .header-right-side');
 
+const signContainer = document.querySelector('.sign-container');  // <--- NEU
+
 window.mode = new URLSearchParams(location.search).get('mode') === 'signup' ? 'signup' : 'login';
 
 window.renderAuthUI = function renderAuthUI() {
     const isSignup = window.mode === 'signup';
-  
+
     loginPanel && loginPanel.classList.toggle('show', !isSignup);
     signupPanel && signupPanel.classList.toggle('show', isSignup);
 
@@ -87,14 +103,21 @@ window.renderAuthUI = function renderAuthUI() {
         if (isSignup) headerRight.classList.add('hidden');
         else headerRight.classList.remove('hidden');
     }
+
+    if (signContainer) {                              // <--- NEU
+        if (isSignup) signContainer.classList.add('hidden');
+        else signContainer.classList.remove('hidden');
+    }
+
     updateAccountUI();
 };
+
 
 openSignupBtn?.addEventListener('click', (e) => {
     e.preventDefault();
     window.mode = 'signup';
     window.renderAuthUI();
-  
+
 });
 
 backToLoginBtn?.addEventListener('click', (e) => {
