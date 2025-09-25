@@ -3,186 +3,124 @@
 
     const msgEl = document.getElementById('authMessage');
     const showMsg = (text, ok = false) => {
-        if (msgEl) {
-            msgEl.textContent = text || '';
-            msgEl.style.color = ok ? '#1B5E20' : '#DC2626';
-        } else {
-            // KEIN alert mehr – wenn kein Platzhalter existiert, schweigen wir leise
-            if (text) console.warn('[authMessage]', text);
-        }
+        if (!msgEl) return;
+        msgEl.textContent = text || '';
+        msgEl.style.color = ok ? '#1B5E20' : '#DC2626';
     };
 
-    // --- kleines Toast für Sign-up Erfolg (unten reinsliden, kurz zeigen) ---
     function showSignupToast(message = 'You Signed Up successfully') {
-        // Falls schon eins offen ist, entferne es
         document.querySelector('.toast-signup')?.remove();
-
-        const toast = document.createElement('div');
-        toast.className = 'toast-signup';
-        toast.setAttribute('role', 'status');
-        toast.setAttribute('aria-live', 'polite');
-        toast.textContent = message;
-
-        document.body.appendChild(toast);
-
-        // Start-Animation triggern (CSS kümmert sich um Slide/Fade)
-        // Nach ~1.2s wieder entfernen
+        const t = document.createElement('div');
+        t.className = 'toast-signup';
+        t.setAttribute('role', 'status');
+        t.setAttribute('aria-live', 'polite');
+        t.textContent = message;
+        document.body.appendChild(t);
         setTimeout(() => {
-            toast.classList.add('hide');
-            toast.addEventListener('transitionend', () => toast.remove(), { once: true });
+            t.classList.add('hide');
+            t.addEventListener('transitionend', () => t.remove(), { once: true });
         }, 700);
     }
 
-    const clearInvalid = (...inputs) => {
-        inputs.filter(Boolean).forEach(i => i.removeAttribute('aria-invalid'));
-    };
-    const markInvalid = (...inputs) => {
-        inputs.filter(Boolean).forEach(i => i.setAttribute('aria-invalid', 'true'));
-    };
+    const clearInvalid = (...els) => els.filter(Boolean).forEach(i => i.removeAttribute('aria-invalid'));
+    const markInvalid = (...els) => els.filter(Boolean).forEach(i => i.setAttribute('aria-invalid', 'true'));
+    const v = (el) => (el?.value || '').trim();
 
     const simpleHash = (s) =>
         'h:' + Array.from(new TextEncoder().encode(String(s))).reduce((a, b) => (a + b).toString(16), '');
 
-    const uid = () => 'u-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8);
-    const sanitizeKey = (str) => String(str).replace(/[.#$\[\]\/]/g, '_');
-
-    const FirebaseAdapter = {
-        async _emailToId(lowerEmail) {
-            try {
-                const safe = sanitizeKey(lowerEmail);
-                const id = await window.firebaseGet(`/emailIndex/${safe}`);
-                return (typeof id === 'string' && id) ? id : null;
-            } catch { return null; }
-        },
-        async _ensureIndex(lowerEmail, uidValue) {
-            try {
-                const safe = sanitizeKey(lowerEmail);
-                await window.firebasePut(`/emailIndex/${safe}`, uidValue);
-            } catch { }
-        },
-        async _scanUserByEmail(lowerEmail) {
-            try {
-                const all = await window.firebaseGet(`/users`);
-                if (!all || typeof all !== 'object') return null;
-                for (const u of Object.values(all)) {
-                    const em = (u && u.email || '').toLowerCase().trim();
-                    if (em === lowerEmail) return u;
-                }
-            } catch { }
-            return null;
-        },
-        async getUserByEmail(email) {
-            const lower = (email || '').toLowerCase().trim();
-            if (!lower) return null;
-
-            const id = await this._emailToId(lower);
-            if (id) {
-                const user = await window.firebaseGet(`/users/${encodeURIComponent(id)}`);
-                if (user) return user;
-            }
-            const scanned = await this._scanUserByEmail(lower);
-            if (scanned && scanned.uid) await this._ensureIndex(lower, scanned.uid);
-            return scanned || null;
-        },
-        async createUser({ name, email, password }) {
-            const lower = (email || '').toLowerCase().trim();
-            if (!lower) throw new Error('Bitte E-Mail angeben.');
-
-            if (await this._emailToId(lower)) throw new Error('E-Mail ist bereits registriert.');
-            if (await this._scanUserByEmail(lower)) throw new Error('E-Mail ist bereits registriert.');
-
-            const id = uid();
-            const user = {
-                uid: id,
-                name,
-                email,
-                passwordHash: simpleHash(password),
-                createdAt: Date.now()
-            };
-            await window.firebasePut(`/users/${encodeURIComponent(id)}`, user);
-            await this._ensureIndex(lower, id);
-            return user;
-        },
-        async verifyLogin(email, password) {
-            const user = await this.getUserByEmail(email);
-            if (!user) throw new Error('auth/wrong-credentials');
-            if (user.passwordHash !== simpleHash(password)) throw new Error('auth/wrong-credentials');
-            return user;
+    async function fbGetUserByEmail(lower) {
+        const safe = String(lower).replace(/[.#$\[\]\/]/g, '_');
+        const id = await window.firebaseGet(`/emailIndex/${safe}`).catch(() => null);
+        if (id) return await window.firebaseGet(`/users/${encodeURIComponent(id)}`);
+        const all = await window.firebaseGet('/users').catch(() => null);
+        if (!all) return null;
+        for (const u of Object.values(all)) {
+            if ((u?.email || '').toLowerCase().trim() === lower) return u;
         }
-    };
+        return null;
+    }
 
-    const STORAGE = FirebaseAdapter;
+    async function fbCreateUser({ name, email, password }) {
+        const lower = (email || '').toLowerCase().trim();
+        if (!lower) throw new Error('Bitte E-Mail angeben.');
 
-    // Elemente (Login)
+        const exists = await fbGetUserByEmail(lower);
+        if (exists) throw new Error('E-Mail ist bereits registriert.');
+
+        const id = 'u-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8);
+        const user = { uid: id, name, email, passwordHash: simpleHash(password), createdAt: Date.now() };
+
+        await window.firebasePut(`/users/${encodeURIComponent(id)}`, user);
+        const safe = String(lower).replace(/[.#$\[\]\/]/g, '_');
+        await window.firebasePut(`/emailIndex/${safe}`, id);
+        return user;
+    }
+
+    async function fbVerifyLogin(email, password) {
+        const lower = (email || '').toLowerCase().trim();
+        const user = await fbGetUserByEmail(lower);
+        if (!user || user.passwordHash !== simpleHash(password)) throw new Error('auth/wrong-credentials');
+        return user;
+    }
+
     const loginEmail = document.getElementById('loginEmail');
     const loginPass = document.getElementById('loginPassword');
     const loginBtn = document.getElementById('loginBtn');
-
-    // Elemente (Signup)
     const suName = document.getElementById('signupName');
     const suEmail = document.getElementById('signupEmail');
     const suPass = document.getElementById('signupPassword');
     const suPass2 = document.getElementById('signupPasswordConfirm');
     const suBtn = document.getElementById('createAccountBtn');
 
-    // === SIGNUP ===
+    function readSignup() {
+        return {
+            name: v(suName),
+            email: v(suEmail),
+            pass: v(suPass),
+            pass2: v(suPass2),
+            accept: !!document.getElementById('acceptPolicy')?.checked
+        };
+    }
+
+    function validateSignup(d) {
+        const missing = [];
+        if (!d.name) missing.push(suName);
+        if (!d.email) missing.push(suEmail);
+        if (!d.pass) missing.push(suPass);
+        if (!d.pass2) missing.push(suPass2);
+        if (missing.length) return { ok: false, reason: 'Please fill out all fields.', els: missing };
+        if (d.pass !== d.pass2) return { ok: false, reason: 'Passwords do not match.', els: [suPass, suPass2] };
+        if (!d.accept) return { ok: false, reason: 'Please accept the Privacy Policy.', els: [] };
+        return { ok: true };
+    }
+
+    function resetSignupFields() {
+        suName && (suName.value = '');
+        suEmail && (suEmail.value = '');
+        suPass && (suPass.value = '');
+        suPass2 && (suPass2.value = '');
+        const ac = document.getElementById('acceptPolicy');
+        ac && (ac.checked = false);
+    }
+
     async function handleSignup(e) {
         e && e.preventDefault();
-
-        // Reset Markierungen
         clearInvalid(suName, suEmail, suPass, suPass2);
         showMsg('');
 
-        const name = suName?.value.trim();
-        const email = suEmail?.value.trim();
-        const pass = suPass?.value.trim();
-        const pass2 = suPass2?.value.trim();
-        const accept = document.getElementById('acceptPolicy');
-
-        // Leere Felder sammeln
-        const empties = [];
-        if (!name) empties.push(suName);
-        if (!email) empties.push(suEmail);
-        if (!pass) empties.push(suPass);
-        if (!pass2) empties.push(suPass2);
-
-        if (empties.length) {
-            markInvalid(...empties);
-            showMsg('Please fill out all fields.');
-            return;
-        }
-
-        if (pass !== pass2) {
-            markInvalid(suPass, suPass2);
-            showMsg('Passwords do not match.');
-            return;
-        }
-
-        if (accept && !accept.checked) {
-            showMsg('Please accept the Privacy Policy.');
-            return;
-        }
+        const data = readSignup();
+        const res = validateSignup(data);
+        if (!res.ok) { markInvalid(...res.els); showMsg(res.reason); return; }
 
         try {
-            await STORAGE.createUser({ name, email, password: pass });
-
-            // WICHTIG: KEIN alert und KEIN localStorage-Login hier.
-            // Der User ist NICHT eingeloggt – er soll erst einloggen.
-
-            // Felder leeren
-            suName.value = ''; suEmail.value = ''; suPass.value = ''; suPass2.value = '';
-            accept && (accept.checked = false);
-
-            // Toast anzeigen & nach kurzer Zeit zum Login-Panel wechseln
+            await fbCreateUser({ name: data.name, email: data.email, password: data.pass });
+            resetSignupFields();
             showSignupToast('You Signed Up successfully');
-
-            // sanfter Wechsel zurück zum Login
             setTimeout(() => {
                 if (typeof window.mode !== 'undefined' && typeof window.renderAuthUI === 'function') {
-                    window.mode = 'login';
-                    window.renderAuthUI();
+                    window.mode = 'login'; window.renderAuthUI();
                 }
-                // Fokus auf E-Mail-Feld, damit man direkt tippen kann
                 loginEmail?.focus();
             }, 900);
         } catch (err) {
@@ -191,38 +129,23 @@
         }
     }
 
-    // === LOGIN ===
     async function handleLogin(e) {
         e && e.preventDefault();
-
         clearInvalid(loginEmail, loginPass);
         showMsg('');
 
-        const email = loginEmail?.value.trim();
-        const pass = loginPass?.value.trim();
-
-        const empties = [];
-        if (!email) empties.push(loginEmail);
-        if (!pass) empties.push(loginPass);
-
-        if (empties.length) {
-            markInvalid(...empties);
-            showMsg('Please enter email and password.');
-            return;
-        }
+        const email = v(loginEmail), pass = v(loginPass);
+        if (!email || !pass) { markInvalid(loginEmail, loginPass); showMsg('Please enter email and password.'); return; }
 
         try {
-            const user = await STORAGE.verifyLogin(email, pass);
-
+            const user = await fbVerifyLogin(email, pass);
             const fullName = (user.name && String(user.name).trim())
                 || [user.firstName, user.lastName].filter(Boolean).join(' ').trim();
-
             localStorage.setItem('isGuest', 'false');
             localStorage.setItem('name', fullName || '');
-
             showMsg('Login successful. Redirecting …', true);
             window.location.href = REDIRECT_AFTER_AUTH;
-        } catch (err) {
+        } catch {
             markInvalid(loginEmail, loginPass);
             showMsg('Check your email and password. Please try again.');
         }
